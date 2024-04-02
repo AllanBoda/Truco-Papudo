@@ -1,32 +1,29 @@
+
 import 'Cartas.dart';
 
 class Jogador {
   late String nome;
-  late int numero;
+  late int id;
   late int equipe;
+  late List<Cartas> maoJogador = [];
+  late int pontos;
  
   Jogador.Vazio();
-  Jogador(this.nome, this.numero, this.equipe);
+   Jogador(this.nome, this.id, this.equipe, this.pontos, [List<Cartas>? maoJogador]) {
+    if (maoJogador != null) {
+      this.maoJogador = maoJogador;
+    }
+  }
 
-List<Cartas> cartaRemovidaMao = [];
-
-
-//Método para inserir os 4 jogadores no jogo
-List<Jogador> adicionarListaJogador()
-{
-Jogador jogador1= Jogador("Jessica", 1, 1);
-Jogador jogador2 = Jogador("Emily", 2, 1);
-Jogador jogador3 = Jogador("Natan", 3, 2);
-Jogador jogador4 = Jogador("Gabriel", 4, 2);
-  List<Jogador> listaJogadores = [jogador1,jogador2,jogador3,jogador4];
-  return listaJogadores;
-}
-
-
-   
+  int SetPontos(){
+    return pontos;
+  }
+  String SetNome(){
+    return nome;
+  }
 
   @override
   String toString(){
-    return "$nome-$numero,Equipe:$equipe";
+    return "$nome-$id,Equipe:$equipe,Pontos:$pontos/r Mão:${maoJogador}";
   }
 }

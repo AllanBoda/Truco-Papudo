@@ -1,18 +1,19 @@
-
 import 'dart:math';
 import 'Cartas.dart';
 import 'Jogador.dart';
+
 
 class Baralho{
 Jogador jogador =Jogador.Vazio();
 List<Cartas> cartasNoBaralho = [];// 40 cartas
 List<List<Cartas>> maoJogador = [];// guarda a lista de cartas nas mãos dos jogadores
-
 List<Cartas> cartaRemovidaMao = [];// lista de cartas jogadas na mesa pelos jogadores.
 var listaJogador; // variavel global que recebe o método adicionarListaJogador da class Jogador
 
 Cartas cartaVirada = Cartas.vazio(); 
 Cartas carta = Cartas.vazio();
+
+
 
 //Método contrutor 
 Baralho(){
@@ -63,8 +64,8 @@ void Baralhos(){
     print("Cartas jogadas na mesa: ");
     for(int j = 0; j < 4; j++){
         var cartaRemovida = maoJogador[j].removeLast();
-        jogador.cartaRemovidaMao.add(cartaRemovida);
-        print("${listaJogador[j]}: ${jogador.cartaRemovidaMao.last}");
+        cartaRemovidaMao.add(cartaRemovida);
+        print("${listaJogador[j].SetNome()}: ${cartaRemovidaMao.last}");
     }
 
     imprimeMaoJogador(maoJogador);
@@ -78,21 +79,27 @@ void Baralhos(){
   //IMPRIME jOGADORES COM SUAS CARTAS
  for(int i = 0; i < listaJogador.length; i++){
           print("Jogador${i+1}:${listaJogador[i]}"); 
-     for(var carta in maoJogador[i]){
-       print("Naipe: ${carta.naipe}, Valor: ${carta.valor}");
      }
 }
 
-}
 
 T MaoJogadorPosJogada<T>(){
  return CartasRemovidaMao(maoJogador); 
 }
 
+// Método para criar os jogadores e passar a mão de cada jogador
+  List<Jogador> adicionarListaJogador() {
+    Jogador jogador1 = Jogador("Jessica", 1, 1, 0, maoJogador[0]);
+    Jogador jogador2 = Jogador("Emily", 2, 1, 0, maoJogador[1]);
+    Jogador jogador3 = Jogador("Natan", 3, 2, 0, maoJogador[2]);
+    Jogador jogador4 = Jogador("Gabriel", 4, 2, 0, maoJogador[3]);
+    List<Jogador> listaJogadores = [jogador1, jogador2, jogador3, jogador4];
+    return listaJogadores;
+  }
+
 //Método que distribui 3 cartas para cada jogador
  List<List<Cartas>> distribuirCartas() {
-  listaJogador =jogador.adicionarListaJogador();
-  maoJogador = List.generate(listaJogador.length, (_) => []);
+  maoJogador = List.generate(4, (_) => []);
   var cartas = 3;
   for (int i = 0; i < cartas; i++) {
     
@@ -101,6 +108,7 @@ T MaoJogadorPosJogada<T>(){
        
       }
     }
+    listaJogador = adicionarListaJogador();
     imprimeMaoJogador(maoJogador);
     return maoJogador;
   }

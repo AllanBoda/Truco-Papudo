@@ -8,6 +8,7 @@ import 'Cartas.dart';
 Cartas cartas =Cartas.vazio();
 
 
+
 baralho.viraCarta();
 print("VIRA");
  print("Naipe:${baralho.cartaVirada.naipe} - Valor:${baralho.cartaVirada.valor}");  
