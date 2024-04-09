@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.deepPurple,
+          primarySwatch: Colors.deepOrange,
         ),
         // Definindo a fonte como padrão
         fontFamily: 'Roboto',
