@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'registerpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +14,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.deepOrange,
+          primarySwatch: Colors.deepPurple,
         ),
+        // Definindo a fonte como padrão
         fontFamily: 'Roboto',
       ),
       home: const LoginPage(),
@@ -59,8 +61,13 @@ class LoginPage extends StatelessWidget {
               child: const Text('Esqueci minha senha'),
             ),
             TextButton(
-              onPressed: () {},
-              child: const Text('Nova Usuário'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RegisterPage()),
+                );
+              },
+              child: const Text('Criar nova conta'),
             ),
           ],
         ),
