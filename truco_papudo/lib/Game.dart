@@ -9,6 +9,7 @@ class Game {
   Jogador? jogadorQueAceitou;
   int? valorTruco;
   bool trucoAceito = false;
+  Jogador jogador = Jogador.Vazio();
 
   void iniciarJogo() {
     baralho.inicializar();
@@ -21,12 +22,12 @@ class Game {
     // Pegar a carta virada do baralho
     Cartas cartaVirada = baralho.cartaVirada;
     // Ajustar a força das cartas com base na carta virada
-    for (var jogador in baralho.listaJogador) {
-      for (var carta in jogador.maoJogador) {
-        carta.ajustarForcaCartas(cartaVirada);
-      }
-    }
+    cartaVirada.ajustarForcaCartas(cartaVirada);
+      print(cartaVirada);
   }
+
+
+  
 
   void trucar(Jogador jogador) {
     // Verifica se já existe uma negociação de truco em andamento
