@@ -7,6 +7,7 @@ class Cartas {
   Cartas.vazio();
 
   Cartas(this.naipe, this.valor);
+  Cartas.listaNaipe(List<int> naipes, valor);
 
   int encontrarProximoValor(List<int> list, int cartaVirada) {
     int index = list.indexOf(cartaVirada);
@@ -17,7 +18,7 @@ class Cartas {
     }
   }
 
-  void ajustarForcaCartas(Cartas cartaVirada) {
+  List<Cartas> ajustarForcaCartas(Cartas cartaVirada) {
     // Encontrar o próximo valor após a carta virada
     int cartaValor = encontrarProximoValor(valores, cartaVirada.valor);
     // Encontrar o índice da carta virada nas listas de valores e naipes
@@ -36,6 +37,14 @@ class Cartas {
       valores.insert(nextValorIndex, cartaValor);
       naipes.insert(nextNaipeIndex, cartaVirada.naipe);
     }
+    // Adicionar todas as cartas deste naipe na lista
+     List<Cartas> todasCartas = [];
+    for(int naipe in naipes)
+      for (int valor in valores) {
+      todasCartas.add(Cartas(naipe, valor));
+    }
+    
+    return todasCartas;
   }
 
   @override

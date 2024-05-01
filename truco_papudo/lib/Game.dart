@@ -11,6 +11,7 @@ class Game {
   int? valorTruco;
   bool trucoAceito = false;
   Jogador jogador = Jogador.Vazio();
+  Cartas cartas = Cartas.vazio();
 
   void iniciarJogo() {
     baralho.inicializar();
@@ -30,6 +31,7 @@ class Game {
      // Remove a carta da mão do jogador
     jogador.maoJogador.remove(carta);
     }
+
   }
 
   void CartasNaMesa() {
@@ -39,20 +41,28 @@ class Game {
       escolherCartaDaJogada(indiceCartaEscolhida, jogadorAtual!); 
       jogadorAtual = proximoJogador();
     }
+     // Ajustar a força das cartas com base na carta virada
    baralho.imprimeMaoJogador();
-   print(baralho.cartasNaMesa);
+  var forcaCarta = definirManilha(); 
+   encontrarCartaMaisProxima(forcaCarta, baralho.cartasNaMesa);
   }
+  
+   encontrarCartaMaisProxima(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa){
+    
+  }
+   
 
   int indiceCarta(int indice){
     return indice;
   }
 
-  void definirManilha() {
+  List<Cartas> definirManilha() {
     // Pegar a carta virada do baralho
     Cartas cartaVirada = baralho.cartaVirada;
     // Ajustar a força das cartas com base na carta virada
-    cartaVirada.ajustarForcaCartas(cartaVirada);
+    var forcaCartas =cartaVirada.ajustarForcaCartas(cartaVirada);
       print(cartaVirada);
+      return forcaCartas;
   }
 
   void trucar(Jogador jogador) {
@@ -131,3 +141,4 @@ class Game {
     }
   }
 }
+
