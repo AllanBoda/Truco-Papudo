@@ -1,4 +1,5 @@
 import 'Baralho.dart';
+import 'CartaNaMesa.dart';
 import 'Jogador.dart';
 import 'Cartas.dart';
 
@@ -16,6 +17,34 @@ class Game {
     definirManilha();
     jogadorAtual = baralho
         .listaJogador.first; // Define o primeiro jogador como o jogador atual
+    CartasNaMesa();
+  }
+
+  void escolherCartaDaJogada(int indiceCarta, Jogador jogador) {
+    // Verifica se o índice fornecido é válido
+    if (indiceCarta >= 0 && indiceCarta < jogador.maoJogador.length) {
+        Cartas carta = jogador.maoJogador[indiceCarta];
+    
+    // Adiciona a carta jogada com informações do jogador à lista de cartas na mesa
+    baralho.cartasNaMesa.add(CartaNaMesa(carta, jogador));
+     // Remove a carta da mão do jogador
+    jogador.maoJogador.remove(carta);
+    }
+  }
+
+  void CartasNaMesa() {
+    // sera pego da imagem escolhida pelo jogador na tela
+      int indiceCartaEscolhida =  indiceCarta(2);
+    for (int j = 0; j < 4; j++) { 
+      escolherCartaDaJogada(indiceCartaEscolhida, jogadorAtual!); 
+      jogadorAtual = proximoJogador();
+    }
+   baralho.imprimeMaoJogador();
+   print(baralho.cartasNaMesa);
+  }
+
+  int indiceCarta(int indice){
+    return indice;
   }
 
   void definirManilha() {
@@ -25,9 +54,6 @@ class Game {
     cartaVirada.ajustarForcaCartas(cartaVirada);
       print(cartaVirada);
   }
-
-
-  
 
   void trucar(Jogador jogador) {
     // Verifica se já existe uma negociação de truco em andamento
