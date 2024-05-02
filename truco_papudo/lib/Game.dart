@@ -43,11 +43,12 @@ class Game {
     }
      // Ajustar a força das cartas com base na carta virada
    baralho.imprimeMaoJogador();
-  var forcaCarta = definirManilha(); 
-   encontrarCartaMaisProxima(forcaCarta, baralho.cartasNaMesa);
+  var forcaCarta = retornarListaDeForca(); 
+   defenirGanhadorRodada(forcaCarta, baralho.cartasNaMesa);
   }
   
-   encontrarCartaMaisProxima(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa){
+  //Falta implementar alogica do método
+   defenirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa){
     
   }
    
@@ -56,13 +57,19 @@ class Game {
     return indice;
   }
 
-  List<Cartas> definirManilha() {
+ List<Cartas> retornarListaDeForca(){
+    // Pegar a carta virada do baralho
+    Cartas cartas = baralho.cartaVirada;
+    // Ajustar a força das cartas com base na carta virada
+    var forcaCartas = cartas.ajustarForcaCartas(cartas);
+    return forcaCartas;
+  }
+  void definirManilha() {
     // Pegar a carta virada do baralho
     Cartas cartaVirada = baralho.cartaVirada;
     // Ajustar a força das cartas com base na carta virada
-    var forcaCartas =cartaVirada.ajustarForcaCartas(cartaVirada);
       print(cartaVirada);
-      return forcaCartas;
+
   }
 
   void trucar(Jogador jogador) {
@@ -135,7 +142,7 @@ class Game {
       Jogador? vencedor =
           baralho.listaJogador.reduce((a, b) => a.pontos > b.pontos ? a : b);
       print(
-          "O jogador ${vencedor!.nome} venceu a rodada com ${vencedor.pontos} pontos!");
+          "O jogador ${vencedor.nome} venceu a rodada com ${vencedor.pontos} pontos!");
     } else {
       print("Não houve truco nesta rodada.");
     }

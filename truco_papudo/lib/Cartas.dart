@@ -3,11 +3,12 @@ class Cartas {
   late int naipe; // 1 a 4 representando Ouros, Espadas, Copas e Paus
   List<int> valores = [3, 2, 1, 13, 11, 12, 7, 6, 5, 4];
   List<int> naipes = [1, 2, 3, 4];
+   List<Cartas> todasCartas = [];
 
   Cartas.vazio();
 
   Cartas(this.naipe, this.valor);
-  Cartas.listaNaipe(List<int> naipes, valor);
+
 
   int encontrarProximoValor(List<int> list, int cartaVirada) {
     int index = list.indexOf(cartaVirada);
@@ -37,7 +38,7 @@ class Cartas {
       valores.insert(nextValorIndex, cartaValor);
       naipes.insert(nextNaipeIndex, cartaVirada.naipe);
     }
-    // Adicionar todas as cartas deste naipe na lista
+  // Adicionar todas as cartas deste naipe na lista
      List<Cartas> todasCartas = [];
     for(int naipe in naipes)
       for (int valor in valores) {
