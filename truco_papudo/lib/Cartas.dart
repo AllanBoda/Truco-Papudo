@@ -12,31 +12,28 @@ class Cartas {
 
   int encontrarProximoValor(List<int> list, int cartaVirada) {
     int index = list.indexOf(cartaVirada);
-    if (index == list.length - 1) {
-      return list[0]; // Se for o último da lista, retorna o primeiro
-    } else {
-      return list[index + 1]; // Retorna o próximo valor na lista
+    if(index == 0){
+      return list[list.length - 1]; // Retorna o último elemento da lista se o índice for 0
     }
-  }
+    else {
+      return list[index - 1]; // Retorna o elemento anterior na lista
+    }
+}
 
   List<Cartas> ajustarForcaCartas(Cartas cartaVirada) {
     // Encontrar o próximo valor após a carta virada
     int cartaValor = encontrarProximoValor(valores, cartaVirada.valor);
     // Encontrar o índice da carta virada nas listas de valores e naipes
     int valorIndex = valores.indexOf(cartaValor);
-    int naipeIndex = naipes.indexOf(cartaVirada.naipe);
 
-    if (valorIndex != -1 && naipeIndex != -1) {
+    if (valorIndex != -1) {
       // Remover a carta virada das listas
       valores.removeAt(valorIndex);
-      naipes.removeAt(naipeIndex);
 
       // Inserir a próxima carta na posição da carta virada
       int nextValorIndex = 0;
-      int nextNaipeIndex = 0;
       // Inserir a próxima carta na posição da carta virada
       valores.insert(nextValorIndex, cartaValor);
-      naipes.insert(nextNaipeIndex, cartaVirada.naipe);
     }
   // Adicionar todas as cartas deste naipe na lista
      List<Cartas> todasCartas = [];

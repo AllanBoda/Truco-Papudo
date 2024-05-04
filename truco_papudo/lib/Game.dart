@@ -44,14 +44,98 @@ class Game {
      // Ajustar a força das cartas com base na carta virada
    baralho.imprimeMaoJogador();
   var forcaCarta = retornarListaDeForca(); 
-   defenirGanhadorRodada(forcaCarta, baralho.cartasNaMesa);
+   definirGanhadorRodada(forcaCarta, baralho.cartasNaMesa);
   }
-  
-  //Falta implementar alogica do método
-   defenirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa){
-    
-  }
+
+void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa) {
+  int posicaoMaisAlta = 0;
+  int jogadorVencedor = -1;
+  int menorDiferenca = forcaCartas.length;
+  int rodada = 1;
+  bool vencedor = false;// falta implementar a logica, para sair se haver uma equipe ganhadora antes das 3 partidas na rodada
    
+  if(rodada <= 3){
+    if(!vencedor)
+  cartasNaMesa = verificarCartasIguais(forcaCartas, cartasNaMesa);
+
+        for (int i = 0; i < cartasNaMesa.length; i++) {
+          CartaNaMesa cartaNaMesa = cartasNaMesa[i];
+          Cartas? cartaJogada = cartaNaMesa.carta;
+
+          if (cartaJogada != null) {
+            int posicaoCarta = -1;
+            for (int j = 0; j < forcaCartas.length; j++) {
+              if (forcaCartas[j].valor == cartaJogada.valor) {
+                posicaoCarta = j;
+                break;
+              }
+            }
+
+            int diferenca = (posicaoMaisAlta - posicaoCarta).abs();
+
+            if (diferenca < menorDiferenca) {
+              menorDiferenca = diferenca;
+              jogadorVencedor = cartaNaMesa.jogador.equipe;
+            }
+          }
+        }
+        rodada ++;
+      }
+     print("O Equipe $jogadorVencedor venceu a rodada!");
+    }
+    
+List<CartaNaMesa> verificarCartasIguais(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa){
+  List<Cartas> cartasIguais = []; // Lista para armazenar as cartas iguais
+  // Verifica as cartas na mesa e atribui pontos com base na força das cartas
+  for (int i = 1; i < cartasNaMesa.length; i++) { // Começa da segunda carta
+    CartaNaMesa cartaNaMesa = cartasNaMesa[i];
+    Cartas? cartaJogada = cartaNaMesa.carta;
+    if (cartaJogada != null) {
+      for (int j = 0; j < i; j++) { // Compara com as cartas anteriores
+        Cartas cartaJogador = cartasNaMesa[j].carta!;
+        if (cartaJogador.valor == cartaJogada.valor) {
+          // Adiciona as cartas iguais na lista
+          cartasIguais.add(cartaJogada);
+          cartasIguais.add(cartaJogador);
+        }
+      }
+    }
+  }
+ // Verifica se todas as cartas iguais têm o mesmo naipe
+  bool mesmoNaipe = true;
+  if (cartasIguais.isNotEmpty) {
+    int naipePrimeiraCarta = cartasIguais.first.naipe;
+    for (int i = 1; i < cartasIguais.length; i++) {
+      if (cartasIguais[i].naipe != naipePrimeiraCarta) {
+        mesmoNaipe = false;
+        break;
+      }
+    }
+  }
+
+  // Se todas as cartas.valor iguais têm o mesmo naipe, retorne a lista de cartasNaMesa como está
+  if (mesmoNaipe) {
+    return cartasNaMesa;
+  }
+
+   // Remove a carta com o maior valor da lista de cartas iguais
+   // ignore: unused_local_variable
+   Cartas? cartaPerdedora;
+  if (cartasIguais.isNotEmpty) {
+    cartasIguais.sort((a, b) => b.naipe.compareTo(a.naipe));
+  cartaPerdedora = cartasIguais[0];
+  }
+
+  if (cartaPerdedora != null) {
+    for (int i = 0; i < cartasNaMesa.length; i++) {
+    if (cartasNaMesa[i].carta == cartaPerdedora) {
+      cartasNaMesa.removeAt(i);
+      break; // Para após remover a carta perdedora
+    }
+    }
+  }
+   return cartasNaMesa;
+}
 
   int indiceCarta(int indice){
     return indice;
@@ -68,6 +152,7 @@ class Game {
     // Pegar a carta virada do baralho
     Cartas cartaVirada = baralho.cartaVirada;
     // Ajustar a força das cartas com base na carta virada
+
       print(cartaVirada);
 
   }
