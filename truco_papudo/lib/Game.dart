@@ -55,7 +55,6 @@ void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaM
     int jogadorVencedor = -1;
     int menorDiferenca = forcaCartas.length;
     bool vencedor = false;
-    bool empate = false; // Flag para verificar empate na rodada atual
 
   while (rodada <= 3) {
     if(!vencedor){
@@ -82,12 +81,10 @@ void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaM
           menorDiferenca = diferenca;
           jogadorVencedor = cartaNaMesa.jogador.equipe;
           posicaoMaisAlta = posicaoCarta; // Atualiza a posição mais alta
-        
         }
       }
     }
     
-    if (!empate) {
       // Adiciona um ponto à equipe vencedora e verifica se alguém ganhou a mão
       if (jogadorVencedor != -1) {
         for (Jogador jogador in baralho.listaJogador) {
@@ -102,12 +99,7 @@ void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaM
               break;
             }
             print("A equipe $jogadorVencedor venceu a rodada e recebeu um ponto!");
-        
       }
-    // ignore: dead_code
-    } else {
-      // Empate na rodada atual
-      print("Empate na rodada $rodada!");
     }
 
     rodada++; // Passa para a próxima rodada
@@ -116,36 +108,6 @@ void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaM
   }
 }
 
-    
-  // Após o loop de rodadas, verifica quem ganhou a mão em caso de empate em todas as rodadas
-  int pontosEquipe1 = 0;
-  int pontosEquipe2 = 0;
-  jogadorVencedor = -1;
-  for (Jogador jogador in baralho.listaJogador) {
-    if (jogador.equipe == 1) {
-      pontosEquipe1 += jogador.pontos;
-    } else if (jogador.equipe == 2) {
-      pontosEquipe2 += jogador.pontos;
-    }
-  }
-  if (pontosEquipe1 == pontosEquipe2) {
-    print("Houve um empate na mão!");
-    // A equipe do mão vence
-    jogadorVencedor = 0; // Equipe do mão
-  } else {
-    jogadorVencedor = pontosEquipe1 > pontosEquipe2 ? 1 : 2;
-  }
-
-  // Adiciona um ponto à equipe vencedora da mão
-  if (jogadorVencedor != 0) {
-    for (Jogador jogador in baralho.listaJogador) {
-      if (jogador.equipe == jogadorVencedor) {
-        jogador.pontos++; // Incrementa o ponto apenas para a equipe vencedora
-        print("A equipe $jogadorVencedor ganhou a mão!");
-      }
-    }
-  }
-}
 
     
 List<CartaNaMesa> verificarCartasIguais(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa){
