@@ -12,12 +12,17 @@ class Jogador {
   Baralho baralho = Baralho();
  
   Jogador.Vazio();
-   Jogador(this.nome, this.id, this.equipe, this.pontos, [List<Cartas>? maoJogador]) {
+   Jogador(this.nome, this.id, this.equipe,[List<Cartas>? maoJogador]) {
+    this.pontos = 0; // Definindo os pontos como zero
     if (maoJogador != null) {
       this.maoJogador = maoJogador;
     }
   }
 
+  void atualizarPontos(int novosPontos) {
+    this.pontos = novosPontos;
+  }
+  
   int SetPontos(){
     return pontos;
   }

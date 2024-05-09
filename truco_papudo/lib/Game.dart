@@ -13,6 +13,7 @@ class Game {
   int? valorTruco;
   int equipe1 = 0;
   int equipe2 = 0;
+  int rodada = 0; // Controle de rodada
   bool trucoAceito = false;
   bool sairJogo = false;
   bool jogarNovamente = false;
@@ -54,21 +55,24 @@ class Game {
   if(jogadorQueTrucou != null && jogadorQueAceitou != null){
     trucoAceito = true;
   }
-  if(baralho.cartasNaMesa.length > 0){
+  if(!vencedorRodada){
+    if(baralho.cartasNaMesa.length > 0){
     definirGanhadorRodada(forcaCarta, baralho.cartasNaMesa, trucoAceito);
-  }else{
+  }
+  else{
+    rodada = 0;
     baralho.inicializar();
+    CartasNaMesa();
+    }
   }
 }
 
 void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa, bool trucou ) {
-  int rodada = 1; // Controle de rodada
   int posicaoMaisAlta = 0;
     int jogadorVencedor = -1;
     int menorDiferenca = forcaCartas.length;
   
-  while (rodada <= 3) {
-    if(!vencedorRodada){
+  while (rodada < 3) {
       if(cartasNaMesa[0].jogador.pontos <= 12 || cartasNaMesa[1].jogador.pontos <= 12){
         cartasNaMesa = verificarCartasIguais(forcaCartas, cartasNaMesa);
 
@@ -119,7 +123,7 @@ void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaM
                   if(trucou){
                     jogador.pontos = valorTruco!; //Incrementa os pontos atribuido ao valorTruco apenas para a equipe vencedora
                   }else{
-                     jogador.pontos++; // Incrementa um ponto apenas para a equipe vencedora
+                    jogador.atualizarPontos(jogador.pontos++); // Incrementa um ponto apenas para a equipe vencedora
                   }      
                 }
                }
@@ -137,7 +141,7 @@ void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaM
         jogaNovamente();
       }
     }
-      }   
+       
     rodada++; // Passa para a próxima rodada
     cartasNaMesa.clear();
     valorTruco = null;

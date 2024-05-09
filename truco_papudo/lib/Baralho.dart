@@ -68,12 +68,12 @@ class Baralho {
   List<String> nomesJogadores = ["Jessica","Natan","Emily","Gabriel"];
   // Adicionando jogadores com nomes da lista
   for (int i = 0; i < nomesJogadores.length; i++) {
-   listaJogador.add(Jogador(nomesJogadores[i], i + 1, (i % 2) + 1, 0));
+   listaJogador.add(Jogador(nomesJogadores[i], i + 1, (i % 2) + 1));
     }
   }
 
   void defenirMaoJogadores(){
-  defenirListaJogadores();
+    defenirListaJogadores();
   // Definir a mão de cada jogador
   for (int i = 0; i < 4; i++) {
    listaJogador[i].getMaoJogador(maoJogador[i]);
