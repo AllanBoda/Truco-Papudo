@@ -69,7 +69,7 @@ void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaM
   
   while (rodada <= 3) {
     if(!vencedorRodada){
-     
+      if(cartasNaMesa[0].jogador.pontos <= 12 || cartasNaMesa[1].jogador.pontos <= 12){
         cartasNaMesa = verificarCartasIguais(forcaCartas, cartasNaMesa);
 
     for (int i = 0; i < cartasNaMesa.length; i++) {
