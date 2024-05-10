@@ -41,113 +41,103 @@ class Game {
     }
 
   }
-  // apenas para testes
-  void CartasNaMesa() {
-    // sera pego da imagem escolhida pelo jogador na tela
-      int indiceCartaEscolhida =  indiceCarta(0);
+void CartasNaMesa() {
+  //usando indice 0 apenas nos testes, depois que a parte grafica estiver pronta sera atribuido o valor
+  //escolhido pelo jogador no jogo
+  int indiceCartaEscolhida = indiceCarta(0);
+  
+  if (!vencedorRodada) {
     for (int j = 0; j < 4; j++) { 
       escolherCartaDaJogada(indiceCartaEscolhida, jogadorAtual!); 
       jogadorAtual = proximoJogador();
     }
-     // Ajustar a força das cartas com base na carta virada
-   baralho.imprimeMaoJogador();
-  var forcaCarta = retornarListaDeForca(); 
-  if(jogadorQueTrucou != null && jogadorQueAceitou != null){
-    trucoAceito = true;
-  }
-  if(!vencedorRodada){
-    if(baralho.cartasNaMesa.length > 0){
-    definirGanhadorRodada(forcaCarta, baralho.cartasNaMesa, trucoAceito);
-  }
-  else{
+    
+    baralho.imprimeMaoJogador();
+    var forcaCarta = retornarListaDeForca(); 
+    
+    if (jogadorQueTrucou != null && jogadorQueAceitou != null) {
+      trucoAceito = true;
+    }
+    
+    if (baralho.cartasNaMesa.length > 0) {
+      definirGanhadorRodada(forcaCarta, baralho.cartasNaMesa, trucoAceito);
+    }
+  } else {
     rodada = 0;
+    vencedorRodada = false;
     baralho.inicializar();
     CartasNaMesa();
-    }
   }
 }
 
-void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa, bool trucou ) {
+
+void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa, bool trucou) {
   int posicaoMaisAlta = 0;
-    int jogadorVencedor = -1;
-    int menorDiferenca = forcaCartas.length;
+  int jogadorVencedor = -1;
+  int menorDiferenca = forcaCartas.length;
   
   while (rodada < 3) {
-      if(cartasNaMesa[0].jogador.pontos <= 12 || cartasNaMesa[1].jogador.pontos <= 12){
-        cartasNaMesa = verificarCartasIguais(forcaCartas, cartasNaMesa);
+    if (cartasNaMesa[0].jogador.pontos <= 12 || cartasNaMesa[1].jogador.pontos <= 12) {
+      cartasNaMesa = verificarCartasIguais(forcaCartas, cartasNaMesa);
+      
+      for (int i = 0; i < cartasNaMesa.length; i++) {
+        CartaNaMesa cartaNaMesa = cartasNaMesa[i];
+        Cartas? cartaJogada = cartaNaMesa.carta;
+        
+        if (cartaJogada == null) {
+          continue;
+        } else {
+          int posicaoCarta = forcaCartas.indexWhere((carta) => carta.valor == cartaJogada.valor);
+          
+          if (posicaoCarta != -1) {
+            int diferenca = (posicaoMaisAlta - posicaoCarta).abs();
 
-    for (int i = 0; i < cartasNaMesa.length; i++) {
-      CartaNaMesa cartaNaMesa = cartasNaMesa[i];
-      Cartas? cartaJogada = cartaNaMesa.carta;
-      if(cartaJogada == null){
-        continue;
-      }
-      else {
-        int posicaoCarta = -1;
-        for (int j = 0; j < forcaCartas.length; j++) {
-          if (forcaCartas[j].valor == cartaJogada.valor) {
-            posicaoCarta = j;
-            break;
+            if (diferenca < menorDiferenca) {
+              menorDiferenca = diferenca;
+              jogadorVencedor = cartaNaMesa.jogador.equipe;
+              posicaoMaisAlta = posicaoCarta;
+            }
           }
         }
-        int diferenca = (posicaoMaisAlta - posicaoCarta).abs();
-
-        if (diferenca < menorDiferenca) {
-          menorDiferenca = diferenca;
-          jogadorVencedor = cartaNaMesa.jogador.equipe;
-          posicaoMaisAlta = posicaoCarta; // Atualiza a posição mais alta
-        }
       }
-    }
-      // Adiciona um ponto à equipe vencedora e verifica se alguém ganhou a mão
+      
       if (jogadorVencedor != -1) {
-            if(trucou){
-              if(jogadorVencedor == 1){
-                 equipe1 = valorTruco!;
-              }else{
-                equipe2 = valorTruco!;
-              }
-            }else{
-              if(jogadorVencedor == 1){
-                equipe1++; 
-              }else{
-                equipe2++;
-              }
-               
-            }   
-            if (equipe1 == 2 || equipe2 == 2) {
-              // A equipe venceu duas rodadas, ganhou a mão
-              print("A equipe $jogadorVencedor ganhou a mão!");
-               for (Jogador jogador in baralho.listaJogador) {
-                if (jogador.equipe == jogadorVencedor) {
-                  if(trucou){
-                    jogador.pontos = valorTruco!; //Incrementa os pontos atribuido ao valorTruco apenas para a equipe vencedora
-                  }else{
-                    jogador.atualizarPontos(jogador.pontos++); // Incrementa um ponto apenas para a equipe vencedora
-                  }      
-                }
-               }
-              vencedorRodada = true;
-              valorTruco = null;
-              break;
+        if (trucou) {
+          jogadorVencedor == 1 ? equipe1 = valorTruco! : equipe2 = valorTruco!;
+        } else {
+          jogadorVencedor == 1 ? equipe1++ : equipe2++;
+        }
+        
+        if (equipe1 == 2 || equipe2 == 2) {
+          print("A equipe $jogadorVencedor ganhou a mão!");
+          
+          for (Jogador jogador in baralho.listaJogador) {
+            if (jogador.equipe == jogadorVencedor) {
+              // se trucou ganha os postos atribuidos ao truco se não recebe 1 ponto
+              jogador.pontos += trucou ? valorTruco! : 1;
             }
-            print("A equipe $jogadorVencedor venceu a rodada e recebeu um ponto!");
+          }
+      
+          vencedorRodada = true;
+          valorTruco = null;
+          equipe1 = 0;
+          equipe2 = 0;
+          // Atualizar jogador atual com o jogador vencedor
+          jogadorAtual = baralho.listaJogador.firstWhere((jogador) => jogador.equipe == jogadorVencedor);
+          CartasNaMesa();
+          return;
+        }
+        
+        print("A equipe $jogadorVencedor venceu a rodada");
       }
-    }
-    else{
-      if(sairJogo){
-        encerrarJogo();
-      }else{
-        jogaNovamente();
-      }
-    }
-       
-    rodada++; // Passa para a próxima rodada
+    }   
+    rodada++;
     cartasNaMesa.clear();
     valorTruco = null;
     CartasNaMesa();
   }
 }
+
 
 
     
@@ -186,8 +176,6 @@ List<CartaNaMesa> verificarCartasIguais(List<Cartas> forcaCartas, List<CartaNaMe
     return cartasNaMesa;
   }
 
-   // Remove a carta com o maior valor da lista de cartas iguais
-   // ignore: unused_local_variable
    Cartas? cartaPerdedora;
   if (cartasIguais.isNotEmpty) {
     cartasIguais.sort((a, b) => b.naipe.compareTo(a.naipe));
@@ -220,9 +208,7 @@ List<CartaNaMesa> verificarCartasIguais(List<Cartas> forcaCartas, List<CartaNaMe
     // Pegar a carta virada do baralho
     Cartas cartaVirada = baralho.cartaVirada;
     // Ajustar a força das cartas com base na carta virada
-
       print(cartaVirada);
-
   }
 
 

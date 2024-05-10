@@ -22,10 +22,7 @@ class Jogador {
   void atualizarPontos(int novosPontos) {
     this.pontos = novosPontos;
   }
-  
-  int SetPontos(){
-    return pontos;
-  }
+
   String SetNome(){
     return nome;
   }

@@ -15,11 +15,16 @@ class Baralho {
   Cartas cartaVirada = Cartas.vazio();
 
   void inicializar() {
-    Baralhos();
-    distribuirCartas();
-    viraCarta();
-    defenirMaoJogadores();
+  //verifica se a lista estar vazia antes de defenir a lista de jogadores
+  if (listaJogador.isEmpty) {
+    defenirListaJogadores();
   }
+  // se não estiver vazia , sinaliza que é uma segunda rodada, assim a lista permanece com os dados da primeira partida
+  Baralhos();
+  distribuirCartas();
+  viraCarta();
+  defenirMaoJogadores();
+}
 
   void Baralhos() {
     for (int naipe = 1; naipe <= 4; naipe++) {
@@ -61,8 +66,6 @@ class Baralho {
     return maoJogador;
   }
 
- 
-
    void defenirListaJogadores(){
   //Os nomes vão ser pegos nos campos que os jogadores irão inseri-los
   List<String> nomesJogadores = ["Jessica","Natan","Emily","Gabriel"];
@@ -73,7 +76,6 @@ class Baralho {
   }
 
   void defenirMaoJogadores(){
-    defenirListaJogadores();
   // Definir a mão de cada jogador
   for (int i = 0; i < 4; i++) {
    listaJogador[i].getMaoJogador(maoJogador[i]);
