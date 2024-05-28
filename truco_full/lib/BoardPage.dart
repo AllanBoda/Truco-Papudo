@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:truco_full/CardModel.dart';
 import './Class/Cartas.dart';
 import 'PlayerHand.dart';
 import './Class/Game.dart';
@@ -19,8 +20,15 @@ class _BoardPageState extends State<BoardPage> {
     game.iniciarJogo();
   }
 
-  List<String> converterCartasParaString(List<Cartas> cartas) {
-    return cartas.map((carta) => carta.toString()).toList();
+  List<CardModel> converterCartasParaString(List<Cartas> cartas) {
+    return cartas.map((carta) {
+      return CardModel(
+        faceValue: '${carta.valor} de ${carta.naipe}',
+        value: carta.valor,
+        naipe: carta.naipe,
+        faceUrl: './images/${carta.valor}_of_${carta.naipe}.png', // Update this path according to your assets structure
+      );
+    }).toList();
   }
 
   @override

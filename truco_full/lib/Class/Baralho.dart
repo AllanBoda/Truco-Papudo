@@ -1,22 +1,30 @@
 import 'dart:math';
-import './Cartas.dart';
+
+import '../CartaNaMesa.dart';
+import 'Cartas.dart';
 import 'Jogador.dart';
-import 'package:flutter/material.dart';
+
 
 class Baralho {
   List<Cartas> cartasNoBaralho = [];
   List<List<Cartas>> maoJogador = [];
   List<Cartas> cartaRemovidaMao = [];
-  late List<Jogador> listaJogador;
+  List<CartaNaMesa> cartasNaMesa = [];
+  List<Jogador> listaJogador = [];
 
   Cartas cartaVirada = Cartas.vazio();
 
   void inicializar() {
-    Baralhos();
-    distribuirCartas();
-    viraCarta();
-    listaJogador = adicionarListaJogador();
+  //verifica se a lista estar vazia antes de defenir a lista de jogadores
+  if (listaJogador.isEmpty) {
+    defenirListaJogadores();
   }
+  // se não estiver vazia , sinaliza que é uma segunda rodada, assim a lista permanece com os dados da primeira partida
+  Baralhos();
+  distribuirCartas();
+  viraCarta();
+  defenirMaoJogadores();
+}
 
   void Baralhos() {
     for (int naipe = 1; naipe <= 4; naipe++) {
@@ -58,17 +66,20 @@ class Baralho {
     return maoJogador;
   }
 
-  List<Jogador> adicionarListaJogador() {
-    List<Jogador> listaJogadores = [];
-    for (int i = 0; i < maoJogador.length; i++) {
-      listaJogadores.add(Jogador(
-          "Jogador ${i + 1}", // Nome do jogador
-          i + 1, // ID do jogador
-          (i % 2) + 1, // Time do jogador (alternando entre 1 e 2)
-          0, // Placar inicial
-          maoJogador[i])); // Mão do jogador
+   void defenirListaJogadores(){
+  //Os nomes vão ser pegos nos campos que os jogadores irão inseri-los
+  List<String> nomesJogadores = ["Jessica","Natan","Emily","Gabriel"];
+  // Adicionando jogadores com nomes da lista
+  for (int i = 0; i < nomesJogadores.length; i++) {
+   listaJogador.add(Jogador(nomesJogadores[i], i + 1, (i % 2) + 1));
     }
-    return listaJogadores;
+  }
+
+  void defenirMaoJogadores(){
+  // Definir a mão de cada jogador
+  for (int i = 0; i < 4; i++) {
+   listaJogador[i].getMaoJogador(maoJogador[i]);
+   }
   }
 
   List<List<Cartas>> CartasRemovidaMao() {
@@ -77,7 +88,7 @@ class Baralho {
       var cartaRemovida = maoJogador[j].removeLast();
       cartaRemovidaMao.add(cartaRemovida);
       // Para testes
-      debugPrint(
+      print(
           "${listaJogador[j].SetNome()}: ${cartaRemovidaMao.last.toString()}");
     }
     imprimeMaoJogador();
@@ -87,7 +98,7 @@ class Baralho {
   void imprimeMaoJogador() {
     // Exibe os jogadores com suas cartas
     for (int i = 0; i < listaJogador.length; i++) {
-      debugPrint("Jogador ${i + 1}: ${listaJogador[i]}");
+      print("Jogador ${i + 1}: ${listaJogador[i]}");
     }
   }
 }
