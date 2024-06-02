@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import '../CartaNaMesa.dart';
+import 'package:truco_full/Class/CartaNaMesa.dart';
+
 import 'Cartas.dart';
 import 'Jogador.dart';
 
@@ -33,7 +34,7 @@ class Baralho {
       }
     }
     for (int naipe = 1; naipe <= 4; naipe++) {
-      for (int valor = 11; valor <= 13; valor++)
+      for (int valor = 11; valor <= 12; valor++)
         cartasNoBaralho.add(Cartas(naipe, valor));
     }
     embaralharBaralho(cartasNoBaralho);

@@ -1,5 +1,6 @@
+
+import 'package:truco_full/Class/CartaNaMesa.dart';
 import 'Baralho.dart';
-import '../CartaNaMesa.dart';
 import 'Jogador.dart';
 import 'Cartas.dart';
 
@@ -18,29 +19,30 @@ class Game {
   bool vencedorRodada = false;
   Jogador jogador = Jogador.Vazio();
   Cartas cartas = Cartas.vazio();
+  Cartas manilha = Cartas.vazio();
 
   void iniciarJogo() {
     baralho.inicializar();
     definirManilha();
-    jogadorAtual = baralho.listaJogador.isNotEmpty ? baralho.listaJogador.first : null;
-    CartasNaMesa();
+    //jogadorAtual = baralho.listaJogador.isNotEmpty ? baralho.listaJogador.first : null;
+    //CartasNaMesa();
   }
 
   void escolherCartaDaJogada(int indiceCarta, Jogador jogador, {bool pediuTruco = false}) {
     if (indiceCarta >= 0 && indiceCarta < jogador.maoJogador.length) {
-      Cartas carta = jogador.maoJogador[indiceCarta];
-      baralho.cartasNaMesa.add(CartaNaMesa(carta, jogador, trucoPediu: pediuTruco));
-      jogador.maoJogador.remove(carta);
+        Cartas carta = jogador.maoJogador[indiceCarta];
+        baralho.cartasNaMesa.add(CartaNaMesa(carta, jogador, trucoPediu: pediuTruco));
+        jogador.maoJogador.remove(carta);
     }
-  }
+}
 
-  void CartasNaMesa() {
-    int indiceCartaEscolhida = indiceCarta(0);
-    
+
+  void CartasNaMesa({int? indiceCartaEscolhida}) {
+   
     if (!vencedorRodada) {
       for (int j = 0; j < 4; j++) {
         if (jogadorAtual != null) {
-          escolherCartaDaJogada(indiceCartaEscolhida, jogadorAtual!);
+          escolherCartaDaJogada(indiceCartaEscolhida!, jogadorAtual!);
           jogadorAtual = proximoJogador();
         }
       }
@@ -188,11 +190,13 @@ class Game {
     return [cartas]; // Assuming ajustarForcaCartas modifies cartas in place and returns it
   }
 
-  void definirManilha() {
-    Cartas cartaVirada = baralho.cartaVirada;
-    cartaVirada.ajustarForcaCartas(cartaVirada);
-    print(cartaVirada);
-  }
+ void definirManilha() {
+  Cartas cartaVirada = baralho.cartaVirada;
+  cartaVirada.ajustarForcaCartas(cartaVirada);
+  print("A manilha é: $cartaVirada");
+  this.manilha = cartaVirada; // Adiciona a carta de manilha à variável manilha da classe Game
+}
+
 
   bool trucar(Jogador jogador) {
     if (jogadorQueTrucou == null) {

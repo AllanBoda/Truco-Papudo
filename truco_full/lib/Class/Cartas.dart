@@ -1,7 +1,7 @@
 class Cartas {
   late int valor; // 1 a 13 
   late int naipe; // 1 a 4 representando Ouros, Espadas, Copas e Paus
-  List<int> valores = [3, 2, 1, 13, 11, 12, 7, 6, 5, 4];
+  List<int> valores = [3, 2, 1, 10, 11, 12, 7, 6, 5, 4];
   List<int> naipes = [1, 2, 3, 4];
    List<Cartas> todasCartas = [];
 

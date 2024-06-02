@@ -1,5 +1,5 @@
-import './Class/Cartas.dart';
-import './Class/Jogador.dart';
+import 'package:truco_full/Class/Cartas.dart';
+import 'package:truco_full/Class/Jogador.dart';
 
 class CartaNaMesa {
   late Cartas? carta;
