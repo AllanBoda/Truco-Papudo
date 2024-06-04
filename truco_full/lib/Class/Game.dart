@@ -24,7 +24,7 @@ class Game {
   void iniciarJogo() {
     baralho.inicializar();
     definirManilha();
-    //jogadorAtual = baralho.listaJogador.isNotEmpty ? baralho.listaJogador.first : null;
+    jogadorAtual = baralho.listaJogador.isNotEmpty ? baralho.listaJogador.first : null;
     //CartasNaMesa();
   }
 
@@ -37,33 +37,43 @@ class Game {
 }
 
 
-  void CartasNaMesa({int? indiceCartaEscolhida}) {
-   
-    if (!vencedorRodada) {
-      for (int j = 0; j < 4; j++) {
-        if (jogadorAtual != null) {
-          escolherCartaDaJogada(indiceCartaEscolhida!, jogadorAtual!);
-          jogadorAtual = proximoJogador();
-        }
-      }
-      
-      baralho.imprimeMaoJogador();
-      var forcaCarta = retornarListaDeForca();
-      
-      if (jogadorQueTrucou != null && jogadorQueAceitou != null) {
-        trucoAceito = true;
-      }
-      
-      if (baralho.cartasNaMesa.isNotEmpty) {
-        definirGanhadorRodada(forcaCarta, baralho.cartasNaMesa, trucoAceito);
-      }
-    } else {
+ void CartasNaMesa({int? indiceCartaEscolhida}) {
+  // Verifica se a rodada foi vencida
+  if (vencedorRodada) {
+    // Reinicia a rodada
+    rodada = 0;
+    vencedorRodada = false;
+    baralho.inicializar();
+    definirManilha();
+    jogadorAtual = baralho.listaJogador.first;
+    return;
+  }
+
+  // Escolhe a carta da jogada atual
+  if (indiceCartaEscolhida != null && jogadorAtual != null) {
+    escolherCartaDaJogada(indiceCartaEscolhida, jogadorAtual!);
+  }
+
+  // Define o próximo jogador
+  jogadorAtual = proximoJogador();
+
+  // Verifica se todos os jogadores jogaram suas cartas na rodada atual
+  if (baralho.cartasNaMesa.length == 4) {
+    var forcaCartas = retornarListaDeForca();
+    definirGanhadorRodada(forcaCartas, baralho.cartasNaMesa, trucoAceito);
+
+    // Limpa as cartas da mesa para a próxima rodada
+    baralho.cartasNaMesa.clear();
+    rodada++;
+
+    // Se três rodadas foram completadas, reinicia o jogo
+    if (rodada >= 3) {
+      definirManilha();
       rodada = 0;
-      vencedorRodada = false;
-      baralho.inicializar();
-      CartasNaMesa();
     }
   }
+}
+
 
   void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa, bool trucou) {
     int posicaoMaisAlta = 0;

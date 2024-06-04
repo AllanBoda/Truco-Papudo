@@ -7,7 +7,9 @@ class PlayerHand extends StatefulWidget {
   final bool showHand;
   final bool vertical;
   final Function(int) onTapCard;
-  final bool isCurrentPlayer; // Novo parâmetro
+  final bool isCurrentPlayer;
+  final String playerName;
+  final int playerTeam;
 
   const PlayerHand({
     Key? key,
@@ -15,7 +17,9 @@ class PlayerHand extends StatefulWidget {
     this.showHand = false,
     this.vertical = false,
     required this.onTapCard,
-    this.isCurrentPlayer = false, // Inicializa como falso
+    this.isCurrentPlayer = false,
+    required this.playerName,
+    required this.playerTeam,
   }) : super(key: key);
 
   @override
@@ -23,40 +27,39 @@ class PlayerHand extends StatefulWidget {
 }
 
 class _PlayerHandState extends State<PlayerHand> {
-  late List<bool> _tappedIndices; // Lista para rastrear se a carta foi tocada ou não
+  late List<bool> _tappedIndices;
 
   @override
   void initState() {
     super.initState();
-    _tappedIndices = List.generate(widget.hand.length, (index) => false); // Inicializa a lista com false para cada carta
+    _tappedIndices = List.generate(widget.hand.length, (index) => false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: widget.isCurrentPlayer
-            ? Border.all(color: Colors.yellow, width: 5)
-            : null, // Adiciona contorno se for o jogador atual
-        boxShadow: widget.isCurrentPlayer
-            ? [
-                BoxShadow(
-                  color: Colors.yellow.withOpacity(0.8),
-                  spreadRadius: 5,
-                  blurRadius: 20,
+    return Column(
+      children: [
+        // Exibe o nome e a equipe do jogador
+        Text(
+          '${widget.playerName} (Equipe ${widget.playerTeam})',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: widget.isCurrentPlayer ? Colors.black : Colors.white,
+          ),
+        ),
+        Container(
+          child: widget.vertical
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _buildCards(),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _buildCards(),
                 ),
-              ]
-            : [], // Adiciona sombra para efeito de glow
-      ),
-      child: widget.vertical
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildCards(),
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildCards(),
-            ),
+        ),
+      ],
     );
   }
 
@@ -67,8 +70,8 @@ class _PlayerHandState extends State<PlayerHand> {
       return GestureDetector(
         onTap: () {
           setState(() {
-            _tappedIndices = List.generate(widget.hand.length, (index) => false); // Reseta todos os índices tocados
-            _tappedIndices[index] = true; // Define o índice da carta tocada como verdadeiro
+            _tappedIndices = List.generate(widget.hand.length, (index) => false);
+            _tappedIndices[index] = true;
           });
           widget.onTapCard(index);
         },
@@ -81,8 +84,14 @@ class _PlayerHandState extends State<PlayerHand> {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       margin: _tappedIndices[index]
-          ? EdgeInsets.symmetric(vertical: 0, horizontal: 2)
+          ? EdgeInsets.only(left: 5.0)
           : EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+      decoration: BoxDecoration(
+        border: widget.isCurrentPlayer
+            ? Border.all(color: Colors.deepOrange, width: 3.0)
+            : Border.all(color: Colors.transparent, width: 3.0),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
       child: TrucoCard(cardModel: card, showFace: widget.showHand),
     );
   }

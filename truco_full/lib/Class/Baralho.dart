@@ -28,12 +28,12 @@ class Baralho {
 }
 
   void Baralhos() {
-    for (int naipe = 1; naipe <= 4; naipe++) {
+    for (int naipe = 1; naipe < 4; naipe++) {
       for (int valor = 1; valor <= 7; valor++) {
         cartasNoBaralho.add(Cartas(naipe, valor));
       }
     }
-    for (int naipe = 1; naipe <= 4; naipe++) {
+    for (int naipe = 1; naipe < 4; naipe++) {
       for (int valor = 11; valor <= 12; valor++)
         cartasNoBaralho.add(Cartas(naipe, valor));
     }
