@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:truco_full/Class/Jogador.dart';
+import 'package:truco_full/Class/CartaNaMesa.dart';
+import 'package:truco_full/Class/jogador.dart';
+import 'package:truco_full/TrucoCard.dart';
 import 'PlayerHand.dart';
 import './Class/Game.dart';
-import './CardModel.dart';
 import 'Class/Cartas.dart';
-import 'Class/CartaNaMesa.dart';
-import 'TrucoCard.dart';
+
 
 class BoardPage extends StatefulWidget {
   const BoardPage({Key? key}) : super(key: key);
@@ -51,9 +51,9 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   // Converte a lista de cartas do jogador para uma lista de modelos de cartas exibíveis
-  List<CardModel> converterCartasParaString(List<Cartas> cartas) {
+  List<cardModel> converterCartasParaString(List<Cartas> cartas) {
     return cartas.map((carta) {
-      return CardModel(
+      return cardModel(
         faceValue: '${carta.valor} de ${carta.naipe}',
         value: carta.valor,
         naipe: carta.naipe,
@@ -63,9 +63,9 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   // Converte a lista de cartas na mesa para uma lista de modelos de cartas exibíveis
-  List<CardModel> converterCartasNaMesaParaString(List<CartaNaMesa> cartasNaMesa) {
+  List<cardModel> converterCartasNaMesaParaString(List<CartaNaMesa> cartasNaMesa) {
     return cartasNaMesa.map((cartaNaMesa) {
-      return CardModel(
+      return cardModel(
         faceValue: '${cartaNaMesa.carta?.valor} de ${cartaNaMesa.carta?.naipe}',
         value: cartaNaMesa.carta?.valor ?? 0,
         naipe: cartaNaMesa.carta?.naipe ?? 0,

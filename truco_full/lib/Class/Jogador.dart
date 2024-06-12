@@ -1,18 +1,19 @@
+import 'package:truco_full/Model/cardModel.dart';
 
-import 'Baralho.dart';
-import 'Cartas.dart';
+import 'baralho.dart';
+
 
 class Jogador {
   late String nome;
   late int id;
   late int equipe;
-  late List<Cartas> maoJogador = [];
+  late List<cardModel> maoJogador = [];
   late int pontos;
   late List<Jogador> listaJogador = [];
   Baralho baralho = Baralho();
  
   Jogador.Vazio();
-   Jogador(this.nome, this.id, this.equipe,[List<Cartas>? maoJogador]) {
+   Jogador(this.nome, this.id, this.equipe,[List<cardModel>? maoJogador]) {
     this.pontos = 0; // Definindo os pontos como zero
     if (maoJogador != null) {
       this.maoJogador = maoJogador;
@@ -27,7 +28,7 @@ class Jogador {
     return nome;
   }
 
-  List<Cartas> getMaoJogador(List<Cartas> mao){
+  List<cardModel> getMaoJogador(List<cardModel> mao){
     return maoJogador = mao;
   }
 

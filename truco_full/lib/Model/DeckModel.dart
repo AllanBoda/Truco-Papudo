@@ -1,7 +1,7 @@
-import './CardModel.dart';
+import 'cardModel.dart';
 
 class deckModel {
-  List<cardModel> cartas;
+  List<CardModel> cartas;
 
   deckModel({
     required this.cartas,

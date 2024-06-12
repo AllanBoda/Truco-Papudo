@@ -1,15 +1,17 @@
-import 'PlayerModel.dart';
 
-class teamModel {
+
+import 'package:truco_full/Model/PlayerModel.dart';
+
+class TeamModel {
   String nome;
   int id;
-  List<playerModel> jogadores;
+  List<PlayerModel> jogadores;
   int pontos;
 
-  teamModel({
+  TeamModel({
     required this.nome,
     required this.id,
-    List<playerModel>? jogadores,
+    List<PlayerModel>? jogadores,
     this.pontos = 0,
   }) : jogadores = jogadores ?? [];
 }

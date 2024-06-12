@@ -1,8 +1,9 @@
-
-import 'package:truco_full/Class/CartaNaMesa.dart';
+import 'package:truco_full/Class/Cartas.dart';
+import 'package:truco_full/Model/DeckModel.dart';
+import 'package:truco_full/Model/cardModel.dart';
 import 'Baralho.dart';
-import 'Jogador.dart';
-import 'Cartas.dart';
+import 'jogador.dart';
+
 
 class Game {
   Baralho baralho = Baralho();
@@ -18,7 +19,7 @@ class Game {
   bool jogarNovamente = false;
   bool vencedorRodada = false;
   Jogador jogador = Jogador.Vazio();
-  Cartas cartas = Cartas.vazio();
+  cardModel cartas = cardModel.vazio();
   Cartas manilha = Cartas.vazio();
 
   void iniciarJogo() {
@@ -30,7 +31,7 @@ class Game {
 
   void escolherCartaDaJogada(int indiceCarta, Jogador jogador, {bool pediuTruco = false}) {
     if (indiceCarta >= 0 && indiceCarta < jogador.maoJogador.length) {
-        Cartas carta = jogador.maoJogador[indiceCarta];
+        cardModel carta = jogador.maoJogador[indiceCarta];
         baralho.cartasNaMesa.add(CartaNaMesa(carta, jogador, trucoPediu: pediuTruco));
         jogador.maoJogador.remove(carta);
     }
@@ -75,7 +76,7 @@ class Game {
 }
 
 
-  void definirGanhadorRodada(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa, bool trucou) {
+  void definirGanhadorRodada(List<cardModel> forcaCartas, List<deckModel> cartasNaMesa, bool trucou) {
     int posicaoMaisAlta = 0;
     int jogadorVencedor = -1;
     int menorDiferenca = forcaCartas.length;
@@ -85,8 +86,8 @@ class Game {
         cartasNaMesa = verificarCartasIguais(forcaCartas, cartasNaMesa);
         
         for (int i = 0; i < cartasNaMesa.length; i++) {
-          CartaNaMesa cartaNaMesa = cartasNaMesa[i];
-          Cartas? cartaJogada = cartaNaMesa.carta;
+          deckModel cartaNaMesa = cartasNaMesa[i];
+          cardModel? cartaJogada = cartaNaMesa.carta;
           
           if (cartaJogada == null) {
             continue;
@@ -141,15 +142,15 @@ class Game {
     }
   }
 
-  List<CartaNaMesa> verificarCartasIguais(List<Cartas> forcaCartas, List<CartaNaMesa> cartasNaMesa){
-    List<Cartas> cartasIguais = [];
+  List<deckModel> verificarCartasIguais(List<cardModel> forcaCartas, List<deckModel> cartasNaMesa){
+    List<cardModel> cartasIguais = [];
     for (int i = 1; i < cartasNaMesa.length; i++) {
-      CartaNaMesa cartaNaMesa = cartasNaMesa[i];
-      Cartas? cartaJogada = cartaNaMesa.carta;
+      deckModel cartaNaMesa = cartasNaMesa[i];
+      cardModel? cartaJogada = cartaNaMesa.carta;
       if (cartaJogada != null) {
         for (int j = 0; j < i; j++) {
-          Cartas cartaJogador = cartasNaMesa[j].carta!;
-          if (cartaJogador.valor == cartaJogada.valor) {
+          cardModel cartaJogador = cartasNaMesa[j].carta!;
+          if (cartaJogador.value == cartaJogada.value) {
             cartasIguais.add(cartaJogada);
             cartasIguais.add(cartaJogador);
           }
@@ -172,7 +173,7 @@ class Game {
       return cartasNaMesa;
     }
 
-    Cartas? cartaPerdedora;
+    cardModel? cartaPerdedora;
     if (cartasIguais.isNotEmpty) {
       cartasIguais.sort((a, b) => b.naipe.compareTo(a.naipe));
       cartaPerdedora = cartasIguais[0];
@@ -194,8 +195,8 @@ class Game {
     return indice;
   }
 
-  List<Cartas> retornarListaDeForca(){
-    Cartas cartas = baralho.cartaVirada;
+  List<cardModel> retornarListaDeForca(){
+    cardServise cartas = baralho.cartaVirada;
     var forcaCartas = cartas.ajustarForcaCartas(cartas);
     return [cartas]; // Assuming ajustarForcaCartas modifies cartas in place and returns it
   }

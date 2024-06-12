@@ -1,16 +1,19 @@
-import './CardModel.dart';
-import './PlayerModel.dart';
+import 'package:truco_full/Model/playerModel.dart';
 
-class CartasNaMesa {
-  List<cardModel> carta;
-  List<cardModel> manilha;
-  List<playerModel> player;
-  bool trucoPediu;
+import 'cardModel.dart';
 
-  CartasNaMesa({
-    required this.carta,
-    required this.manilha,
-    required this.player,
-    required this.trucoPediu,
-  });
+
+class CartaNaMesa {
+  late CardModel? carta;
+  late PlayerModel jogador;
+  late bool trucoPediu;
+
+  CartaNaMesa(this.carta, this.jogador,{this.trucoPediu = false});
+
+ 
+  @override
+   @override
+  String toString() {
+    return "Carta: $carta - Jogador: ${jogador.nome}, Equipe: ${jogador.equipe}";
+  }
 }

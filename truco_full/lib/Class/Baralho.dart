@@ -1,19 +1,20 @@
 import 'dart:math';
+import 'package:truco_full/Model/cardModel.dart';
+import 'package:truco_full/Model/cartasNaMesa.dart';
+import 'package:truco_full/Model/playerModel.dart';
 
-import 'package:truco_full/Class/CartaNaMesa.dart';
 
-import 'Cartas.dart';
-import 'Jogador.dart';
+import 'jogador.dart';
 
 
 class Baralho {
-  List<Cartas> cartasNoBaralho = [];
-  List<List<Cartas>> maoJogador = [];
-  List<Cartas> cartaRemovidaMao = [];
-  List<CartaNaMesa> cartasNaMesa = [];
-  List<Jogador> listaJogador = [];
+  List<cardModel> cartasNoBaralho = [];
+  List<List<cardModel>> maoJogador = [];
+  List<cardModel> cartaRemovidaMao = [];
+  List<CartasNaMesa> cartasNaMesa = [];
+  List<playerModel> listaJogador = [];
 
-  Cartas cartaVirada = Cartas.vazio();
+  cardModel cartaVirada = cardModel.vazio();
 
   void inicializar() {
   //verifica se a lista estar vazia antes de defenir a lista de jogadores
@@ -30,12 +31,12 @@ class Baralho {
   void Baralhos() {
     for (int naipe = 1; naipe < 4; naipe++) {
       for (int valor = 1; valor <= 7; valor++) {
-        cartasNoBaralho.add(Cartas(naipe, valor));
+        cartasNoBaralho.add(cardModel.cards(value: valor, naipe: naipe));
       }
     }
     for (int naipe = 1; naipe < 4; naipe++) {
       for (int valor = 11; valor <= 12; valor++)
-        cartasNoBaralho.add(Cartas(naipe, valor));
+        cartasNoBaralho.add(cardModel.cards(value: valor, naipe: naipe));
     }
     embaralharBaralho(cartasNoBaralho);
   }
@@ -46,7 +47,7 @@ class Baralho {
     cartasNoBaralho.remove(cartaVirada);
   }
 
-  void embaralharBaralho(List<Cartas> cartas) {
+  void embaralharBaralho(List<cardModel> cartas) {
     final random = Random();
     for (var i = cartas.length - 1; i > 0; i--) {
       final j = random.nextInt(i + 1);
@@ -56,7 +57,7 @@ class Baralho {
     }
   }
 
-  List<List<Cartas>> distribuirCartas() {
+  List<List<cardModel>> distribuirCartas() {
     maoJogador = List.generate(4, (_) => []);
     var cartas = 3;
     for (int i = 0; i < cartas; i++) {
@@ -72,7 +73,7 @@ class Baralho {
   List<String> nomesJogadores = ["Jessica","Natan","Emily","Gabriel"];
   // Adicionando jogadores com nomes da lista
   for (int i = 0; i < nomesJogadores.length; i++) {
-   listaJogador.add(Jogador(nomesJogadores[i], i + 1, (i % 2) + 1));
+   listaJogador.add(playerModel(nomesJogadores[i], i + 1, (i % 2) + 1));
     }
   }
 
@@ -83,8 +84,8 @@ class Baralho {
    }
   }
 
-  List<List<Cartas>> CartasRemovidaMao() {
-    List<List<Cartas>> novaMaoJogador = [];
+  List<List<cardModel>> CartasRemovidaMao() {
+    List<List<cardModel>> novaMaoJogador = [];
     for (int j = 0; j < 4; j++) {
       var cartaRemovida = maoJogador[j].removeLast();
       cartaRemovidaMao.add(cartaRemovida);
