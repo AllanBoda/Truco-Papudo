@@ -1,15 +1,21 @@
-import '../Class/Cartas.dart';
+class CardModel {
+  late String faceValue;
+  late int value;
+  late int naipe;
+  late String faceUrl;
 
-class playerModel {
-  String nome;
-  int ID;
-  int equipe;
-  List<Cartas> maoJogador = [];
-
-  playerModel({
-    required this.nome,
-    required this.ID,
-    required this.equipe,
-    required this.maoJogador,
+  CardModel({
+    required this.faceValue,
+    required this.value,
+    required this.naipe,
+    required this.faceUrl,
   });
+
+   CardModel.cards({
+    required this.value,
+    required this.naipe
+  }): faceUrl = "" , faceValue = "";
+  
+  CardModel.vazio();
 }
+
