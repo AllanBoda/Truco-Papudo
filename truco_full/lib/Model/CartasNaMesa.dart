@@ -1,6 +1,6 @@
-import 'package:truco_full/Model/playerModel.dart';
+import 'package:truco_full/CardModel.dart';
+import 'package:truco_full/Model/PlayerModel.dart';
 
-import 'cardModel.dart';
 
 
 class CartaNaMesa {

@@ -1,9 +1,9 @@
-import 'package:truco_full/Class/Cartas.dart';
-import 'package:truco_full/Class/Jogador.dart';
+import 'package:truco_full/CardModel.dart';
+import 'package:truco_full/Model/PlayerModel.dart';
 
 class CartaNaMesa {
-  late Cartas? carta;
-  late Jogador jogador;
+  late CardModel? carta;
+  late PlayerModel jogador;
   late bool trucoPediu;
 
   CartaNaMesa(this.carta, this.jogador,{this.trucoPediu = false});

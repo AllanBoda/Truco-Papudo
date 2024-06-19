@@ -1,25 +1,24 @@
 import 'dart:math';
-import 'package:truco_full/Model/cardModel.dart';
-import 'package:truco_full/Model/cartasNaMesa.dart';
-import 'package:truco_full/Model/playerModel.dart';
+import 'package:truco_full/CardModel.dart';
+import 'package:truco_full/Class/CartaNaMesa.dart';
+import 'package:truco_full/Class/playerPosition.dart';
+import 'package:truco_full/Model/PlayerModel.dart';
 
-
-import 'jogador.dart';
 
 
 class Baralho {
-  List<cardModel> cartasNoBaralho = [];
-  List<List<cardModel>> maoJogador = [];
-  List<cardModel> cartaRemovidaMao = [];
-  List<CartasNaMesa> cartasNaMesa = [];
-  List<playerModel> listaJogador = [];
+  List<CardModel> cartasNoBaralho = [];
+  List<List<CardModel>> maoJogador = [];
+  List<CardModel> cartaRemovidaMao = [];
+  List<CartaNaMesa> cartasNaMesa = [];
+  List<PlayerModel> listaJogador = [];
 
-  cardModel cartaVirada = cardModel.vazio();
+  CardModel cartaVirada = CardModel.vazio();
 
   void inicializar() {
   //verifica se a lista estar vazia antes de defenir a lista de jogadores
   if (listaJogador.isEmpty) {
-    defenirListaJogadores();
+    definirListaJogadores();
   }
   // se não estiver vazia , sinaliza que é uma segunda rodada, assim a lista permanece com os dados da primeira partida
   Baralhos();
@@ -31,12 +30,12 @@ class Baralho {
   void Baralhos() {
     for (int naipe = 1; naipe < 4; naipe++) {
       for (int valor = 1; valor <= 7; valor++) {
-        cartasNoBaralho.add(cardModel.cards(value: valor, naipe: naipe));
+        cartasNoBaralho.add(CardModel.cards(value: valor, naipe: naipe));
       }
     }
     for (int naipe = 1; naipe < 4; naipe++) {
       for (int valor = 11; valor <= 12; valor++)
-        cartasNoBaralho.add(cardModel.cards(value: valor, naipe: naipe));
+        cartasNoBaralho.add(CardModel.cards(value: valor, naipe: naipe));
     }
     embaralharBaralho(cartasNoBaralho);
   }
@@ -47,7 +46,7 @@ class Baralho {
     cartasNoBaralho.remove(cartaVirada);
   }
 
-  void embaralharBaralho(List<cardModel> cartas) {
+  void embaralharBaralho(List<CardModel> cartas) {
     final random = Random();
     for (var i = cartas.length - 1; i > 0; i--) {
       final j = random.nextInt(i + 1);
@@ -57,7 +56,7 @@ class Baralho {
     }
   }
 
-  List<List<cardModel>> distribuirCartas() {
+  List<List<CardModel>> distribuirCartas() {
     maoJogador = List.generate(4, (_) => []);
     var cartas = 3;
     for (int i = 0; i < cartas; i++) {
@@ -68,14 +67,16 @@ class Baralho {
     return maoJogador;
   }
 
-   void defenirListaJogadores(){
-  //Os nomes vão ser pegos nos campos que os jogadores irão inseri-los
-  List<String> nomesJogadores = ["Jessica","Natan","Emily","Gabriel"];
-  // Adicionando jogadores com nomes da lista
-  for (int i = 0; i < nomesJogadores.length; i++) {
-   listaJogador.add(playerModel(nomesJogadores[i], i + 1, (i % 2) + 1));
-    }
-  }
+  void definirListaJogadores() {
+  // Os nomes vão ser pegos nos campos que os jogadores irão inseri-los
+  List<String> nomesJogadores = ["Jessica", "Gabriel", "Emily", "Natan"];
+  
+  // Adicionando jogadores com nomes da lista e posições corretas
+  listaJogador.add(PlayerModel(nomesJogadores[0], 1, 1, PlayerPosition.top));
+  listaJogador.add(PlayerModel(nomesJogadores[1], 2, 2, PlayerPosition.left));
+  listaJogador.add(PlayerModel(nomesJogadores[2], 3, 1, PlayerPosition.bottom));
+  listaJogador.add(PlayerModel(nomesJogadores[3], 4, 2, PlayerPosition.right));
+}
 
   void defenirMaoJogadores(){
   // Definir a mão de cada jogador
@@ -84,8 +85,8 @@ class Baralho {
    }
   }
 
-  List<List<cardModel>> CartasRemovidaMao() {
-    List<List<cardModel>> novaMaoJogador = [];
+  List<List<CardModel>> CartasRemovidaMao() {
+    List<List<CardModel>> novaMaoJogador = [];
     for (int j = 0; j < 4; j++) {
       var cartaRemovida = maoJogador[j].removeLast();
       cartaRemovidaMao.add(cartaRemovida);

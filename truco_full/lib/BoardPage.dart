@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:truco_full/CardModel.dart';
 import 'package:truco_full/Class/CartaNaMesa.dart';
-import 'package:truco_full/Class/jogador.dart';
+import 'package:truco_full/Model/PlayerModel.dart';
 import 'package:truco_full/TrucoCard.dart';
 import 'PlayerHand.dart';
 import './Class/Game.dart';
-import 'Class/Cartas.dart';
-
 
 class BoardPage extends StatefulWidget {
   const BoardPage({Key? key}) : super(key: key);
@@ -26,7 +25,7 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   // Função para jogar uma carta ao tocar em uma carta na mão do jogador
-  void _jogarCarta(int index, Jogador jogador) {
+  void _jogarCarta(int index, PlayerModel jogador) {
     setState(() {
       if (cartaTocada && jogadoresQueJogaram <= 4 && jogador == game.jogadorAtual) { // Verifica se a carta foi tocada, se ainda não foram jogadas as cartas de todos os jogadores e se é a vez do jogador
         game.escolherCartaDaJogada(index, jogador); // Chama o método escolherCartaDaJogada da classe Game passando o índice clicado
@@ -51,11 +50,11 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   // Converte a lista de cartas do jogador para uma lista de modelos de cartas exibíveis
-  List<cardModel> converterCartasParaString(List<Cartas> cartas) {
+  List<CardModel> converterCartasParaString(List<CardModel> cartas) {
     return cartas.map((carta) {
-      return cardModel(
-        faceValue: '${carta.valor} de ${carta.naipe}',
-        value: carta.valor,
+      return CardModel(
+        faceValue: '${carta.value} de ${carta.naipe}',
+        value: carta.value,
         naipe: carta.naipe,
         faceUrl: ""
       );
@@ -63,11 +62,11 @@ class _BoardPageState extends State<BoardPage> {
   }
 
   // Converte a lista de cartas na mesa para uma lista de modelos de cartas exibíveis
-  List<cardModel> converterCartasNaMesaParaString(List<CartaNaMesa> cartasNaMesa) {
+  List<CardModel> converterCartasNaMesaParaString(List<CartaNaMesa> cartasNaMesa) {
     return cartasNaMesa.map((cartaNaMesa) {
-      return cardModel(
-        faceValue: '${cartaNaMesa.carta?.valor} de ${cartaNaMesa.carta?.naipe}',
-        value: cartaNaMesa.carta?.valor ?? 0,
+      return CardModel(
+        faceValue: '${cartaNaMesa.carta?.value} de ${cartaNaMesa.carta?.naipe}',
+        value: cartaNaMesa.carta?.value ?? 0,
         naipe: cartaNaMesa.carta?.naipe ?? 0,
         faceUrl: ""
       );
@@ -91,20 +90,20 @@ class _BoardPageState extends State<BoardPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Mão do jogador 1
+                  // Mão do jogador 1 (Jessica - Topo)
                   PlayerHand(
                     hand: converterCartasParaString(
-                        game.baralho.listaJogador[0].maoJogador),
+                        game.baralho.listaJogador.first.maoJogador),
                     showHand: true,
                     onTapCard: (index) {
                       cartaTocada = true; // Define a flag de toque na carta
-                      _jogarCarta(index, game.baralho.listaJogador[0]);
+                      _jogarCarta(index, game.baralho.listaJogador.first);
                     },
-                    isCurrentPlayer: game.baralho.listaJogador[0] == game.jogadorAtual, // Adiciona o indicador
-                    playerName: game.baralho.listaJogador[0].nome,
-                    playerTeam: game.baralho.listaJogador[0].equipe,
+                    isCurrentPlayer: game.baralho.listaJogador.first == game.jogadorAtual,
+                    playerName: game.baralho.listaJogador.first.nome,
+                    playerTeam: game.baralho.listaJogador.first.equipe,
                   ),
-                  // Mão do jogador 2
+                  // Mão do jogador 2 (Gabriel - Esquerda)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -117,39 +116,39 @@ class _BoardPageState extends State<BoardPage> {
                           cartaTocada = true; // Define a flag de toque na carta
                           _jogarCarta(index, game.baralho.listaJogador[1]);
                         },
-                        isCurrentPlayer: game.baralho.listaJogador[1] == game.jogadorAtual, // Adiciona o indicador
+                        isCurrentPlayer: game.baralho.listaJogador[1] == game.jogadorAtual,
                         playerName: game.baralho.listaJogador[1].nome,
                         playerTeam: game.baralho.listaJogador[1].equipe,
                       ),
                       const Spacer(flex: 5),
-                      // Mão do jogador 3
+                      // Mão do jogador 4 (Natan - Direita)
                       PlayerHand(
                         hand: converterCartasParaString(
-                            game.baralho.listaJogador[2].maoJogador),
+                            game.baralho.listaJogador[3].maoJogador),
                         vertical: true,
                         showHand: true,
                         onTapCard: (index) {
                           cartaTocada = true; // Define a flag de toque na carta
-                          _jogarCarta(index, game.baralho.listaJogador[2]);
+                          _jogarCarta(index, game.baralho.listaJogador[3]);
                         },
-                        isCurrentPlayer: game.baralho.listaJogador[2] == game.jogadorAtual, // Adiciona o indicador
-                        playerName: game.baralho.listaJogador[2].nome,
-                        playerTeam: game.baralho.listaJogador[2].equipe,
+                        isCurrentPlayer: game.baralho.listaJogador[3] == game.jogadorAtual,
+                        playerName: game.baralho.listaJogador[3].nome,
+                        playerTeam: game.baralho.listaJogador[3].equipe,
                       ),
                     ],
                   ),
-                  // Mão do jogador 4
+                  // Mão do jogador 3 (Emily - Baixo)
                   PlayerHand(
                     hand: converterCartasParaString(
-                        game.baralho.listaJogador[3].maoJogador),
+                        game.baralho.listaJogador[2].maoJogador),
                     showHand: true,
                     onTapCard: (index) {
                       cartaTocada = true; // Define a flag de toque na carta
-                      _jogarCarta(index, game.baralho.listaJogador[3]);
+                      _jogarCarta(index, game.baralho.listaJogador[2]);
                     },
-                    isCurrentPlayer: game.baralho.listaJogador[3] == game.jogadorAtual, // Adiciona o indicador
-                    playerName: game.baralho.listaJogador[3].nome,
-                    playerTeam: game.baralho.listaJogador[3].equipe,
+                    isCurrentPlayer: game.baralho.listaJogador[2] == game.jogadorAtual,
+                    playerName: game.baralho.listaJogador[2].nome,
+                    playerTeam: game.baralho.listaJogador[2].equipe,
                   ),
                   // Exibe as cartas na mesa
                   Wrap(

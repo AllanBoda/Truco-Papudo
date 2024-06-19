@@ -1,5 +1,5 @@
-import 'package:truco_full/Model/cardModel.dart';
-
+import 'package:truco_full/CardModel.dart';
+import 'package:truco_full/Class/playerPosition.dart';
 
 class PlayerModel {
  late String nome;
@@ -7,11 +7,12 @@ class PlayerModel {
   late int equipe;
   late List<CardModel> maoJogador = [];
   late int pontos;
+   late PlayerPosition position;
 
   
   PlayerModel.vazio();
 
-   PlayerModel(this.nome, this.id, this.equipe,[List<CardModel>? maoJogador]) {
+   PlayerModel(this.nome, this.id, this.equipe,this.position,[List<CardModel>? maoJogador]) {
     pontos = 0; // Definindo os pontos como zero
     if (maoJogador != null) {
       this.maoJogador = maoJogador;
@@ -20,6 +21,10 @@ class PlayerModel {
 
    List<CardModel> getMaoJogador(List<CardModel> mao){
     return maoJogador = mao;
+  }
+
+  String SetNome(){
+    return nome;
   }
 }
 

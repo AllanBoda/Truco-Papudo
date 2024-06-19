@@ -1,15 +1,15 @@
-import 'package:truco_full/Class/Cartas.dart';
-import 'package:truco_full/Model/DeckModel.dart';
-import 'package:truco_full/Model/cardModel.dart';
+import 'package:truco_full/CardModel.dart';
+import 'package:truco_full/Class/CartaNaMesa.dart';
+import 'package:truco_full/Model/PlayerModel.dart';
+import 'package:truco_full/Service/CartasServise.dart';
 import 'Baralho.dart';
-import 'jogador.dart';
 
 
 class Game {
   Baralho baralho = Baralho();
-  Jogador? jogadorAtual;
-  Jogador? jogadorQueTrucou;
-  Jogador? jogadorQueAceitou;
+  PlayerModel? jogadorAtual;
+  PlayerModel? jogadorQueTrucou;
+  PlayerModel? jogadorQueAceitou;
   int? valorTruco;
   int equipe1 = 0;
   int equipe2 = 0;
@@ -18,9 +18,8 @@ class Game {
   bool sairJogo = false;
   bool jogarNovamente = false;
   bool vencedorRodada = false;
-  Jogador jogador = Jogador.Vazio();
-  cardModel cartas = cardModel.vazio();
-  Cartas manilha = Cartas.vazio();
+  CardModel cartas = CardModel.vazio();
+  CardModel? manilha = new CardModel.vazio();
 
   void iniciarJogo() {
     baralho.inicializar();
@@ -29,9 +28,9 @@ class Game {
     //CartasNaMesa();
   }
 
-  void escolherCartaDaJogada(int indiceCarta, Jogador jogador, {bool pediuTruco = false}) {
+  void escolherCartaDaJogada(int indiceCarta, PlayerModel jogador, {bool pediuTruco = false}) {
     if (indiceCarta >= 0 && indiceCarta < jogador.maoJogador.length) {
-        cardModel carta = jogador.maoJogador[indiceCarta];
+        CardModel carta = jogador.maoJogador[indiceCarta];
         baralho.cartasNaMesa.add(CartaNaMesa(carta, jogador, trucoPediu: pediuTruco));
         jogador.maoJogador.remove(carta);
     }
@@ -76,7 +75,7 @@ class Game {
 }
 
 
-  void definirGanhadorRodada(List<cardModel> forcaCartas, List<deckModel> cartasNaMesa, bool trucou) {
+  void definirGanhadorRodada(List<CardModel> forcaCartas, List<CartaNaMesa> cartasNaMesa, bool trucou) {
     int posicaoMaisAlta = 0;
     int jogadorVencedor = -1;
     int menorDiferenca = forcaCartas.length;
@@ -86,20 +85,20 @@ class Game {
         cartasNaMesa = verificarCartasIguais(forcaCartas, cartasNaMesa);
         
         for (int i = 0; i < cartasNaMesa.length; i++) {
-          deckModel cartaNaMesa = cartasNaMesa[i];
-          cardModel? cartaJogada = cartaNaMesa.carta;
+          CartaNaMesa cartaNaMesa = cartasNaMesa[i];
+          CardModel? cartaJogada = cartaNaMesa.carta;
           
           if (cartaJogada == null) {
             continue;
           } else {
-            int posicaoCarta = forcaCartas.indexWhere((carta) => carta.valor == cartaJogada.valor);
+            int posicaoCarta = forcaCartas.indexWhere((carta) => carta.value == cartaJogada.value);
             
             if (posicaoCarta != -1) {
               int diferenca = (posicaoMaisAlta - posicaoCarta).abs();
 
               if (diferenca < menorDiferenca) {
                 menorDiferenca = diferenca;
-                jogadorVencedor = cartaNaMesa.jogador.equipe;
+                jogadorVencedor = cartaNaMesa.jogador.id;
                 posicaoMaisAlta = posicaoCarta;
               }
             }
@@ -116,7 +115,7 @@ class Game {
           if (equipe1 == 2 || equipe2 == 2) {
             print("A equipe $jogadorVencedor ganhou a mão!");
             
-            for (Jogador jogador in baralho.listaJogador) {
+            for (PlayerModel jogador in baralho.listaJogador) {
               if (jogador.equipe == jogadorVencedor) {
                 jogador.pontos += trucou ? valorTruco! : 1;
               }
@@ -142,14 +141,14 @@ class Game {
     }
   }
 
-  List<deckModel> verificarCartasIguais(List<cardModel> forcaCartas, List<deckModel> cartasNaMesa){
-    List<cardModel> cartasIguais = [];
+  List<CartaNaMesa> verificarCartasIguais(List<CardModel> forcaCartas, List<CartaNaMesa> cartasNaMesa){
+    List<CardModel> cartasIguais = [];
     for (int i = 1; i < cartasNaMesa.length; i++) {
-      deckModel cartaNaMesa = cartasNaMesa[i];
-      cardModel? cartaJogada = cartaNaMesa.carta;
+      CartaNaMesa cartaNaMesa = cartasNaMesa[i];
+      CardModel? cartaJogada = cartaNaMesa.carta;
       if (cartaJogada != null) {
         for (int j = 0; j < i; j++) {
-          cardModel cartaJogador = cartasNaMesa[j].carta!;
+          CardModel cartaJogador = cartasNaMesa[j].carta!;
           if (cartaJogador.value == cartaJogada.value) {
             cartasIguais.add(cartaJogada);
             cartasIguais.add(cartaJogador);
@@ -173,7 +172,7 @@ class Game {
       return cartasNaMesa;
     }
 
-    cardModel? cartaPerdedora;
+    CardModel? cartaPerdedora;
     if (cartasIguais.isNotEmpty) {
       cartasIguais.sort((a, b) => b.naipe.compareTo(a.naipe));
       cartaPerdedora = cartasIguais[0];
@@ -195,21 +194,38 @@ class Game {
     return indice;
   }
 
-  List<cardModel> retornarListaDeForca(){
-    cardServise cartas = baralho.cartaVirada;
-    var forcaCartas = cartas.ajustarForcaCartas(cartas);
-    return [cartas]; // Assuming ajustarForcaCartas modifies cartas in place and returns it
+  List<CardModel> retornarListaDeForca() {
+    // Acesse a carta virada do baralho
+    var cartaVirada = baralho.cartaVirada;
+
+    // Crie uma instância de CartasServise
+    var cartasServise = CartasServise();
+
+    // Ajuste a força das cartas com base na carta virada
+    var forcaCartas = cartasServise.ajustarForcaCartas(cartaVirada);
+
+    // Retorne a lista de cartas ajustadas
+    return forcaCartas;
   }
 
- void definirManilha() {
-  Cartas cartaVirada = baralho.cartaVirada;
-  cartaVirada.ajustarForcaCartas(cartaVirada);
-  print("A manilha é: $cartaVirada");
-  this.manilha = cartaVirada; // Adiciona a carta de manilha à variável manilha da classe Game
-}
+  void definirManilha() {
+    // Acesse a carta virada do baralho
+    var cartaVirada = baralho.cartaVirada;
 
+    // Crie uma instância de CartasServise
+    var cartasServise = CartasServise();
 
-  bool trucar(Jogador jogador) {
+    // Ajuste a força da carta virada
+    var manilha = cartasServise.ajustarForcaCartas(cartaVirada).first;
+
+    // Imprima a manilha para depuração
+    print("A manilha é: $manilha");
+
+    // Defina a manilha na classe Game
+    this.manilha = manilha;
+  }
+
+  bool trucar(PlayerModel jogador) {
     if (jogadorQueTrucou == null) {
       jogadorQueTrucou = jogador;
       valorTruco = 3;
@@ -221,7 +237,7 @@ class Game {
     return true;
   }
 
-  void aumentarTruco(Jogador jogador) {
+  void aumentarTruco(PlayerModel jogador) {
     if (jogadorQueTrucou != null && jogador == jogadorQueTrucou && valorTruco! < 12) {
       valorTruco = valorTruco! * 2;
       print("${jogador.nome} aumentou o truco para $valorTruco!");
@@ -231,7 +247,7 @@ class Game {
     }
   }
 
-  void aceitarTruco(Jogador jogador) {
+  void aceitarTruco(PlayerModel jogador) {
     if (jogadorQueTrucou != null && jogadorQueTrucou != jogador) {
       jogadorQueAceitou = jogador;
       trucoAceito = true;
@@ -242,7 +258,7 @@ class Game {
     }
   }
 
-  void desistirTruco(Jogador jogador) {
+  void desistirTruco(PlayerModel jogador) {
     if (jogadorQueTrucou != null) {
       jogadorQueTrucou = null;
       jogadorQueAceitou = null;
@@ -255,7 +271,7 @@ class Game {
     }
   }
 
-  Jogador? proximoJogador() {
+  PlayerModel? proximoJogador() {
     if (jogadorAtual != null) {
       int indexAtual = baralho.listaJogador.indexOf(jogadorAtual!);
       if (indexAtual < baralho.listaJogador.length - 1) {
@@ -278,7 +294,7 @@ class Game {
 
   void calcularPontuacao() {
     if (trucoAceito) {
-      Jogador? vencedor = baralho.listaJogador.reduce((a, b) => a.pontos > b.pontos ? a : b);
+      PlayerModel? vencedor = baralho.listaJogador.reduce((a, b) => a.pontos > b.pontos ? a : b);
       print("O jogador ${vencedor.nome} venceu a rodada com ${vencedor.pontos} pontos!");
     } else {
       print("Não houve truco nesta rodada.");

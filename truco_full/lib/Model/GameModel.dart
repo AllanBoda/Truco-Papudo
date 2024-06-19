@@ -1,5 +1,7 @@
-import 'cardModel.dart';
-import './playerModel.dart';
+
+import 'package:truco_full/CardModel.dart';
+import 'package:truco_full/Model/PlayerModel.dart';
+
 import './TeamModel.dart';
 
 class gameModel {
