@@ -16,6 +16,11 @@ class TrucoCard extends StatelessWidget {
     this.showFace = false,
   });
 
+   /// Construtor vazio de TrucoCard para representar um estado sem carta.
+  TrucoCard.vazio()
+      : cardModel = CardModel.vazio(), // Cria um CardModel vazio
+        showFace = false; // Mostra a face da carta como false
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +42,7 @@ class TrucoCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 3), // Espaçamento menor entre o valor e o naipe
                   Text(
-                    _getSuitIcon(cardModel.naipe), // Ícone do naipe da carta
+                    getSuitIcon(cardModel.naipe), // Ícone do naipe da carta
                     style: const TextStyle(fontSize: 14), // Tamanho de fonte menor
                   ),
                 ],
@@ -50,7 +55,7 @@ class TrucoCard extends StatelessWidget {
   /// Método privado para obter o ícone do naipe da carta.
   ///
   /// [naipe] - Número que representa o naipe da carta.
-  String _getSuitIcon(int naipe) {
+  String getSuitIcon(int naipe) {
     switch (naipe) {
       case 1:
         return '♦'; // Retorna o ícone para Ouros

@@ -1,13 +1,13 @@
 import 'package:truco_full/Model/CardModel.dart';
 import 'package:truco_full/Model/CartasNaMesa.dart';
 import 'package:truco_full/Model/PlayerModel.dart';
-import 'package:truco_full/Service/CartasServise.dart';
+import 'package:truco_full/Service/cartasServise.dart';
 import 'definicaoCartasBaralho.dart';
 
 /// A classe `Game` gerencia a lógica do jogo de truco, incluindo o baralho,
 ///  as rodadas, os jogadores e a pontuação.
 class Game {
-  DefinicaoCartasBaralho definicaCartasBaralho = DefinicaoCartasBaralho();
+  final DefinicaoCartasBaralho definicaCartasBaralho = DefinicaoCartasBaralho();
   late PlayerModel jogadorAtual;
   PlayerModel? jogadorQueTrucou;
   PlayerModel? jogadorQueAceitou;
@@ -24,13 +24,13 @@ class Game {
   PlayerModel? jogadorUltimoVencedor;
   bool? trucoPedindo;
   List<CardModel> listForcaCartas = [];
-  CartasServise cartasServise = CartasServise();
+  final CartasServise cartasServise = CartasServise();
 
   /// Inicia o jogo de truco. Define o baralho, a manilha e o jogador atual.
   void iniciarJogo() {
     definicaCartasBaralho.inicializar();
-    definirManilha();
     definirJogadorAtual();
+   // definirManilha();
   }
 
   /// Define o jogador atual baseado no vencedor da última rodada ou o primeiro jogador da lista.
@@ -140,15 +140,6 @@ class Game {
       // Define que houve um vencedor na rodada
       defenirCampeao(jogadorVencedor);
     }
-    if (vencedorRodada) {
-      definicaCartasBaralho.cartasNaMesa.clear();
-      iniciarJogo();
-      rodada = 0;
-      vencedorRodada = false;
-    } else {
-      rodada++;
-      definicaCartasBaralho.cartasNaMesa.clear();
-    }
     if (empate == 2 && trucou) {
       for (PlayerModel jogador in definicaCartasBaralho.listaJogador) {
         jogador.pontos += valorTrucoAtual!;
@@ -168,7 +159,22 @@ class Game {
       // Define que houve um vencedor na rodada
       defenirCampeao(jogadorVencedor);
     }
+     if (vencedorRodada) {
+      definicaCartasBaralho.cartasNaMesa.clear();
+      iniciarJogo();
+      rodada = 0;
+      vencedorRodada = false;
+    } else {
+      rodada++;
+      definicaCartasBaralho.cartasNaMesa.clear();
+    }
   }
+
+  //   void definirManilha() {
+  //   CardModel cartaVirada = definicaCartasBaralho.cartaVirada;
+  //   cartasServise.ajustarForcaCartas(cartaVirada);
+  //   manilha = ; // Adiciona a carta de manilha à variável manilha da classe Game    
+  // }
 
   /// Define o campeão da rodada e reinicia as variáveis de truco e rodada.
   /// 
@@ -188,13 +194,6 @@ class Game {
     trucoPedindo = false;
   }
 
-  void definirManilha() {
-    CardModel cartaVirada = definicaCartasBaralho.cartaVirada;
-    cartasServise.ajustarForcaCartas(cartaVirada);
-    print("A manilha é: $cartaVirada");
-    this.manilha =
-        cartaVirada; // Adiciona a carta de manilha à variável manilha da classe Game
-  }
 
   /// Solicita truco e define o valor do truco.
   /// 
@@ -264,17 +263,6 @@ class Game {
     } else {
       return definicaCartasBaralho.listaJogador.first;
     }
-  }
-
-  /// Reinicia as variáveis de truco.
-  void reniciarVariaveisTruco() {
-    jogadorQueTrucou = null;
-    jogadorQueAceitou = null;
-    valorTruco = null;
-    valorTrucoAtual = null;
-    trucoAceito = false;
-    trucoPedindo = false;
-    jogadorAtual = proximoJogador()!;
   }
 
   /// Reinicia o jogo.

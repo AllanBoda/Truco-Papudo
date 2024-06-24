@@ -4,7 +4,7 @@ import 'package:truco_full/Model/CartasNaMesa.dart'; // Importação do modelo d
 import 'package:truco_full/Model/PlayerModel.dart'; // Importação do modelo de jogador
 import 'package:truco_full/screensService/TrucoCard.dart'; // Importação do serviço de cartas do Truco
 import '../screensService/PlayerHand.dart'; // Importação do serviço da mão do jogador
-import '../Service/Game.dart'; // Importação do serviço de lógica do jogo
+import '../Service/game.dart'; // Importação do serviço de lógica do jogo
 
 /// Página principal do tabuleiro do jogo Truco.
 class BoardPage extends StatefulWidget {
@@ -19,16 +19,13 @@ class _BoardPageState extends State<BoardPage> {
   final Game game = Game(); // Instância da classe Game para gerenciar a lógica do jogo
   int jogadoresQueJogaram = 0; // Variável de controle para acompanhar quantos jogadores jogaram suas cartas
   bool cartaTocada = false; // Flag para monitorar se a carta foi tocada
-
-  // Variáveis de estado para controlar a visibilidade dos botões de truco
-  bool trucoRequested = false;
-  bool trucoAccepted = false;
-  bool trucoIncreased = false;
+  late TrucoCard trucoCard = TrucoCard.vazio();
 
   @override
   void initState() {
     super.initState();
     game.iniciarJogo(); // Inicializa o jogo ao criar a tela
+
   }
 
   // Função para jogar uma carta ao tocar em uma carta na mão do jogador
@@ -116,12 +113,6 @@ class _BoardPageState extends State<BoardPage> {
     }).toList();
   }
 
-  // Função para resetar o estado dos botões de truco
-  void resetTrucoState() {
-    trucoRequested = false;
-    trucoAccepted = false;
-    trucoIncreased = false;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,11 +123,38 @@ class _BoardPageState extends State<BoardPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Exibe a manilha na tela
-            Text(
-              'Manilha: ${game.manilha}',
-              style: const TextStyle(fontSize: 20, color: Colors.white),
+           // Exibe a manilha na tela
+Container(
+  decoration: BoxDecoration(
+    border: Border.all(
+      color: Colors.white, // Cor da borda
+      width: 1.0,          // Largura da borda em pixels
+    ),
+    borderRadius: BorderRadius.circular(8.0), // Opcional: borda arredondada
+  ),
+  child: RichText(
+    text: TextSpan(
+      style: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 2, 37, 20)),
+      children: [
+        const TextSpan(text: 'Carta Virada: '),
+        TextSpan(
+          text: game.definicaCartasBaralho.cartaVirada.value.toString(),
+          style: const TextStyle(fontWeight: FontWeight.bold), // Estilo para o valor da manilha
+        ),
+        WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 5.0),
+            child: Text(
+              trucoCard.getSuitIcon(game.definicaCartasBaralho.cartaVirada.value), // Ícone do naipe da carta
+              style: const TextStyle(fontSize: 20), // Tamanho de fonte menor
             ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
 
             // Botões de truco para o jogador 1 (se ainda estiver na rodada)
             if (game.rodada <= 3 &&

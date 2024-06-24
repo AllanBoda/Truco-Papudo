@@ -2,7 +2,7 @@ import 'package:flutter/material.dart'; // Importação do pacote Flutter Materi
 import 'package:truco_full/Model/CardModel.dart'; // Importação do modelo CardModel
 import 'package:truco_full/Model/CartasNaMesa.dart'; // Importação do modelo CartasNaMesa
 import 'package:truco_full/Model/PlayerModel.dart'; // Importação do modelo PlayerModel
-import '../Service/Game.dart'; // Importação do serviço Game
+import '../Service/game.dart'; // Importação do serviço Game
 
 /// Classe responsável pela lógica do jogo Truco.
 class GameLogic {

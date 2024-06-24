@@ -3,6 +3,7 @@ import 'package:truco_full/ENUM/playerPosition.dart';
 import 'package:truco_full/Model/CardModel.dart';
 import 'package:truco_full/Model/CartasNaMesa.dart';
 import 'package:truco_full/Model/PlayerModel.dart';
+import 'package:truco_full/Service/cartasServise.dart';
 
 /// A classe `DefinicaoCartasBaralho` gerencia o baralho, define as mãos dos 
 /// jogadores e a lista de jogadores para um jogo de truco.
@@ -13,6 +14,8 @@ class DefinicaoCartasBaralho {
   List<CardModel> cartaRemovidaMao = [];
   List<CartaNaMesa> cartasNaMesa = [];
   List<PlayerModel> listaJogador = [];
+  CartasServise cartasServise = CartasServise();
+  
 
   CardModel cartaVirada = CardModel.vazio();
 

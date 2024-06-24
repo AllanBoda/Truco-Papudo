@@ -4,7 +4,7 @@ import 'package:truco_full/Model/PlayerModel.dart';
 
 /// A classe `deckModel` representa uma estrutura que combina uma lista de cartas,
 /// uma carta específica e um jogador associado.
-class deckModel {
+class DeckModel {
   /// Lista de cartas contida neste modelo de baralho.
   late List<CardModel> cartas;
 
@@ -19,7 +19,7 @@ class deckModel {
   /// @param cartas Lista de cartas para inicializar o modelo de baralho.
   /// @param jogador Jogador associado ao modelo de baralho.
   /// @param carta Carta específica associada ao modelo de baralho.
-  deckModel({
+  DeckModel({
     required this.cartas,
     required this.jogador,
     required this.carta,
