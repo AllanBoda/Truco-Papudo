@@ -8,6 +8,8 @@ class CartaNaMesa {
 
   CartaNaMesa(this.carta, this.jogador,{this.trucoPediu = false});
 
+  CartaNaMesa.card({this.carta});
+
  
   @override
    @override

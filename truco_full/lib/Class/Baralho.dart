@@ -34,7 +34,7 @@ class Baralho {
       }
     }
     for (int naipe = 1; naipe < 4; naipe++) {
-      for (int valor = 11; valor <= 12; valor++)
+      for (int valor = 10; valor <= 12; valor++)
         cartasNoBaralho.add(CardModel.cards(value: valor, naipe: naipe));
     }
     embaralharBaralho(cartasNoBaralho);
@@ -57,10 +57,10 @@ class Baralho {
   }
 
   List<List<CardModel>> distribuirCartas() {
-    maoJogador = List.generate(4, (_) => []);
+    maoJogador = List.generate(2, (_) => []);
     var cartas = 3;
     for (int i = 0; i < cartas; i++) {
-      for (var jogador = 0; jogador < 4; jogador++) {
+      for (var jogador = 0; jogador < 2; jogador++) {
         maoJogador[jogador].add(cartasNoBaralho.removeLast());
       }
     }
@@ -69,25 +69,23 @@ class Baralho {
 
   void definirListaJogadores() {
   // Os nomes vão ser pegos nos campos que os jogadores irão inseri-los
-  List<String> nomesJogadores = ["Jessica", "Gabriel", "Emily", "Natan"];
+  List<String> nomesJogadores = ["Jessica", "Gabriel"];
   
   // Adicionando jogadores com nomes da lista e posições corretas
   listaJogador.add(PlayerModel(nomesJogadores[0], 1, 1, PlayerPosition.top));
-  listaJogador.add(PlayerModel(nomesJogadores[1], 2, 2, PlayerPosition.left));
-  listaJogador.add(PlayerModel(nomesJogadores[2], 3, 1, PlayerPosition.bottom));
-  listaJogador.add(PlayerModel(nomesJogadores[3], 4, 2, PlayerPosition.right));
+  listaJogador.add(PlayerModel(nomesJogadores[1], 2, 2, PlayerPosition.bottom));
 }
 
   void defenirMaoJogadores(){
   // Definir a mão de cada jogador
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 2; i++) {
    listaJogador[i].getMaoJogador(maoJogador[i]);
    }
   }
 
   List<List<CardModel>> CartasRemovidaMao() {
     List<List<CardModel>> novaMaoJogador = [];
-    for (int j = 0; j < 4; j++) {
+    for (int j = 0; j < 2; j++) {
       var cartaRemovida = maoJogador[j].removeLast();
       cartaRemovidaMao.add(cartaRemovida);
       // Para testes

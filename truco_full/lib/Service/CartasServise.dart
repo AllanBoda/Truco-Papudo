@@ -3,15 +3,20 @@ import 'package:truco_full/CardModel.dart';
 class CartasServise {
   List<int> valores = [3, 2, 1, 10, 11, 12, 7, 6, 5, 4];
   List<int> naipes = [1, 2, 3, 4];
+  List<CardModel> todasCartas = [];
 
-  int encontrarProximoValor(List<int> list, int cartaVirada) {
-    int index = list.indexOf(cartaVirada);
-    if (index == 0) {
-      return list[list.length - 1]; // Retorna o último elemento da lista se o índice for 0
-    } else {
-      return list[index - 1]; // Retorna o elemento anterior na lista
-    }
+
+ int encontrarProximoValor(List<int> list, int cartaVirada) {
+  // Encontrar o índice da carta virada na lista
+  int index = list.indexOf(cartaVirada);
+  // Verificar se a carta virada é a última na lista
+  if (index == list.length - 1) {
+    return list[0]; // Retorna o primeiro elemento da lista se for o último
+  } else {
+    return list[index + 1]; // Retorna o próximo elemento na lista
   }
+}
+
 
   List<CardModel> ajustarForcaCartas(CardModel cartaVirada) {
     // Encontrar o próximo valor após a carta virada
@@ -30,13 +35,11 @@ class CartasServise {
     }
 
     // Adicionar todas as cartas deste naipe na lista
-    List<CardModel> todasCartas = [];
     for (int naipe in naipes) {
       for (int valor in valores) {
         todasCartas.add(CardModel.cards(value: valor, naipe: naipe));
       }
     }
-
     return todasCartas;
   }
 
