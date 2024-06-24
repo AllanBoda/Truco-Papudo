@@ -1,4 +1,4 @@
-import 'package:truco_full/CardModel.dart';
+import 'package:truco_full/Model/CardModel.dart';
 
 class CartasServise {
   List<int> valores = [3, 2, 1, 10, 11, 12, 7, 6, 5, 4];
@@ -16,7 +16,6 @@ class CartasServise {
     return list[index + 1]; // Retorna o próximo elemento na lista
   }
 }
-
 
   List<CardModel> ajustarForcaCartas(CardModel cartaVirada) {
     // Encontrar o próximo valor após a carta virada

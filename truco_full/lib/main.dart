@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'BoardPage.dart'; // Importe o arquivo onde está a classe BoardPage
+import 'screens/BoardPage.dart'; // Importe o arquivo onde está a classe BoardPage
 
 void main() {
   runApp(MyApp());

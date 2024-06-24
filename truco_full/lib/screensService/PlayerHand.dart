@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'TrucoCard.dart';
-import 'CardModel.dart';
+import 'package:flutter/material.dart'; // Importação do pacote Flutter Material
+import 'package:truco_full/Model/CardModel.dart'; // Importação do modelo CardModel
+import 'TrucoCard.dart'; // Importação do widget TrucoCard
 
+/// Widget que representa a mão de cartas de um jogador.
 class PlayerHand extends StatefulWidget {
   final List<CardModel> hand; // Lista de cartas na mão do jogador
   final bool showHand; // Indica se a mão do jogador deve ser mostrada
@@ -10,6 +11,14 @@ class PlayerHand extends StatefulWidget {
   final bool isCurrentPlayer; // Indica se este jogador é o jogador atual
   final String playerName; // Nome do jogador
 
+  /// Construtor de PlayerHand.
+  ///
+  /// [hand] - Lista de cartas na mão do jogador.
+  /// [showHand] - Opcional. Indica se a mão do jogador deve ser visível (padrão: false).
+  /// [vertical] - Opcional. Indica se as cartas devem ser exibidas verticalmente (padrão: false).
+  /// [onTapCard] - Função a ser chamada quando uma carta é tocada.
+  /// [isCurrentPlayer] - Indica se este jogador é o jogador atual (padrão: false).
+  /// [playerName] - Nome do jogador.
   const PlayerHand({
     Key? key,
     required this.hand,
@@ -24,6 +33,7 @@ class PlayerHand extends StatefulWidget {
   _PlayerHandState createState() => _PlayerHandState();
 }
 
+/// Estado associado ao widget PlayerHand.
 class _PlayerHandState extends State<PlayerHand> {
   late List<bool> _tappedIndices; // Lista para rastrear quais cartas foram tocadas
 
@@ -62,7 +72,7 @@ class _PlayerHandState extends State<PlayerHand> {
     );
   }
 
-  // Método para construir as cartas
+  // Método para construir os widgets de cartas na mão do jogador
   List<Widget> _buildCards() {
     return widget.hand.asMap().entries.map((entry) {
       int index = entry.key;
@@ -83,10 +93,10 @@ class _PlayerHandState extends State<PlayerHand> {
   // Método para construir o widget de uma carta
   Widget _buildCard(CardModel card, int index) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300), // Animação para o container da carta
+      duration: const Duration(milliseconds: 300), // Animação para o container da carta
       margin: (index < _tappedIndices.length && _tappedIndices[index])
-          ? EdgeInsets.only(left: 5.0) // Margem se a carta foi tocada
-          : EdgeInsets.symmetric(vertical: 0, horizontal: 0), // Sem margem se a carta não foi tocada
+          ? const EdgeInsets.only(left: 5.0) // Margem se a carta foi tocada
+          : const EdgeInsets.symmetric(vertical: 0, horizontal: 0), // Sem margem se a carta não foi tocada
       decoration: BoxDecoration(
         border: widget.isCurrentPlayer
             ? Border.all(color: Colors.deepOrange, width: 3.0) // Borda laranja se for o jogador atual
