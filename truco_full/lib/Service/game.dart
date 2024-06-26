@@ -5,7 +5,7 @@ import 'package:truco_full/Service/cartasServise.dart';
 import 'definicaoCartasBaralho.dart';
 
 /// A classe `Game` gerencia a lógica do jogo de truco, incluindo o baralho,
-///  as rodadas, os jogadores e a pontuação.
+/// as rodadas, os jogadores e a pontuação.
 class Game {
   final DefinicaoCartasBaralho definicaCartasBaralho = DefinicaoCartasBaralho();
   late PlayerModel jogadorAtual;
@@ -16,7 +16,7 @@ class Game {
   int? valorTrucoAtual = 3;
   int equipe1 = 0;
   int equipe2 = 0;
-  int rodada = 0;
+  int rodada = 1;
   bool trucoAceito = false;
   bool vencedorRodada = false;
   CardModel cartas = CardModel.vazio();
@@ -25,12 +25,14 @@ class Game {
   bool? trucoPedindo;
   List<CardModel> listForcaCartas = [];
   final CartasServise cartasServise = CartasServise();
+  String mensagemFinalDeJogo = "";
+  int empachou = 0;
+  int ultimovencedor = 0;
 
   /// Inicia o jogo de truco. Define o baralho, a manilha e o jogador atual.
   void iniciarJogo() {
     definicaCartasBaralho.inicializar();
     definirJogadorAtual();
-   // definirManilha();
   }
 
   /// Define o jogador atual baseado no vencedor da última rodada ou o primeiro jogador da lista.
@@ -39,7 +41,7 @@ class Game {
   }
 
   /// Escolhe uma carta da mão do jogador para jogá-la na mesa.
-  /// 
+  ///
   /// @param indiceCarta O índice da carta na mão do jogador.
   /// @param jogador O jogador que está jogando a carta.
   /// @param pediuTruco Indica se o jogador pediu truco ao jogar a carta.
@@ -55,11 +57,12 @@ class Game {
   void iniciarRodada() {
     jogadorAtual = proximoJogador()!;
     listForcaCartas = cartasServise.ajustarForcaCartas(definicaCartasBaralho.cartaVirada);
+    definirManilha();// definir manilha 
     definirGanhadorRodada(listForcaCartas, definicaCartasBaralho.cartasNaMesa, trucoAceito);
   }
 
   /// Define o vencedor da rodada com base na força das cartas jogadas e atualiza a pontuação.
-  /// 
+  ///
   /// @param forcaCartas A lista de cartas ordenadas por força.
   /// @param cartasNaMesa As cartas jogadas na mesa.
   /// @param trucou Indica se houve pedido de truco na rodada.
@@ -68,7 +71,9 @@ class Game {
     int posicaoCartaSegundoJogador = forcaCartas.length;
     int primeiroJogador = -1;
     int segundoJogador = -1;
-    int empate = 0;
+    // Determinar o vencedor da rodada
+    int jogadorVencedor = -1;
+    int posicaoCarta = 0;
 
     // Determinar quem é o primeiro e o segundo jogador
     if (cartasNaMesa[0].jogador.equipe == 1) {
@@ -79,105 +84,117 @@ class Game {
       segundoJogador = 1;
     }
 
+   
+
+    // Criar uma nova lista com os primeiros 9 elementos de forcaCartas
+    List<CardModel> primeiraParteForcaCartas = forcaCartas.take(9).toList();
+
     // Laço para determinar a posição das cartas jogadas por cada jogador
     for (int i = 0; i < cartasNaMesa.length; i++) {
       CartaNaMesa cartaNaMesa = cartasNaMesa[i];
       CardModel cartaJogada = cartaNaMesa.carta!;
 
-      int posicaoCarta = forcaCartas.indexWhere((carta) => carta.value == cartaJogada.value);
+      posicaoCarta = primeiraParteForcaCartas.indexWhere((carta) => carta.value == cartaJogada.value);
 
       if (cartaNaMesa.jogador.id == primeiroJogador) {
         posicaoCartaPrimeiroJogador = posicaoCarta;
       } else if (cartaNaMesa.jogador.id == segundoJogador) {
         posicaoCartaSegundoJogador = posicaoCarta;
       }
+
+      // Empache
+      if (posicaoCartaPrimeiroJogador == posicaoCartaSegundoJogador) {
+        empache(cartaJogada, cartasNaMesa, posicaoCarta, forcaCartas, primeiroJogador, segundoJogador, posicaoCartaPrimeiroJogador, posicaoCartaSegundoJogador);
+      }
     }
 
-    // Determinar o vencedor da rodada
-    int jogadorVencedor = -1;
-
-    if (posicaoCartaPrimeiroJogador == posicaoCartaSegundoJogador) {
-      empate++;
-      cartasNaMesa.clear();
-      rodada++;
-      return; // Empate
-    }
     if (posicaoCartaPrimeiroJogador < posicaoCartaSegundoJogador) {
       jogadorVencedor = primeiroJogador;
-    } else {
+    }
+    if (posicaoCartaSegundoJogador < posicaoCartaPrimeiroJogador) {
       jogadorVencedor = segundoJogador;
     }
 
     // Incrementar pontos da equipe vencedora
     if (jogadorVencedor == 1) {
       equipe1++;
+      ultimovencedor = 1;
     } else if (jogadorVencedor == 2) {
       equipe2++;
+      ultimovencedor = 2;
     }
 
     if (trucou) {
       if (equipe1 == 2 || equipe2 == 2) {
-        // Atualiza apenas as informações relacionadas ao truco
-        for (PlayerModel jogador in definicaCartasBaralho.listaJogador) {
-          if (jogador.equipe == jogadorVencedor) {
-            jogador.pontos += valorTrucoAtual!;
-            // Reinicia o truco para a próxima rodada
-            valorTruco = 3;
-            trucoAceito = false;
-          }
-        }
-        // Define que houve um vencedor na rodada
-        defenirCampeao(jogadorVencedor);
+        defenirPontosComTruco(jogadorVencedor);
       }
     }
-    if (!trucou && (equipe1 == 2 || equipe2 == 2)) {
-      // Adiciona 1 ponto aos jogadores da equipe vencedora da mão
-      for (PlayerModel jogador in definicaCartasBaralho.listaJogador) {
-        if (jogador.equipe == jogadorVencedor) {
-          jogador.pontos += 1;
-        }
-      }
-      // Define que houve um vencedor na rodada
-      defenirCampeao(jogadorVencedor);
+    if (equipe1 == 2 || equipe2 == 2) {
+      defenirPontosSemTrucar(jogadorVencedor);
     }
-    if (empate == 2 && trucou) {
-      for (PlayerModel jogador in definicaCartasBaralho.listaJogador) {
-        jogador.pontos += valorTrucoAtual!;
-        // Reinicia o truco para a próxima rodada
-        valorTruco = 3;
-        trucoAceito = false;
+    // Definir pontos se trucou e teve dois empates
+    if (trucou) {
+      if (empachou == 2) {
+        defenirPontosComTruco(jogadorVencedor);
       }
-      // Define que houve um vencedor na rodada
-      defenirCampeao(jogadorVencedor);
-    } else if (empate == 2 && !trucou) {
-      // Adiciona 1 ponto aos jogadores da equipe vencedora da mão
-      for (PlayerModel jogador in definicaCartasBaralho.listaJogador) {
-        if (jogador.equipe == jogadorVencedor) {
-          jogador.pontos += 1;
-        }
+      if (rodada == 3 && empachou == 1) {
+        // Adiciona 1 ponto aos jogadores da equipe vencedora da mão
+        defenirPontosComTruco(ultimovencedor);
       }
-      // Define que houve um vencedor na rodada
-      defenirCampeao(jogadorVencedor);
     }
-     if (vencedorRodada) {
+    if (!trucou) {
+      if (rodada == 3 && empachou == 1) {
+        // Adiciona 1 ponto aos jogadores da equipe vencedora da mão
+        defenirPontosSemTrucar(ultimovencedor);
+      }
+      if (empachou == 2) {
+        defenirPontosSemTrucar(jogadorVencedor);
+      }
+    }
+
+    if (definicaCartasBaralho.listaJogador[0].pontos == 12 || definicaCartasBaralho.listaJogador[1].pontos == 12) {
+      mensagemFinalDeJogo = ("Vitória de $jogadorUltimoVencedor!! Você é o verdadeiro mestre do truco! Vamos ver se você consegue manter o título?");
       definicaCartasBaralho.cartasNaMesa.clear();
-      iniciarJogo();
-      rodada = 0;
+      return;
+    } else if (vencedorRodada) {
+      definicaCartasBaralho.cartasNaMesa.clear();
+      listForcaCartas.clear();
+      //iniciarJogo();
+      rodada = 1;
       vencedorRodada = false;
     } else {
       rodada++;
       definicaCartasBaralho.cartasNaMesa.clear();
+      listForcaCartas.clear();
     }
   }
 
-  //   void definirManilha() {
-  //   CardModel cartaVirada = definicaCartasBaralho.cartaVirada;
-  //   cartasServise.ajustarForcaCartas(cartaVirada);
-  //   manilha = ; // Adiciona a carta de manilha à variável manilha da classe Game    
-  // }
+  void defenirPontosSemTrucar(int jogadorVencedor) {
+    // Adiciona 1 ponto aos jogadores da equipe vencedora da mão
+    for (PlayerModel jogador in definicaCartasBaralho.listaJogador) {
+      if (jogador.equipe == jogadorVencedor) {
+        jogador.pontos += 1;
+      }
+    }
+    // Define que houve um vencedor na rodada
+    defenirCampeao(jogadorVencedor);
+  }
+
+  void defenirPontosComTruco(int jogadorVencedor) {
+    for (PlayerModel jogador in definicaCartasBaralho.listaJogador) {
+      if (jogador.equipe == jogadorVencedor) {
+        jogador.pontos += valorTrucoAtual!;
+      }
+      // Reinicia o truco para a próxima rodada
+      valorTruco = 3;
+      trucoAceito = false;
+    }
+    // Define que houve um vencedor na rodada
+    defenirCampeao(jogadorVencedor);
+  }
 
   /// Define o campeão da rodada e reinicia as variáveis de truco e rodada.
-  /// 
+  ///
   /// @param jogadorVencedor O ID do jogador vencedor.
   void defenirCampeao(int jogadorVencedor) {
     vencedorRodada = true;
@@ -192,11 +209,31 @@ class Game {
     valorTrucoAtual = null;
     trucoAceito = false;
     trucoPedindo = false;
+    empachou = 0;
+    rodada = 1;
+    ultimovencedor = 0;
   }
 
+  /// Define a manilha para a rodada.
+  ///
+  /// @return A carta manilha.
+  CardModel definirManilha() {
+    var cartaVirada = definicaCartasBaralho.cartaVirada;
+    // ignore: unrelated_type_equality_checks
+    if(cartaVirada.value == 4){
+      cartaVirada.value = 3;
+      manilha = cartaVirada;
+      return manilha!;
+    }
+    else{
+       cartaVirada.value = cartaVirada.value + 1;  // Atribui o valor incrementado de volta ao atributo value
+    manilha = cartaVirada;
+    return manilha!;
+    }   
+  }
 
   /// Solicita truco e define o valor do truco.
-  /// 
+  ///
   /// @param jogador O jogador que está pedindo truco.
   /// @param valorTruco O valor do truco.
   /// @return true se o truco foi pedido com sucesso, caso contrário false.
@@ -215,19 +252,19 @@ class Game {
   }
 
   /// Aumenta o valor do truco.
-  /// 
+  ///
   /// @param jogador O jogador que está aumentando o truco.
   void aumentarTruco(PlayerModel jogador) {
     if (jogadorQueTrucou != null && valorTrucoAtual! < 12) {
       jogadorQueAumentouTruco = jogador;
-      valorTrucoAtual = valorTruco! * 2;
+      valorTrucoAtual = valorTruco! + 3;
       valorTruco = valorTrucoAtual;
       jogadorAtual = proximoJogador()!;
     }
   }
 
   /// Aceita o pedido de truco.
-  /// 
+  ///
   /// @param jogador O jogador que está aceitando o truco.
   void aceitarTruco(PlayerModel jogador) {
     if (jogadorQueTrucou != null) {
@@ -238,7 +275,7 @@ class Game {
   }
 
   /// Desiste do truco e redefine as variáveis de truco.
-  /// 
+  ///
   /// @param jogador O jogador que está desistindo do truco.
   void desistirTruco(PlayerModel jogador) {
     if (jogadorQueTrucou != null) {
@@ -249,12 +286,20 @@ class Game {
       valorTrucoAtual = null;
       trucoAceito = false;
       trucoPedindo = false;
-      jogadorAtual = proximoJogador()!;
+      if (jogadorAtual.id == 1) {
+        definicaCartasBaralho.listaJogador[1].pontos += 1;
+      } else {
+        definicaCartasBaralho.listaJogador[0].pontos += 1;
+      }
+      definicaCartasBaralho.cartasNaMesa.clear();
+      iniciarJogo();
+      rodada = 0;
+      vencedorRodada = false;
     }
   }
 
   /// Retorna o próximo jogador na lista.
-  /// 
+  ///
   /// @return O próximo jogador.
   PlayerModel? proximoJogador() {
     int indexAtual = definicaCartasBaralho.listaJogador.indexOf(jogadorAtual);
@@ -265,8 +310,56 @@ class Game {
     }
   }
 
-  /// Reinicia o jogo.
-  void jogarNovamente() {
+  /// Reinicia o jogo e todas as variáveis de estado.
+  void reset() {
+    definicaCartasBaralho.listaJogador[0].pontos = 0;
+    definicaCartasBaralho.listaJogador[1].pontos = 0;
+    jogadorUltimoVencedor = jogadorAtual;
+    jogadorQueTrucou = null;
+    jogadorQueAceitou = null;
+    jogadorQueAumentouTruco = null;
+    valorTruco = 3;
+    valorTrucoAtual = null;
+    trucoAceito = false;
+    trucoPedindo = false;
+    vencedorRodada = false;
+    equipe1 = 0;
+    equipe2 = 0;
+    empachou = 0;
+    ultimovencedor= 0;
+    listForcaCartas.clear();
+    definicaCartasBaralho.cartasNaMesa.clear();
     iniciarJogo();
+  }
+
+  /// Gerencia o empate na rodada.
+  void empache(
+      CardModel cartaJogada,
+      List<CartaNaMesa> cartasNaMesa,
+      int posicaoCarta,
+      List<CardModel> forcaCartas,
+      int primeiroJogador,
+      int segundoJogador,
+      int posicaoCartaPrimeiroJogador,
+      int posicaoCartaSegundoJogador
+  ) {
+    if (cartaJogada == manilha) {
+      for (int i = 0; i < cartasNaMesa.length; i++) {
+        CartaNaMesa cartaNaMesa = cartasNaMesa[i];
+        cartaJogada = cartaNaMesa.carta!;
+
+        posicaoCarta = forcaCartas.indexWhere(
+            (carta) => carta.value == cartaJogada.value && carta.naipe == cartaJogada.naipe
+        );
+
+        if (cartaNaMesa.jogador.id == primeiroJogador) {
+          posicaoCartaPrimeiroJogador = posicaoCarta;
+        } else if (cartaNaMesa.jogador.id == segundoJogador) {
+          posicaoCartaSegundoJogador = posicaoCarta;
+        }
+      }
+    } else {
+      empachou++;
+    }
   }
 }
