@@ -73,24 +73,24 @@ O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois 
 
 #### Descrição dos Arquivos e Diretórios
 - **enum:**
--Define um conjunto de valores nomeados.
+- Define um conjunto de valores nomeados.
 -**model:**
--Define as classes de dados.
+- Define as classes de dados.
 -**service:**
--Serviços para comunicação com WebSockets e a lógica do jogo.
+- Serviços para comunicação com WebSockets e a lógica do jogo.
 -**screens:**
--Contém as diferentes telas da aplicação.
+- Contém as diferentes telas da aplicação.
 -**screensService:**
--É responsável por conter serviços relacionados à lógica de funcionamento da tela (screens) da aplicação.
+- É responsável por conter serviços relacionados à lógica de funcionamento da tela (screens) da aplicação.
 
 ### Desenvolvimento
 
 #### Configuração do Ambiente de Desenvolvimento
--**Pré-requisitos:**
--Flutter SDK, Dart SDK
--**Clonando o Repositório:**
+**Pré-requisitos:**
+- Flutter SDK, Dart SDK
+**Clonando o Repositório:**
 https://github.com/AllanBoda/Truco-Papudo
--**Instalando Dependências:**
+**Instalando Dependências:**
 ```bash
 sh
 Copiar código
@@ -102,7 +102,7 @@ sh
 ```bash
 flutter run
 ```
--**Estrutura de Pastas**
+**Estrutura de Pastas**
 ```bash
 markdown
 Copiar código
@@ -115,16 +115,16 @@ Copiar código
 ```
   
 #### Convenções de Código
--**Estilo de Código:**
--Utilizar Dart Analysis para garantir boas práticas.
--**Commits:**
--Seguir o padrão de commits semânticos.
+**Estilo de Código:**
+- Utilizar Dart Analysis para garantir boas práticas.
+**Commits:**
+- Seguir o padrão de commits semânticos.
 
 #### Implantação
 #### Infraestrutura Necessária
 
 -**Servidores:**
--Servidor com suporte a WebSocket para comunicação em tempo real.
+Servidor com suporte a WebSocket para comunicação em tempo real.
 
 -**Processo de Deploy**
 -**Build do Aplicativo Flutter:**
@@ -134,32 +134,33 @@ Copiar código
 flutter build web
 ```
 #### Deploy no Servidor:
--Ainda não temos.
+Ainda não temos.
+
 #### Segurança
 #### Medidas de Segurança Adotadas
--**HTTPS:**
--Todo o tráfego será criptografado.
--**Autenticação:**
--Métodos simples, como logins de convidado, para simplificar a experiência do usuário.
+**HTTPS:**
+- Todo o tráfego será criptografado.
+**Autenticação:**
+- Métodos simples, como logins de convidado, para simplificar a experiência do usuário.
 
 #### Manutenção e Suporte
--**Plano de Manutenção**
--**Atualizações:**
--Lançamento de atualizações a cada mês.
--**Backups:**
--Realização de backups semanais do código fonte.
--**Procedimentos de Suporte**
--**Canal de Suporte:**
--E-mail, chat ao vivo.
--**Tempo de Resposta:**
--Dentro de 24 horas.
+**Plano de Manutenção**
+**Atualizações:**
+- Lançamento de atualizações a cada mês.
+**Backups:**
+- Realização de backups semanais do código fonte.
+**Procedimentos de Suporte**
+**Canal de Suporte:**
+- E-mail, chat ao vivo.
+**Tempo de Resposta:**
+- Dentro de 24 horas.
 
 #### Procedimentos de Deploy Detalhados
 #### Configuração do Servidor
 
--**Instalar um Servidor HTTP:**
+**Instalar um Servidor HTTP:**
 Utilize um servidor HTTP como Nginx para servir os arquivos estáticos do aplicativo web.
--**Exemplo de configuração básica do Nginx para servir arquivos estáticos:**
+**Exemplo de configuração básica do Nginx para servir arquivos estáticos:**
 ```bash
 nginx
 Copiar código
@@ -173,9 +174,9 @@ server {
     }
 }
 ```
--**Configurar Suporte a WebSocket no Servidor:**
--Para suportar comunicação em tempo real entre os clientes e o servidor, configure o Nginx para proxy pass ao servidor WebSocket.
--**Exemplo de configuração para WebSocket no Nginx:**
+**Configurar Suporte a WebSocket no Servidor:**
+- Para suportar comunicação em tempo real entre os clientes e o servidor, configure o Nginx para proxy pass ao servidor WebSocket.
+**Exemplo de configuração para WebSocket no Nginx:**
 ```bash
 nginx
 Copiar código
@@ -187,8 +188,8 @@ location /websocket/ {
     proxy_set_header Host $host;
 }
 ```
--**Build e Deploy**
--**Build do Aplicativo Flutter:**
+**Build e Deploy**
+**Build do Aplicativo Flutter:**
 **Execute o comando para gerar os arquivos de build do aplicativo web:**
 ```bash
 sh
@@ -196,7 +197,7 @@ Copiar código
 flutter build web
 ```
 Este comando compila e gera os arquivos estáticos do aplicativo na pasta build/web.
--**Deploy no Servidor:**
+**Deploy no Servidor:**
 **Transfira os arquivos de build gerados para o servidor utilizando SCP ou outro método de transferência seguro:**
 **Isso é apenas um exemplo**
 ```bash
@@ -205,10 +206,10 @@ Copiar código
 scp -r build/web/* user@server:/var/www/truco-online
 ```
 Isso copia todos os arquivos de build para o diretório de publicação no servidor.
--**Configuração de Domínio e SSL**
--**Configurar o Domínio para Apontar para o Servidor:**
+**Configuração de Domínio e SSL**
+**Configurar o Domínio para Apontar para o Servidor:**
 Configure os registros DNS do seu domínio para apontar para o endereço IP do servidor onde o aplicativo está hospedado.
--**Configurar HTTPS Utilizando Let's Encrypt ou Outro Serviço de SSL:**
+**Configurar HTTPS Utilizando Let's Encrypt ou Outro Serviço de SSL:**
 Utilize Let's Encrypt ou outro serviço para configurar certificados SSL gratuitos e garantir que o tráfego entre os usuários e o -servidor seja criptografado.
 **Exemplo de configuração básica do Nginx para HTTPS com Let's Encrypt:**
 ```bash
@@ -229,25 +230,25 @@ server {
 ```
 
 #### Monitoramento e Manutenção
--**Monitoramento:**
+**Monitoramento:**
 - Utilizar ferramentas como AWS CloudWatch ou Google Cloud Monitoring para monitorar a aplicação.
--**Manutenção:**
+**Manutenção:**
 - Agendar janelas de manutenção periódicas para atualizações e backups.
 
 #### Planejamento de Escalabilidade
--**Aumentar a Capacidade do Servidor Conforme a Base de Usuários Cresce**
+**Aumentar a Capacidade do Servidor Conforme a Base de Usuários Cresce**
 - À medida que o número de jogadores e partidas simultâneas aumenta, é crucial dimensionar a capacidade do servidor para lidar com a carga adicional. Isso pode ser alcançado através de:
--**Escalabilidade Vertical:**
--Upgrade dos recursos do servidor, como CPU e RAM, para suportar mais usuários e processamento de dados.
--**Escalabilidade Horizontal:**
+**Escalabilidade Vertical:**
+- Upgrade dos recursos do servidor, como CPU e RAM, para suportar mais usuários e processamento de dados.
+**Escalabilidade Horizontal:**
 Adição de mais instâncias de servidor conforme necessário, distribuindo a carga entre várias máquinas.
 É importante monitorar regularmente a utilização dos recursos do servidor e planejar antecipadamente para escalonar vertical ou horizontalmente conforme necessário.
 Utilizar Serviços de Balanceamento de Carga para Distribuir o Tráfego
 
--**Para garantir alta disponibilidade e distribuição eficiente do tráfego entre os servidores, podemos implementar:**
--**Balanceamento de Carga:**
+**Para garantir alta disponibilidade e distribuição eficiente do tráfego entre os servidores, podemos implementar:**
+**Balanceamento de Carga:**
 - Utilização de serviços como AWS Elastic Load Balancing ou NGINX para distribuir o tráfego entre múltiplas instâncias do servidor.
--**Algoritmos de Balanceamento:**
+**Algoritmos de Balanceamento:**
 - Configurar algoritmos como Round Robin ou Least Connections para distribuir as requisições de forma equitativa.
 Isso ajuda a prevenir sobrecargas em servidores individuais e melhora a capacidade de resposta da aplicação durante picos de tráfego.
 
