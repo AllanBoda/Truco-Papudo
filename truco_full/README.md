@@ -130,16 +130,16 @@ flutter build web
 
 #### Segurança
 #### Medidas de Segurança Adotadas
-**HTTPS:**
+- **HTTPS:**
 - Todo o tráfego será criptografado.
-**Autenticação:**
+- **Autenticação:**
 - Métodos simples, como logins de convidado, para simplificar a experiência do usuário.
 
 #### Manutenção e Suporte
 - **Plano de Manutenção**
 - **Atualizações:**
 - Lançamento de atualizações a cada mês.
-**Backups:**
+- **Backups:**
 - Realização de backups semanais do código fonte.
 - **Procedimentos de Suporte**
 - **Canal de Suporte:**
