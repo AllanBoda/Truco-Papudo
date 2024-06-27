@@ -126,7 +126,7 @@ Copiar código
 flutter build web
 ```
 #### Deploy no Servidor:
-Ainda não temos.
+- Ainda não temos.
 
 #### Segurança
 #### Medidas de Segurança Adotadas
