@@ -151,7 +151,7 @@ flutter build web
 #### Configuração do Servidor
 
 - **Instalar um Servidor HTTP:**
-Utilize um servidor HTTP como Nginx para servir os arquivos estáticos do aplicativo web.
+- Utilize um servidor HTTP como Nginx para servir os arquivos estáticos do aplicativo web.
 - **Exemplo de configuração básica do Nginx para servir arquivos estáticos:**
 ```bash
 nginx
@@ -166,9 +166,9 @@ server {
     }
 }
 ```
-**Configurar Suporte a WebSocket no Servidor:**
+- **Configurar Suporte a WebSocket no Servidor:**
 - Para suportar comunicação em tempo real entre os clientes e o servidor, configure o Nginx para proxy pass ao servidor WebSocket.
-**Exemplo de configuração para WebSocket no Nginx:**
+- **Exemplo de configuração para WebSocket no Nginx:**
 ```bash
 nginx
 Copiar código
@@ -189,9 +189,9 @@ Copiar código
 flutter build web
 ```
 - Este comando compila e gera os arquivos estáticos do aplicativo na pasta build/web.
-**Deploy no Servidor:**
-**Transfira os arquivos de build gerados para o servidor utilizando SCP ou outro método de transferência seguro:**
-**Isso é apenas um exemplo**
+- **Deploy no Servidor:**
+- **Transfira os arquivos de build gerados para o servidor utilizando SCP ou outro método de transferência seguro:**
+- **Isso é apenas um exemplo**
 ```bash
 sh
 Copiar código
@@ -200,10 +200,10 @@ scp -r build/web/* user@server:/var/www/truco-online
 - Isso copia todos os arquivos de build para o diretório de publicação no servidor.
 **Configuração de Domínio e SSL**
 **Configurar o Domínio para Apontar para o Servidor:**
-Configure os registros DNS do seu domínio para apontar para o endereço IP do servidor onde o aplicativo está hospedado.
+- Configure os registros DNS do seu domínio para apontar para o endereço IP do servidor onde o aplicativo está hospedado.
 **Configurar HTTPS Utilizando Let's Encrypt ou Outro Serviço de SSL:**
 - Utilize Let's Encrypt ou outro serviço para configurar certificados SSL gratuitos e garantir que o tráfego entre os usuários e  - servidor seja criptografado.
-**Exemplo de configuração básica do Nginx para HTTPS com Let's Encrypt:**
+- **Exemplo de configuração básica do Nginx para HTTPS com Let's Encrypt:**
 ```bash
 nginx
 Copiar código
