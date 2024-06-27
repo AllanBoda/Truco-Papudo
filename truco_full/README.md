@@ -72,24 +72,18 @@ O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois 
 ```
 
 #### Descrição dos Arquivos e Diretórios
-**enum:**
-- Define um conjunto de valores nomeados.
-**model:**
-- Define as classes de dados.
-**service:**
-- Serviços para comunicação com WebSockets e a lógica do jogo.
-**screens:**
-- Contém as diferentes telas da aplicação.
-**screensService:**
-- É responsável por conter serviços relacionados à lógica de funcionamento da tela (screens) da aplicação.
+- **enum:** Define um conjunto de valores nomeados.
+- **model:** Define as classes de dados.
+- **service:** Serviços para comunicação com WebSockets e a lógica do jogo.
+- **screens:** Contém as diferentes telas da aplicação.
+**screensService:** É responsável por conter serviços relacionados à lógica de funcionamento da tela (screens) da aplicação.
 
 ### Desenvolvimento
 
 #### Configuração do Ambiente de Desenvolvimento
-**Pré-requisitos:**
-- Flutter SDK, Dart SDK
-**Clonando o Repositório:**
-https://github.com/AllanBoda/Truco-Papudo
+**Pré-requisitos:** Flutter SDK, Dart SDK
+**Clonando o Repositório:** https://github.com/AllanBoda/Truco-Papudo
+
 **Instalando Dependências:**
 ```bash
 sh
@@ -98,7 +92,7 @@ flutter pub get
 4.	Rodando o Aplicativo:
 sh
 ```
--**Copiar código**
+- **Copiar código**
 ```bash
 flutter run
 ```
@@ -115,19 +109,16 @@ Copiar código
 ```
   
 #### Convenções de Código
-**Estilo de Código:**
-- Utilizar Dart Analysis para garantir boas práticas.
-**Commits:**
-- Seguir o padrão de commits semânticos.
+**Estilo de Código:** Utilizar Dart Analysis para garantir boas práticas.
+**Commits:** Seguir o padrão de commits semânticos.
 
 #### Implantação
 #### Infraestrutura Necessária
 
--**Servidores:**
-Servidor com suporte a WebSocket para comunicação em tempo real.
+-**Servidores:** Servidor com suporte a WebSocket para comunicação em tempo real.
 
--**Processo de Deploy**
--**Build do Aplicativo Flutter:**
+**Processo de Deploy**
+**Build do Aplicativo Flutter:**
 ```bash
 sh
 Copiar código
