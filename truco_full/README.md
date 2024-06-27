@@ -1,41 +1,54 @@
-# truco_full
+# Truco Papudo
 
-Documento Técnico do Projeto Truco Online
-1. Visão Geral
-Introdução ao Jogo de Truco
+## Documento Técnico do Projeto Truco Online
+
+### 1. Visão Geral
+
+#### Introdução ao Jogo de Truco
 O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois jogadores cada. O objetivo é acumular 12 pontos antes da equipe adversária. Este projeto visa desenvolver uma versão online do truco, utilizando a linguagem Dart e o framework Flutter, permitindo partidas em tempo real entre jogadores.
-Objetivos do Projeto
-•	Desenvolver uma versão online do truco.
-•	Permitir partidas em tempo real entre jogadores.
-•	Criar uma experiência de usuário fluida e intuitiva.
-Público-Alvo
-•	Entusiastas do truco.
-•	Jogadores casuais e competitivos.
-•	Usuários de plataformas web, mobile e desktop.
-2. Arquitetura do Sistema
-Estrutura do Diagrama
-•	Jogadores (Front-end):
-o	Representação de jogadores interagindo com a aplicação Flutter.
-•	Lógica do Jogo (Back-end):
-o	Implementação da lógica do jogo em Dart dentro da aplicação Flutter.
-•	Serviço de WebSocket:
-o	Gerenciamento da comunicação em tempo real entre os jogadores.
-(Nota: Inclua um diagrama de arquitetura visual representando os componentes e suas interações.)
-Componentes Principais
-Front-end e Back-end
-•	Tecnologia: Flutter com Dart
-•	Descrição: Interface do usuário e lógica do jogo integradas em uma única aplicação, rodando tanto no cliente quanto no servidor.
-Comunicação em Tempo Real
-•	Tecnologia: WebSocket
-•	Descrição: Para permitir a comunicação em tempo real entre os jogadores, utilizaremos WebSockets para troca de mensagens.
-3. Detalhes Técnicos
-Tecnologias Utilizadas
-•	Framework: Flutter
-•	Linguagem de Programação: Dart
-•	Comunicação em Tempo Real: WebSocket
-Estrutura do Código
-bash
-Copiar código
+
+#### Objetivos do Projeto
+- Desenvolver uma versão online do truco.
+- Permitir partidas em tempo real entre jogadores.
+- Criar uma experiência de usuário fluida e intuitiva.
+
+#### Público-Alvo
+- Entusiastas do truco.
+- Jogadores casuais e competitivos.
+- Usuários de plataformas web, mobile e desktop.
+
+### 2. Arquitetura do Sistema
+
+#### Estrutura do Diagrama
+- **Jogadores (Front-end)**:
+  - Representação de jogadores interagindo com a aplicação Flutter.
+- **Lógica do Jogo (Back-end)**:
+  - Implementação da lógica do jogo em Dart dentro da aplicação Flutter.
+- **Serviço de WebSocket**:
+  - Gerenciamento da comunicação em tempo real entre os jogadores.
+
+> **Nota**: Inclua um diagrama de arquitetura visual representando os componentes e suas interações.
+
+#### Componentes Principais
+
+- **Front-end e Back-end**
+  - **Tecnologia**: Flutter com Dart
+  - **Descrição**: Interface do usuário e lógica do jogo integradas em uma única aplicação, rodando tanto no cliente quanto no servidor.
+
+- **Comunicação em Tempo Real**
+  - **Tecnologia**: WebSocket
+  - **Descrição**: Para permitir a comunicação em tempo real entre os jogadores, utilizaremos WebSockets para troca de mensagens.
+
+### 3. Detalhes Técnicos
+
+#### Tecnologias Utilizadas
+- **Framework**: Flutter
+- **Linguagem de Programação**: Dart
+- **Comunicação em Tempo Real**: WebSocket
+
+#### Estrutura do Código
+
+```bash
 /lib
   /ENUN
     - playerPosition.dart
@@ -46,7 +59,7 @@ Copiar código
   /services
     - websocket_service.dart
     - cartasService.dart
-    - defenirCartasBaralho.dart
+    - definirCartasBaralho.dart
     - game.dart
   /screens
     - BoardPage.dart
@@ -57,6 +70,7 @@ Copiar código
     - PlayHard.dart
     - TrucoCard.dart
   main.dart
+
 Descrição dos Arquivos e Diretórios
 •	/enum: Define um conjunto de valores nomeados.
 •	/ model: Define as classes de dados.
