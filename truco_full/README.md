@@ -2,7 +2,7 @@
 
 ## Documento Técnico do Projeto Truco Online
 
-### 1. Visão Geral
+###  Visão Geral
 
 #### Introdução ao Jogo de Truco
 O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois jogadores cada. O objetivo é acumular 12 pontos antes da equipe adversária. Este projeto visa desenvolver uma versão online do truco, utilizando a linguagem Dart e o framework Flutter, permitindo partidas em tempo real entre jogadores.
@@ -17,7 +17,7 @@ O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois 
 - Jogadores casuais e competitivos.
 - Usuários de plataformas web, mobile e desktop.
 
-### 2. Arquitetura do Sistema
+### Arquitetura do Sistema
 
 #### Estrutura do Diagrama
 - **Jogadores (Front-end)**:
@@ -38,7 +38,7 @@ O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois 
   - **Tecnologia**: WebSocket
   - **Descrição**: Para permitir a comunicação em tempo real entre os jogadores, utilizaremos WebSockets para troca de mensagens.
 
-### 3. Detalhes Técnicos
+### Detalhes Técnicos
 
 #### Tecnologias Utilizadas
 - **Framework**: Flutter
