@@ -76,15 +76,15 @@ O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois 
 - **model:** Define as classes de dados.
 - **service:** Serviços para comunicação com WebSockets e a lógica do jogo.
 - **screens:** Contém as diferentes telas da aplicação.
-**screensService:** É responsável por conter serviços relacionados à lógica de funcionamento da tela (screens) da aplicação.
+- **screensService:** É responsável por conter serviços relacionados à lógica de funcionamento da tela (screens) da aplicação.
 
 ### Desenvolvimento
 
 #### Configuração do Ambiente de Desenvolvimento
-**Pré-requisitos:** Flutter SDK, Dart SDK
-**Clonando o Repositório:** https://github.com/AllanBoda/Truco-Papudo
+- **Pré-requisitos:** Flutter SDK, Dart SDK
+- **Clonando o Repositório:** https://github.com/AllanBoda/Truco-Papudo
 
-**Instalando Dependências:**
+- **Instalando Dependências:**
 ```bash
 sh
 Copiar código
@@ -96,7 +96,7 @@ sh
 ```bash
 flutter run
 ```
-**Estrutura de Pastas**
+- **Estrutura de Pastas**
 ```bash
 markdown
 Copiar código
@@ -109,16 +109,16 @@ Copiar código
 ```
   
 #### Convenções de Código
-**Estilo de Código:** Utilizar Dart Analysis para garantir boas práticas.
-**Commits:** Seguir o padrão de commits semânticos.
+- **Estilo de Código:** Utilizar Dart Analysis para garantir boas práticas.
+- **Commits:** Seguir o padrão de commits semânticos.
 
 #### Implantação
 #### Infraestrutura Necessária
 
--**Servidores:** Servidor com suporte a WebSocket para comunicação em tempo real.
+- **Servidores:** Servidor com suporte a WebSocket para comunicação em tempo real.
 
-**Processo de Deploy**
-**Build do Aplicativo Flutter:**
+- **Processo de Deploy**
+- **Build do Aplicativo Flutter:**
 ```bash
 sh
 Copiar código
@@ -135,23 +135,23 @@ Ainda não temos.
 - Métodos simples, como logins de convidado, para simplificar a experiência do usuário.
 
 #### Manutenção e Suporte
-**Plano de Manutenção**
-**Atualizações:**
+- **Plano de Manutenção**
+- **Atualizações:**
 - Lançamento de atualizações a cada mês.
 **Backups:**
 - Realização de backups semanais do código fonte.
-**Procedimentos de Suporte**
-**Canal de Suporte:**
+- **Procedimentos de Suporte**
+- **Canal de Suporte:**
 - E-mail, chat ao vivo.
-**Tempo de Resposta:**
+- **Tempo de Resposta:**
 - Dentro de 24 horas.
 
 #### Procedimentos de Deploy Detalhados
 #### Configuração do Servidor
 
-**Instalar um Servidor HTTP:**
+- **Instalar um Servidor HTTP:**
 Utilize um servidor HTTP como Nginx para servir os arquivos estáticos do aplicativo web.
-**Exemplo de configuração básica do Nginx para servir arquivos estáticos:**
+- **Exemplo de configuração básica do Nginx para servir arquivos estáticos:**
 ```bash
 nginx
 Copiar código
@@ -179,9 +179,9 @@ location /websocket/ {
     proxy_set_header Host $host;
 }
 ```
-**Build e Deploy**
-**Build do Aplicativo Flutter:**
-**Execute o comando para gerar os arquivos de build do aplicativo web:**
+- **Build e Deploy**
+- **Build do Aplicativo Flutter:**
+- **Execute o comando para gerar os arquivos de build do aplicativo web:**
 ```bash
 sh
 Copiar código
