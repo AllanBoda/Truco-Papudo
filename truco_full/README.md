@@ -114,14 +114,14 @@ Copiar código
   /screensService
 ```
   
-###Convenções de Código
+#### Convenções de Código
 -**Estilo de Código:**
 -Utilizar Dart Analysis para garantir boas práticas.
 -**Commits:**
 -Seguir o padrão de commits semânticos.
 
-###Implantação
-###Infraestrutura Necessária
+#### Implantação
+#### Infraestrutura Necessária
 
 -**Servidores:**
 -Servidor com suporte a WebSocket para comunicação em tempo real.
@@ -133,16 +133,16 @@ sh
 Copiar código
 flutter build web
 ```
-###Deploy no Servidor:
+#### Deploy no Servidor:
 -Ainda não temos.
-###Segurança
-###Medidas de Segurança Adotadas
+#### Segurança
+#### Medidas de Segurança Adotadas
 -**HTTPS:**
 -Todo o tráfego será criptografado.
 -**Autenticação:**
 -Métodos simples, como logins de convidado, para simplificar a experiência do usuário.
 
-###Manutenção e Suporte
+#### Manutenção e Suporte
 -**Plano de Manutenção**
 -**Atualizações:**
 -Lançamento de atualizações a cada mês.
@@ -154,11 +154,11 @@ flutter build web
 -**Tempo de Resposta:**
 -Dentro de 24 horas.
 
-###Procedimentos de Deploy Detalhados
-###Configuração do Servidor
+#### Procedimentos de Deploy Detalhados
+#### Configuração do Servidor
 
 -**Instalar um Servidor HTTP:**
--Utilize um servidor HTTP como Nginx para servir os arquivos estáticos do aplicativo web.
+Utilize um servidor HTTP como Nginx para servir os arquivos estáticos do aplicativo web.
 -**Exemplo de configuração básica do Nginx para servir arquivos estáticos:**
 ```bash
 nginx
@@ -189,28 +189,28 @@ location /websocket/ {
 ```
 -**Build e Deploy**
 -**Build do Aplicativo Flutter:**
--Execute o comando para gerar os arquivos de build do aplicativo web:
+**Execute o comando para gerar os arquivos de build do aplicativo web:**
 ```bash
 sh
 Copiar código
 flutter build web
 ```
--Este comando compila e gera os arquivos estáticos do aplicativo na pasta build/web.
+Este comando compila e gera os arquivos estáticos do aplicativo na pasta build/web.
 -**Deploy no Servidor:**
--Transfira os arquivos de build gerados para o servidor utilizando SCP ou outro método de transferência seguro:
-##Isso é apenas um exemplo
+**Transfira os arquivos de build gerados para o servidor utilizando SCP ou outro método de transferência seguro:**
+**Isso é apenas um exemplo**
 ```bash
 sh
 Copiar código
 scp -r build/web/* user@server:/var/www/truco-online
 ```
--Isso copia todos os arquivos de build para o diretório de publicação no servidor.
+Isso copia todos os arquivos de build para o diretório de publicação no servidor.
 -**Configuração de Domínio e SSL**
 -**Configurar o Domínio para Apontar para o Servidor:**
--Configure os registros DNS do seu domínio para apontar para o endereço IP do servidor onde o aplicativo está hospedado.
+Configure os registros DNS do seu domínio para apontar para o endereço IP do servidor onde o aplicativo está hospedado.
 -**Configurar HTTPS Utilizando Let's Encrypt ou Outro Serviço de SSL:**
--Utilize Let's Encrypt ou outro serviço para configurar certificados SSL gratuitos e garantir que o tráfego entre os usuários e o -servidor seja criptografado.
--Exemplo de configuração básica do Nginx para HTTPS com Let's Encrypt:
+Utilize Let's Encrypt ou outro serviço para configurar certificados SSL gratuitos e garantir que o tráfego entre os usuários e o -servidor seja criptografado.
+**Exemplo de configuração básica do Nginx para HTTPS com Let's Encrypt:**
 ```bash
 nginx
 Copiar código
@@ -228,16 +228,16 @@ server {
 }
 ```
 
-###Monitoramento e Manutenção
+#### Monitoramento e Manutenção
 -**Monitoramento:**
--Utilizar ferramentas como AWS CloudWatch ou Google Cloud Monitoring para monitorar a aplicação.
+- Utilizar ferramentas como AWS CloudWatch ou Google Cloud Monitoring para monitorar a aplicação.
 -**Manutenção:**
--Agendar janelas de manutenção periódicas para atualizações e backups.
+- Agendar janelas de manutenção periódicas para atualizações e backups.
 
-###Planejamento de Escalabilidade
+#### Planejamento de Escalabilidade
 -**Aumentar a Capacidade do Servidor Conforme a Base de Usuários Cresce**
--À medida que o número de jogadores e partidas simultâneas aumenta, é crucial dimensionar a capacidade do servidor para lidar com a carga adicional. Isso pode ser alcançado através de:
--**Escalabilidade Vertical: **
+- À medida que o número de jogadores e partidas simultâneas aumenta, é crucial dimensionar a capacidade do servidor para lidar com a carga adicional. Isso pode ser alcançado através de:
+-**Escalabilidade Vertical:**
 -Upgrade dos recursos do servidor, como CPU e RAM, para suportar mais usuários e processamento de dados.
 -**Escalabilidade Horizontal:**
 Adição de mais instâncias de servidor conforme necessário, distribuindo a carga entre várias máquinas.
@@ -246,9 +246,9 @@ Utilizar Serviços de Balanceamento de Carga para Distribuir o Tráfego
 
 -**Para garantir alta disponibilidade e distribuição eficiente do tráfego entre os servidores, podemos implementar:**
 -**Balanceamento de Carga:**
--Utilização de serviços como AWS Elastic Load Balancing ou NGINX para distribuir o tráfego entre múltiplas instâncias do servidor.
+- Utilização de serviços como AWS Elastic Load Balancing ou NGINX para distribuir o tráfego entre múltiplas instâncias do servidor.
 -**Algoritmos de Balanceamento:**
--Configurar algoritmos como Round Robin ou Least Connections para distribuir as requisições de forma equitativa.
+- Configurar algoritmos como Round Robin ou Least Connections para distribuir as requisições de forma equitativa.
 Isso ajuda a prevenir sobrecargas em servidores individuais e melhora a capacidade de resposta da aplicação durante picos de tráfego.
 
 -**Implementar Cache de Conteúdos Estáticos para Reduzir a Carga no Servidor
@@ -256,17 +256,17 @@ Para otimizar o desempenho e reduzir a carga nos servidores, podemos implementar
 -**Cache de Imagens e Recursos:**
 -Utilização de CDNs (Content Delivery Networks) para armazenar e servir imagens, arquivos de áudio e outros recursos estáticos próximos aos usuários, reduzindo a latência.
 -**Cache de Resultados de Consultas:**
--Utilização de memória cache (por exemplo, Redis) para armazenar resultados de consultas frequentes ao banco de dados, melhorando a velocidade de acesso e reduzindo a carga no banco de dados.
+- Utilização de memória cache (por exemplo, Redis) para armazenar resultados de consultas frequentes ao banco de dados, melhorando a velocidade de acesso e reduzindo a carga no banco de dados.
 Ao implementar essas estratégias, a aplicação fica mais eficiente em termos de desempenho e escalabilidade, proporcionando uma experiência de usuário mais rápida e estável, mesmo com um aumento significativo na base de usuários.
 
-###Exemplo Prático
+#### Exemplo Prático
 -**Sendo inicialmente o jogo suporta 1000 jogadores simultâneos. Conforme a base de usuários cresce e a demanda aumenta, podemos:**
 -**Escalonar Verticalmente:**
--Aumentar a capacidade do servidor principal dobrando a capacidade de processamento e memória.
+- Aumentar a capacidade do servidor principal dobrando a capacidade de processamento e memória.
 -**Escalonar Horizontalmente:**
--Implementar mais instâncias de servidor e configurar um balanceador de carga para distribuir uniformemente o tráfego entre essas instâncias.
+- Implementar mais instâncias de servidor e configurar um balanceador de carga para distribuir uniformemente o tráfego entre essas instâncias.
 -**Implementar Cache:**
--Utilizar um CDN para armazenar e servir imagens de cartas do jogo, reduzindo a carga no servidor principal e melhorando o tempo de resposta para os jogadores.
+- Utilizar um CDN para armazenar e servir imagens de cartas do jogo, reduzindo a carga no servidor principal e melhorando o tempo de resposta para os jogadores.
 
 Essas práticas garantem que o jogo de truco online seja robusto, escalável e capaz de lidar com um crescimento orgânico na base de usuários, mantendo uma experiência de jogo fluida e estável.
 
