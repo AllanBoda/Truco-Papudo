@@ -27,7 +27,6 @@ O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois 
 - **Serviço de WebSocket**:
   - Gerenciamento da comunicação em tempo real entre os jogadores.
 
-> **Nota**: Inclua um diagrama de arquitetura visual representando os componentes e suas interações.
 
 #### Componentes Principais
 
@@ -70,11 +69,13 @@ O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois 
     - PlayHard.dart
     - TrucoCard.dart
   main.dart
-
-Descrição dos Arquivos e Diretórios
-•	/enum: Define um conjunto de valores nomeados.
+```bash
+#### Descrição dos Arquivos e Diretórios
+- **/enum:**
+- Define um conjunto de valores nomeados.
 •	/ model: Define as classes de dados.
-•	/service: Serviços para comunicação com WebSockets e a lógica do jogo.
+- **/service:**
+- Serviços para comunicação com WebSockets e a lógica do jogo.
 •	/screens: Contém as diferentes telas da aplicação.
 •	/screensService: É responsável por conter serviços relacionados à lógica de funcionamento da tela (screens) da aplicação.
 4. Desenvolvimento
