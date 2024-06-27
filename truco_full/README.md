@@ -72,15 +72,15 @@ O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois 
 ```
 
 #### Descrição dos Arquivos e Diretórios
-- **enum:**
+**enum:**
 - Define um conjunto de valores nomeados.
--**model:**
+**model:**
 - Define as classes de dados.
--**service:**
+**service:**
 - Serviços para comunicação com WebSockets e a lógica do jogo.
--**screens:**
+**screens:**
 - Contém as diferentes telas da aplicação.
--**screensService:**
+**screensService:**
 - É responsável por conter serviços relacionados à lógica de funcionamento da tela (screens) da aplicação.
 
 ### Desenvolvimento
