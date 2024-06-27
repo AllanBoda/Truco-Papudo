@@ -258,7 +258,7 @@ Ao implementar essas estratégias, a aplicação fica mais eficiente em termos d
 - Aumentar a capacidade do servidor principal dobrando a capacidade de processamento e memória.
 -**Escalonar Horizontalmente:**
 - Implementar mais instâncias de servidor e configurar um balanceador de carga para distribuir uniformemente o tráfego entre essas instâncias.
--**Implementar Cache:**
+- **Implementar Cache:**
 - Utilizar um CDN para armazenar e servir imagens de cartas do jogo, reduzindo a carga no servidor principal e melhorando o tempo de resposta para os jogadores.
 
 Essas práticas garantem que o jogo de truco online seja robusto, escalável e capaz de lidar com um crescimento orgânico na base de usuários, mantendo uma experiência de jogo fluida e estável.
