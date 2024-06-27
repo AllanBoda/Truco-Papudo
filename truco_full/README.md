@@ -187,7 +187,7 @@ sh
 Copiar código
 flutter build web
 ```
-Este comando compila e gera os arquivos estáticos do aplicativo na pasta build/web.
+- Este comando compila e gera os arquivos estáticos do aplicativo na pasta build/web.
 **Deploy no Servidor:**
 **Transfira os arquivos de build gerados para o servidor utilizando SCP ou outro método de transferência seguro:**
 **Isso é apenas um exemplo**
@@ -196,12 +196,12 @@ sh
 Copiar código
 scp -r build/web/* user@server:/var/www/truco-online
 ```
-Isso copia todos os arquivos de build para o diretório de publicação no servidor.
+- Isso copia todos os arquivos de build para o diretório de publicação no servidor.
 **Configuração de Domínio e SSL**
 **Configurar o Domínio para Apontar para o Servidor:**
 Configure os registros DNS do seu domínio para apontar para o endereço IP do servidor onde o aplicativo está hospedado.
 **Configurar HTTPS Utilizando Let's Encrypt ou Outro Serviço de SSL:**
-Utilize Let's Encrypt ou outro serviço para configurar certificados SSL gratuitos e garantir que o tráfego entre os usuários e o -servidor seja criptografado.
+- Utilize Let's Encrypt ou outro serviço para configurar certificados SSL gratuitos e garantir que o tráfego entre os usuários e  - servidor seja criptografado.
 **Exemplo de configuração básica do Nginx para HTTPS com Let's Encrypt:**
 ```bash
 nginx
@@ -232,7 +232,7 @@ server {
 **Escalabilidade Vertical:**
 - Upgrade dos recursos do servidor, como CPU e RAM, para suportar mais usuários e processamento de dados.
 **Escalabilidade Horizontal:**
-Adição de mais instâncias de servidor conforme necessário, distribuindo a carga entre várias máquinas.
+- Adição de mais instâncias de servidor conforme necessário, distribuindo a carga entre várias máquinas.
 É importante monitorar regularmente a utilização dos recursos do servidor e planejar antecipadamente para escalonar vertical ou horizontalmente conforme necessário.
 Utilizar Serviços de Balanceamento de Carga para Distribuir o Tráfego
 
@@ -246,8 +246,8 @@ Isso ajuda a prevenir sobrecargas em servidores individuais e melhora a capacida
 -**Implementar Cache de Conteúdos Estáticos para Reduzir a Carga no Servidor
 Para otimizar o desempenho e reduzir a carga nos servidores, podemos implementar estratégias de caching para conteúdos estáticos, como:**
 -**Cache de Imagens e Recursos:**
--Utilização de CDNs (Content Delivery Networks) para armazenar e servir imagens, arquivos de áudio e outros recursos estáticos próximos aos usuários, reduzindo a latência.
--**Cache de Resultados de Consultas:**
+- Utilização de CDNs (Content Delivery Networks) para armazenar e servir imagens, arquivos de áudio e outros recursos estáticos próximos aos usuários, reduzindo a latência.
+- **Cache de Resultados de Consultas:**
 - Utilização de memória cache (por exemplo, Redis) para armazenar resultados de consultas frequentes ao banco de dados, melhorando a velocidade de acesso e reduzindo a carga no banco de dados.
 Ao implementar essas estratégias, a aplicação fica mais eficiente em termos de desempenho e escalabilidade, proporcionando uma experiência de usuário mais rápida e estável, mesmo com um aumento significativo na base de usuários.
 
