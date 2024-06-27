@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart'; // Importação do pacote Flutter Material
-import 'package:truco_full/Model/CardModel.dart'; // Importação do modelo CardModel
-import 'TrucoCard.dart'; // Importação do widget TrucoCard
+import 'package:truco_full/model/cardModel.dart'; // Importação do modelo CardModel
+import 'trucoCard.dart'; // Importação do widget TrucoCard
 
 /// Widget que representa a mão de cartas de um jogador.
 class PlayerHand extends StatefulWidget {
@@ -20,14 +20,14 @@ class PlayerHand extends StatefulWidget {
   /// [isCurrentPlayer] - Indica se este jogador é o jogador atual (padrão: false).
   /// [playerName] - Nome do jogador.
   const PlayerHand({
-    Key? key,
+    super.key,
     required this.hand,
     this.showHand = false,
     this.vertical = false,
     required this.onTapCard,
     this.isCurrentPlayer = false,
     required this.playerName,
-  }) : super(key: key);
+  });
 
   @override
   _PlayerHandState createState() => _PlayerHandState();

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:truco_full/Model/CardModel.dart'; // Importação do modelo de cartas
-import 'package:truco_full/Model/CartasNaMesa.dart'; // Importação do modelo de cartas na mesa
-import 'package:truco_full/Model/PlayerModel.dart'; // Importação do modelo de jogador
-import 'package:truco_full/screensService/TrucoCard.dart'; // Importação do serviço de cartas do Truco
-import '../screensService/PlayerHand.dart'; // Importação do serviço da mão do jogador
-import '../Service/game.dart'; // Importação do serviço de lógica do jogo
+import 'package:truco_full/model/cardModel.dart'; // Importação do modelo de cartas
+import 'package:truco_full/model/cartasNaMesa.dart'; // Importação do modelo de cartas na mesa
+import 'package:truco_full/model/playerModel.dart'; // Importação do modelo de jogador
+import 'package:truco_full/screensService/trucoCard.dart'; // Importação do serviço de cartas do Truco
+import '../screensService/playerHand.dart'; // Importação do serviço da mão do jogador
+import '../service/gameService.dart'; // Importação do serviço de lógica do jogo
 
 /// Página principal do tabuleiro do jogo Truco.
 class BoardPage extends StatefulWidget {
-  const BoardPage({Key? key}) : super(key: key);
+  const BoardPage({super.key});
 
   @override
   _BoardPageState createState() => _BoardPageState();
@@ -24,6 +24,11 @@ class _BoardPageState extends State<BoardPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (game.mensagemFinalDeJogo.isNotEmpty) {
+      _showWinnerDialog(game.mensagemFinalDeJogo);
+    }
+  });
     game.iniciarJogo(); // Inicializa o jogo ao criar a tela
 
   }
@@ -146,7 +151,7 @@ Container(
           child: Padding(
             padding: const EdgeInsets.only(left: 5.0),
             child: Text(
-              trucoCard.getSuitIcon(game.definicaCartasBaralho.cartaVirada.value), // Ícone do naipe da carta
+              trucoCard.getSuitIcon(game.definicaCartasBaralho.cartaVirada.naipe), // Ícone do naipe da carta
               style: const TextStyle(fontSize: 20), // Tamanho de fonte menor
             ),
           ),
@@ -167,10 +172,13 @@ Container(
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          game.trucar(game.jogadorAtual, game.valorTruco!);
+                          if(!cartaTocada){
+                             game.trucar(game.jogadorAtual, game.valorTruco!);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Jogador trucou com 3 pontos!')),
                           );
+                          }
+                         
                         });
                       },
                       child: const Text('Trucar'), // Texto do botão de trucar
@@ -191,7 +199,8 @@ Container(
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          if (game.jogadorQueAceitou != game.jogadorAtual) {
+                          if ( game.jogadorQueTrucou != null &&
+                           game.jogadorQueAceitou != game.jogadorAtual) {
                             game.aumentarTruco(game.jogadorAtual);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Jogador ${game.definicaCartasBaralho.listaJogador[0].nome} aumentou o truco para ${game.valorTruco} pontos!')),
@@ -204,7 +213,7 @@ Container(
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          if (game.jogadorQueAceitou != null) {
+                          if (game.jogadorQueTrucou != null) {
                             game.desistirTruco(game.jogadorAtual);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Jogador ${game.jogadorAtual} desistiu do truco')),
@@ -304,7 +313,8 @@ Container(
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          if (game.jogadorQueAceitou != game.jogadorAtual) {
+                           if ( game.jogadorQueTrucou != null &&
+                           game.jogadorQueAceitou != game.jogadorAtual) {
                             game.aumentarTruco(game.jogadorAtual);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Jogador ${game.definicaCartasBaralho.listaJogador[1].nome} aumentou o truco para ${game.valorTruco} pontos!')),
@@ -317,7 +327,7 @@ Container(
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          if (game.jogadorQueAceitou != null) {
+                          if (game.jogadorQueTrucou != null) {
                             game.desistirTruco(game.jogadorAtual);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Jogador 2 desistiu do truco')),
@@ -335,4 +345,37 @@ Container(
       ),
     );
   }
+ 
+void _showWinnerDialog(String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Parabéns!'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _resetGame();
+            },
+            child: const Text('Sim'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Não'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _resetGame() {
+  setState(() {
+    game.reset();
+  });
+}
 }

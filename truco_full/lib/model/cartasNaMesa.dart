@@ -1,5 +1,5 @@
-import 'package:truco_full/Model/CardModel.dart';
-import 'PlayerModel.dart';
+import 'package:truco_full/model/cardModel.dart';
+import 'playerModel.dart';
 
 /// A classe `CartaNaMesa` representa uma carta que foi jogada na mesa durante o jogo de truco.
 /// Mantém informações sobre a carta jogada, o jogador que a jogou e se um truco 

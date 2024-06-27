@@ -1,4 +1,4 @@
-import 'package:truco_full/Model/CardModel.dart';
+import 'package:truco_full/model/cardModel.dart';
 
 class CartasServise {
   List<int> valores = [3, 2, 1, 10, 11, 12, 7, 6, 5, 4];

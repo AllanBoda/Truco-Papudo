@@ -1,9 +1,9 @@
 import 'dart:math';
-import 'package:truco_full/ENUM/playerPosition.dart';
-import 'package:truco_full/Model/CardModel.dart';
-import 'package:truco_full/Model/CartasNaMesa.dart';
-import 'package:truco_full/Model/PlayerModel.dart';
-import 'package:truco_full/Service/cartasServise.dart';
+import 'package:truco_full/enum/playerPosition.dart';
+import 'package:truco_full/model/cardModel.dart';
+import 'package:truco_full/model/cartasNaMesa.dart';
+import 'package:truco_full/model/playerModel.dart';
+import 'package:truco_full/service/cartasServise.dart';
 
 /// A classe `DefinicaoCartasBaralho` gerencia o baralho, define as mãos dos 
 /// jogadores e a lista de jogadores para um jogo de truco.
@@ -103,7 +103,7 @@ class DefinicaoCartasBaralho {
   /// Remove uma carta da mão de cada jogador e retorna a nova mão.
   /// 
   /// @return Uma lista contendo as novas mãos dos jogadores.
-  List<List<CardModel>> CartasRemovidaMao() {
+  List<List<CardModel>> cartasRemovidaMao() {
     List<List<CardModel>> novaMaoJogador = [];
     for (int j = 0; j < 2; j++) {
       var cartaRemovida = maoJogador[j].removeLast();

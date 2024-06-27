@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart'; // Importação do pacote Flutter Material
-import 'package:truco_full/Model/CardModel.dart'; // Importação do modelo CardModel
+import 'package:truco_full/model/cardModel.dart'; // Importação do modelo CardModel
 
 /// Widget que representa uma carta de truco.
 class TrucoCard extends StatelessWidget {

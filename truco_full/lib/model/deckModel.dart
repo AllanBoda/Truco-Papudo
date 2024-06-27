@@ -1,6 +1,6 @@
 
-import 'package:truco_full/Model/CardModel.dart';
-import 'package:truco_full/Model/PlayerModel.dart';
+import 'package:truco_full/model/cardModel.dart';
+import 'package:truco_full/model/playerModel.dart';
 
 /// A classe `deckModel` representa uma estrutura que combina uma lista de cartas,
 /// uma carta específica e um jogador associado.

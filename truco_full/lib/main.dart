@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/BoardPage.dart'; // Importe o arquivo onde está a classe BoardPage
+import 'screens/boardPage.dart'; // Importe o arquivo onde está a classe BoardPage
 
 void main() {
   runApp(MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BoardPage(), // Defina BoardPage como a tela inicial do seu aplicativo
+      home: const BoardPage(), // Defina BoardPage como a tela inicial do seu aplicativo
     );
   }
 }

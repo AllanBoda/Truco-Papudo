@@ -1,8 +1,8 @@
-import 'package:truco_full/Model/CardModel.dart';
-import 'package:truco_full/Model/CartasNaMesa.dart';
-import 'package:truco_full/Model/PlayerModel.dart';
-import 'package:truco_full/Service/cartasServise.dart';
-import 'definicaoCartasBaralho.dart';
+import 'package:truco_full/model/cardModel.dart';
+import 'package:truco_full/model/cartasNaMesa.dart';
+import 'package:truco_full/model/playerModel.dart';
+import 'package:truco_full/service/cartasServise.dart';
+import 'definicaoCartasBaralhoService.dart';
 
 /// A classe `Game` gerencia a lógica do jogo de truco, incluindo o baralho,
 /// as rodadas, os jogadores e a pontuação.
@@ -20,7 +20,6 @@ class Game {
   bool trucoAceito = false;
   bool vencedorRodada = false;
   CardModel cartas = CardModel.vazio();
-  CardModel? manilha = CardModel.vazio();
   PlayerModel? jogadorUltimoVencedor;
   bool? trucoPedindo;
   List<CardModel> listForcaCartas = [];
@@ -57,7 +56,6 @@ class Game {
   void iniciarRodada() {
     jogadorAtual = proximoJogador()!;
     listForcaCartas = cartasServise.ajustarForcaCartas(definicaCartasBaralho.cartaVirada);
-    definirManilha();// definir manilha 
     definirGanhadorRodada(listForcaCartas, definicaCartasBaralho.cartasNaMesa, trucoAceito);
   }
 
@@ -84,10 +82,9 @@ class Game {
       segundoJogador = 1;
     }
 
-   
 
     // Criar uma nova lista com os primeiros 9 elementos de forcaCartas
-    List<CardModel> primeiraParteForcaCartas = forcaCartas.take(9).toList();
+    List<CardModel> primeiraParteForcaCartas = forcaCartas.take(10).toList();
 
     // Laço para determinar a posição das cartas jogadas por cada jogador
     for (int i = 0; i < cartasNaMesa.length; i++) {
@@ -156,10 +153,11 @@ class Game {
       mensagemFinalDeJogo = ("Vitória de $jogadorUltimoVencedor!! Você é o verdadeiro mestre do truco! Vamos ver se você consegue manter o título?");
       definicaCartasBaralho.cartasNaMesa.clear();
       return;
-    } else if (vencedorRodada) {
+    }
+    if (vencedorRodada) {
       definicaCartasBaralho.cartasNaMesa.clear();
       listForcaCartas.clear();
-      //iniciarJogo();
+      iniciarJogo();
       rodada = 1;
       vencedorRodada = false;
     } else {
@@ -214,24 +212,7 @@ class Game {
     ultimovencedor = 0;
   }
 
-  /// Define a manilha para a rodada.
-  ///
-  /// @return A carta manilha.
-  CardModel definirManilha() {
-    var cartaVirada = definicaCartasBaralho.cartaVirada;
-    // ignore: unrelated_type_equality_checks
-    if(cartaVirada.value == 4){
-      cartaVirada.value = 3;
-      manilha = cartaVirada;
-      return manilha!;
-    }
-    else{
-       cartaVirada.value = cartaVirada.value + 1;  // Atribui o valor incrementado de volta ao atributo value
-    manilha = cartaVirada;
-    return manilha!;
-    }   
-  }
-
+  
   /// Solicita truco e define o valor do truco.
   ///
   /// @param jogador O jogador que está pedindo truco.
@@ -332,6 +313,7 @@ class Game {
     iniciarJogo();
   }
 
+  
   /// Gerencia o empate na rodada.
   void empache(
       CardModel cartaJogada,
@@ -343,6 +325,7 @@ class Game {
       int posicaoCartaPrimeiroJogador,
       int posicaoCartaSegundoJogador
   ) {
+   var manilha = forcaCartas.first;    
     if (cartaJogada == manilha) {
       for (int i = 0; i < cartasNaMesa.length; i++) {
         CartaNaMesa cartaNaMesa = cartasNaMesa[i];

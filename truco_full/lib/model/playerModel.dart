@@ -1,5 +1,5 @@
-import 'package:truco_full/ENUM/playerPosition.dart'; // Importação da enumeração PlayerPosition
-import 'package:truco_full/Model/CardModel.dart'; // Importação do modelo CardModel
+import 'package:truco_full/enum/playerPosition.dart'; // Importação da enumeração PlayerPosition
+import 'package:truco_full/model/cardModel.dart'; // Importação do modelo CardModel
 
 /// Classe que representa um jogador no jogo de truco.
 class PlayerModel {
@@ -7,7 +7,7 @@ class PlayerModel {
   late int id; // Identificador único do jogador
   late int equipe; // Equipe à qual o jogador pertence
   late List<CardModel> maoJogador = []; // Lista de cartas na mão do jogador
-  late int pontos; // Pontuação atual do jogador
+  int pontos = 0; // Pontuação atual do jogador
   late PlayerPosition position; // Posição do jogador (ENUM PlayerPosition)
 
   /// Construtor vazio de PlayerModel.
@@ -43,7 +43,7 @@ class PlayerModel {
   }
 
   /// Método para retornar o nome do jogador.
-  String SetNome() {
+  String setNome() {
     return nome;
   }
 }
