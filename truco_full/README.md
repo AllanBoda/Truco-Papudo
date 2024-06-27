@@ -89,9 +89,10 @@ O truco é um jogo de cartas popular no Brasil, jogado por duas equipes de dois 
 sh
 Copiar código
 flutter pub get
-4.	Rodando o Aplicativo:
-sh
 ```
+**Rodando o Aplicativo:
+```bash
+sh
 - **Copiar código**
 ```bash
 flutter run
