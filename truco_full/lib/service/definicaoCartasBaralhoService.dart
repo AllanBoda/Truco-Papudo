@@ -36,12 +36,12 @@ class DefinicaoCartasBaralho {
 
   /// Prepara o baralho com as cartas necessárias para o jogo e embaralha as cartas.
   void definirCartasBaralho() {
-    for (int naipe = 1; naipe < 4; naipe++) {
+    for (int naipe = 1; naipe <= 4; naipe++) {
       for (int valor = 1; valor <= 7; valor++) {
         cartasNoBaralho.add(CardModel.cards(value: valor, naipe: naipe));
       }
     }
-    for (int naipe = 1; naipe < 4; naipe++) {
+    for (int naipe = 1; naipe <= 4; naipe++) {
       for (int valor = 10; valor <= 12; valor++) {
         cartasNoBaralho.add(CardModel.cards(value: valor, naipe: naipe));
       }

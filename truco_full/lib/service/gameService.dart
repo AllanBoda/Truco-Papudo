@@ -98,11 +98,10 @@ class Game {
       } else if (cartaNaMesa.jogador.id == segundoJogador) {
         posicaoCartaSegundoJogador = posicaoCarta;
       }
+    }
 
-      // Empache
-      if (posicaoCartaPrimeiroJogador == posicaoCartaSegundoJogador) {
-        empache(cartaJogada, cartasNaMesa, posicaoCarta, forcaCartas, primeiroJogador, segundoJogador, posicaoCartaPrimeiroJogador, posicaoCartaSegundoJogador);
-      }
+    if (posicaoCartaPrimeiroJogador == posicaoCartaSegundoJogador) {
+      empachou++;
     }
 
     if (posicaoCartaPrimeiroJogador < posicaoCartaSegundoJogador) {
@@ -311,38 +310,5 @@ class Game {
     listForcaCartas.clear();
     definicaCartasBaralho.cartasNaMesa.clear();
     iniciarJogo();
-  }
-
-  
-  /// Gerencia o empate na rodada.
-  void empache(
-      CardModel cartaJogada,
-      List<CartaNaMesa> cartasNaMesa,
-      int posicaoCarta,
-      List<CardModel> forcaCartas,
-      int primeiroJogador,
-      int segundoJogador,
-      int posicaoCartaPrimeiroJogador,
-      int posicaoCartaSegundoJogador
-  ) {
-   var manilha = forcaCartas.first;    
-    if (cartaJogada == manilha) {
-      for (int i = 0; i < cartasNaMesa.length; i++) {
-        CartaNaMesa cartaNaMesa = cartasNaMesa[i];
-        cartaJogada = cartaNaMesa.carta!;
-
-        posicaoCarta = forcaCartas.indexWhere(
-            (carta) => carta.value == cartaJogada.value && carta.naipe == cartaJogada.naipe
-        );
-
-        if (cartaNaMesa.jogador.id == primeiroJogador) {
-          posicaoCartaPrimeiroJogador = posicaoCarta;
-        } else if (cartaNaMesa.jogador.id == segundoJogador) {
-          posicaoCartaSegundoJogador = posicaoCarta;
-        }
-      }
-    } else {
-      empachou++;
-    }
   }
 }
