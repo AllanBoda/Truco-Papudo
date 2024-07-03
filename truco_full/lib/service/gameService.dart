@@ -12,6 +12,7 @@ class Game {
   PlayerModel? jogadorQueTrucou;
   PlayerModel? jogadorQueAceitou;
   PlayerModel? jogadorQueAumentouTruco;
+  PlayerModel? jogadorQueDesistiu;
   int? valorTruco = 3;
   int? valorTrucoAtual = 3;
   int equipe1 = 0;
@@ -225,10 +226,8 @@ class Game {
       trucoPedindo = true;
       jogadorAtual = proximoJogador()!;
       return true;
-    } else {
-      print("Já há uma negociação de truco em andamento!");
-      return false;
     }
+    return false;
   }
 
   /// Aumenta o valor do truco.
@@ -259,6 +258,7 @@ class Game {
   /// @param jogador O jogador que está desistindo do truco.
   void desistirTruco(PlayerModel jogador) {
     if (jogadorQueTrucou != null) {
+      jogadorQueDesistiu = jogador;
       jogadorQueTrucou = null;
       jogadorQueAceitou = null;
       jogadorQueAumentouTruco = null;
@@ -272,9 +272,10 @@ class Game {
         definicaCartasBaralho.listaJogador[0].pontos += 1;
       }
       definicaCartasBaralho.cartasNaMesa.clear();
-      iniciarJogo();
       rodada = 0;
       vencedorRodada = false;
+      iniciarJogo();
+      
     }
   }
 

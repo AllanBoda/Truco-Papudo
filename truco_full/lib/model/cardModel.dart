@@ -4,6 +4,7 @@ class CardModel {
   late int value;
   late int naipe;
   late String faceUrl;
+  late int cardOwner;
 
   /// Construtor padrão da classe `CardModel`.
   CardModel({
@@ -11,6 +12,7 @@ class CardModel {
     required this.value,
     required this.naipe,
     required this.faceUrl,
+    required this.cardOwner,
   });
 
   /// Construtor alternativo para a classe `CardModel`, que inicializa uma carta com valor e naipe, 
@@ -21,9 +23,10 @@ class CardModel {
   })  : faceUrl = "",
         faceValue = "";
 
+
   /// Construtor vazio para a classe `CardModel`, utilizado para 
   /// inicializar uma carta sem valores definidos.
-  CardModel.vazio() : value = 0, naipe = 0, faceUrl = "", faceValue = "";
+  CardModel.vazio() : value = 0, naipe = 0, faceUrl = "", faceValue = "", cardOwner = 0;
 
   /// Método para retornar uma string representativa da instância
   @override

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart'; // Importação do pacote Flutter Material
-import 'package:truco_full/model/cardModel.dart'; // Importação do modelo CardModel
-import 'package:truco_full/model/cartasNaMesa.dart'; // Importação do modelo CartasNaMesa
 import 'package:truco_full/model/playerModel.dart'; // Importação do modelo PlayerModel
 import '../service/gameService.dart'; // Importação do serviço Game
 
@@ -97,31 +95,5 @@ class GameLogic {
     }
   }
 
-  /// Converte a lista de cartas na mesa para uma lista de modelos de cartas exibíveis.
-  ///
-  /// [cartasNaMesa] - Lista de objetos CartaNaMesa.
-  List<CardModel> converterCartasNaMesaParaString(List<CartaNaMesa> cartasNaMesa) {
-    return cartasNaMesa.map((cartaNaMesa) {
-      return CardModel(
-        faceValue: '${cartaNaMesa.carta?.value} de ${cartaNaMesa.carta?.naipe}',
-        value: cartaNaMesa.carta?.value ?? 0,
-        naipe: cartaNaMesa.carta?.naipe ?? 0,
-        faceUrl: ""
-      );
-    }).toList();
-  }
-
-  /// Converte a lista de cartas do jogador para uma lista de modelos de cartas exibíveis.
-  ///
-  /// [cartas] - Lista de objetos CardModel.
-  List<CardModel> converterCartasParaString(List<CardModel> cartas) {
-    return cartas.map((carta) {
-      return CardModel(
-        faceValue: '${carta.value} de ${carta.naipe}',
-        value: carta.value,
-        naipe: carta.naipe,
-        faceUrl: ""
-      );
-    }).toList();
-  }
+ 
 }

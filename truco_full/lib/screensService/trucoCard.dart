@@ -1,56 +1,57 @@
-import 'package:flutter/material.dart'; // Importação do pacote Flutter Material
-import 'package:truco_full/model/cardModel.dart'; // Importação do modelo CardModel
+import 'package:flutter/material.dart';
+import 'package:truco_full/model/cardModel.dart';
 
 /// Widget que representa uma carta de truco.
 class TrucoCard extends StatelessWidget {
   final CardModel cardModel; // Modelo de dados da carta
-  final bool showFace; // Flag para mostrar a face da carta
+  final bool isPlayerTurn; // Flag para indicar se é a vez do jogador
+
 
   /// Construtor de TrucoCard.
   ///
   /// [cardModel] - O modelo de dados da carta.
-  /// [showFace] - Opcional. Define se a face da carta deve ser mostrada (padrão: false).
+  /// [isPlayerTurn] - Define se é a vez do jogador atual.
   const TrucoCard({
     super.key,
     required this.cardModel,
-    this.showFace = false,
+    required this.isPlayerTurn,
   });
 
-   /// Construtor vazio de TrucoCard para representar um estado sem carta.
-  TrucoCard.vazio()
+  /// Construtor vazio de TrucoCard para representar um estado sem carta.
+  TrucoCard.vazio({super.key})
       : cardModel = CardModel.vazio(), // Cria um CardModel vazio
-        showFace = false; // Mostra a face da carta como false
+        isPlayerTurn = false; // Não é a vez de nenhum jogador
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 50, // Largura menor para as cartas
-      height: 70, // Altura menor para as cartas
-      margin: const EdgeInsets.all(5), // Margem ao redor do contêiner
-      decoration: BoxDecoration(
-        color: Colors.white, // Cor de fundo branca
-        borderRadius: BorderRadius.circular(10), // Borda arredondada
-      ),
-      child: Center(
-        child: showFace
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    cardModel.value.toString(), // Valor da carta convertido para string
-                    style: const TextStyle(fontSize: 14), // Tamanho de fonte menor
-                  ),
-                  const SizedBox(height: 3), // Espaçamento menor entre o valor e o naipe
-                  Text(
-                    getSuitIcon(cardModel.naipe), // Ícone do naipe da carta
-                    style: const TextStyle(fontSize: 14), // Tamanho de fonte menor
-                  ),
-                ],
-              )
-            : null, // Se showFace for falso, não mostra nada no centro
-      ),
-    );
-  }
+Widget build(BuildContext context) {
+  return Container(
+    width: 50, // Largura menor para as cartas
+    height: 70, // Altura menor para as cartas
+    margin: const EdgeInsets.all(5), // Margem ao redor do contêiner
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10), // Borda arredondada
+      color: !isPlayerTurn ? Colors.greenAccent : Colors.white, // Cor de fundo cinza se não for a vez do jogador, branca se for
+    ),
+    child: Center(
+      child: isPlayerTurn
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  cardModel.value.toString(), // Valor da carta convertido para string
+                  style: const TextStyle(fontSize: 14), // Tamanho de fonte menor
+                ),
+                const SizedBox(height: 3), // Espaçamento menor entre o valor e o naipe
+                Text(
+                  getSuitIcon(cardModel.naipe), // Ícone do naipe da carta
+                  style: const TextStyle(fontSize: 14), // Tamanho de fonte menor
+                ),
+              ],
+            )
+          : null, // Se não for a vez do jogador, mantém o container vazio
+    ),
+  );
+}
 
   /// Método privado para obter o ícone do naipe da carta.
   ///

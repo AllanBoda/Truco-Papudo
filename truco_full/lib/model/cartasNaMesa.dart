@@ -14,7 +14,12 @@ class CartaNaMesa {
   /// @param carta A carta que foi jogada na mesa.
   /// @param jogador O jogador que jogou a carta.
   /// @param trucoPediu Indica se o jogador pediu truco durante esta jogada (default: false).
-  CartaNaMesa(this.carta, this.jogador, {this.trucoPediu = false});
+  CartaNaMesa(this.carta, this.jogador, {this.trucoPediu = false}) {
+    // Garante que a propriedade cardOwner de CardModel seja definida corretamente
+    if (carta != null) {
+      carta!.cardOwner = jogador.id;
+    }
+  }
 
   /// Sobrescrita do método `toString()` para formatar a representação textual da carta na mesa.
   /// 

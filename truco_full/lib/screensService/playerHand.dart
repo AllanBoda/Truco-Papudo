@@ -90,20 +90,24 @@ class _PlayerHandState extends State<PlayerHand> {
     }).toList();
   }
 
-  // Método para construir o widget de uma carta
-  Widget _buildCard(CardModel card, int index) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300), // Animação para o container da carta
-      margin: (index < _tappedIndices.length && _tappedIndices[index])
-          ? const EdgeInsets.only(left: 5.0) // Margem se a carta foi tocada
-          : const EdgeInsets.symmetric(vertical: 0, horizontal: 0), // Sem margem se a carta não foi tocada
-      decoration: BoxDecoration(
-        border: widget.isCurrentPlayer
-            ? Border.all(color: Colors.deepOrange, width: 3.0) // Borda laranja se for o jogador atual
-            : Border.all(color: Colors.transparent, width: 3.0), // Borda transparente se não for o jogador atual
-        borderRadius: BorderRadius.circular(8.0), // Borda arredondada
-      ),
-      child: TrucoCard(cardModel: card, showFace: widget.showHand), // Widget da carta
-    );
-  }
+ // Método para construir o widget de uma carta
+Widget _buildCard(CardModel card, int index) {
+  return AnimatedContainer(
+    duration: const Duration(milliseconds: 300), // Animação para o container da carta
+    margin: (index < _tappedIndices.length && _tappedIndices[index])
+        ? const EdgeInsets.only(left: 5.0) // Margem se a carta foi tocada
+        : const EdgeInsets.symmetric(vertical: 0, horizontal: 0), // Sem margem se a carta não foi tocada
+    decoration: BoxDecoration(
+      border: widget.isCurrentPlayer
+          ? Border.all(color: Colors.deepOrange, width: 3.0) // Borda laranja se for o jogador atual
+          : Border.all(color: Colors.transparent, width: 3.0), // Borda transparente se não for o jogador atual
+      borderRadius: BorderRadius.circular(8.0), // Borda arredondada
+    ),
+    child: TrucoCard(
+      cardModel: card,
+      isPlayerTurn: widget.isCurrentPlayer, // Passa a flag isPlayerTurn
+    ), // Widget da carta
+  );
+}
+
 }

@@ -30,7 +30,7 @@ class _BoardPageState extends State<BoardPage> {
     }
   });
     game.iniciarJogo(); // Inicializa o jogo ao criar a tela
-
+     
   }
 
   // Função para jogar uma carta ao tocar em uma carta na mão do jogador
@@ -43,7 +43,6 @@ class _BoardPageState extends State<BoardPage> {
 
         // Define o próximo jogador
         game.jogadorAtual = game.proximoJogador()!;
-
         // Verifica se todos os jogadores já jogaram
         if (jogadoresQueJogaram == 2) {
           game.iniciarRodada();
@@ -94,72 +93,82 @@ class _BoardPageState extends State<BoardPage> {
     );
   }
 
-  // Converte a lista de cartas do jogador para uma lista de modelos de cartas exibíveis
-  List<CardModel> converterCartasParaString(List<CardModel> cartas) {
-    return cartas.map((carta) {
-      return CardModel(
-        faceValue: '${carta.value} de ${carta.naipe}',
-        value: carta.value,
-        naipe: carta.naipe,
-        faceUrl: "", // URL da face da carta (vazio neste exemplo)
-      );
-    }).toList();
-  }
+ // Converte a lista de cartas do jogador para uma lista de modelos de cartas exibíveis
+List<CardModel> converterCartasParaString(List<CardModel> cartas, int cardOwner) {
+  return cartas.map((carta) {
+    return CardModel(
+      faceValue: '${carta.value} de ${carta.naipe}',
+      value: carta.value,
+      naipe: carta.naipe,
+      cardOwner: cardOwner, // Define o dono da carta
+      faceUrl: ""
+    );
+  }).toList();
+}
 
-  // Converte a lista de cartas na mesa para uma lista de modelos de cartas exibíveis
-  List<CardModel> converterCartasNaMesaParaString(List<CartaNaMesa> cartasNaMesa) {
-    return cartasNaMesa.map((cartaNaMesa) {
-      return CardModel(
-        faceValue: '${cartaNaMesa.carta?.value} de ${cartaNaMesa.carta?.naipe}',
-        value: cartaNaMesa.carta?.value ?? 0,
-        naipe: cartaNaMesa.carta?.naipe ?? 0,
-        faceUrl: "", // URL da face da carta (vazio neste exemplo)
-      );
-    }).toList();
-  }
+// Converte a lista de cartas na mesa para uma lista de modelos de cartas exibíveis
+List<CardModel> converterCartasNaMesaParaString(List<CartaNaMesa> cartasNaMesa) {
+  return cartasNaMesa.map((cartaNaMesa) {
+    if (cartaNaMesa.carta == null) {
+      return CardModel.vazio();
+    }
+    // Certifica-se de que a propriedade cardOwner de CardModel está correta
+    cartaNaMesa.carta!.cardOwner = cartaNaMesa.jogador.id;
+    return cartaNaMesa.carta!;
+  }).toList();
+}
 
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(), // Barra de aplicativo personalizada
-      backgroundColor: Colors.green, // Cor de fundo do corpo da página
-      body: SafeArea(
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: _buildAppBar(), // Barra de aplicativo personalizada
+    backgroundColor: Colors.transparent, // Cor de fundo do corpo da página (transparente para usar a imagem de fundo)
+    body: Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/imagens/mesa.jpeg'), // Substitua pelo caminho correto da sua imagem de fundo
+          fit: BoxFit.cover, // Ajusta a imagem ao tamanho do container
+        ),
+      ),
+      child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-           // Exibe a manilha na tela
-Container(
-  decoration: BoxDecoration(
-    border: Border.all(
-      color: Colors.white, // Cor da borda
-      width: 1.0,          // Largura da borda em pixels
-    ),
-    borderRadius: BorderRadius.circular(8.0), // Opcional: borda arredondada
-  ),
-  child: RichText(
-    text: TextSpan(
-      style: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 2, 37, 20)),
-      children: [
-        const TextSpan(text: 'Carta Virada: '),
-        TextSpan(
-          text: game.definicaCartasBaralho.cartaVirada.value.toString(),
-          style: const TextStyle(fontWeight: FontWeight.bold), // Estilo para o valor da manilha
-        ),
-        WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 5.0),
-            child: Text(
-              trucoCard.getSuitIcon(game.definicaCartasBaralho.cartaVirada.naipe), // Ícone do naipe da carta
-              style: const TextStyle(fontSize: 20), // Tamanho de fonte menor
+            // Exibe a manilha na tela
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.white, // Cor da borda
+                  width: 1.0,          // Largura da borda em pixels
+                ),
+                borderRadius: BorderRadius.circular(8.0), // Opcional: borda arredondada
+              ),
+              child: RichText(
+                text: TextSpan(
+
+                  style: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 233, 235, 234)),
+                  children: [
+                    const TextSpan(text: 'Carta Virada: '),
+                    TextSpan(
+                      text: game.definicaCartasBaralho.cartaVirada.value.toString(),
+                      style: const TextStyle(fontWeight: FontWeight.bold), // Estilo para o valor da manilha
+                    ),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: Text(
+                          trucoCard.getSuitIcon(game.definicaCartasBaralho.cartaVirada.naipe), // Ícone do naipe da carta
+                          style: const TextStyle(fontSize: 20), // Tamanho de fonte menor
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
-    ),
-  ),
-),
+        
 
             // Botões de truco para o jogador 1 (se ainda estiver na rodada)
             if (game.rodada <= 3 &&
@@ -169,20 +178,21 @@ Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    if(game.jogadorQueAceitou == null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          if(!cartaTocada){
                              game.trucar(game.jogadorAtual, game.valorTruco!);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Jogador trucou com 3 pontos!')),
                           );
-                          }
                          
                         });
                       },
                       child: const Text('Trucar'), // Texto do botão de trucar
                     ),
+                    // Condicional para mostrar os demais botões após trucar
+                    if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -196,6 +206,7 @@ Container(
                       },
                       child: const Text('Aceitar Truco'), // Texto do botão de aceitar truco
                     ),
+                   if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -210,6 +221,7 @@ Container(
                       },
                       child: const Text('Aumentar Truco'), // Texto do botão de aumentar truco
                     ),
+                   if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -231,27 +243,29 @@ Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Mão do jogador 1 (Jessica - Topo)
-                  PlayerHand(
-                    hand: converterCartasParaString(
-                        game.definicaCartasBaralho.listaJogador.first.maoJogador), // Converte as cartas do jogador 1 em modelos exibíveis
-                    showHand: true,
-                    onTapCard: (index) {
-                      cartaTocada = true; // Define a flag
-                      cartaTocada = true; // Define a flag de toque na carta
-                      _jogarCarta(index, game.definicaCartasBaralho.listaJogador.first);
-                    },
-                    isCurrentPlayer: game.definicaCartasBaralho.listaJogador.first == game.jogadorAtual, // Verifica se é a vez do jogador 1
-                    playerName: game.definicaCartasBaralho.listaJogador.first.nome, // Nome do jogador 1
-                  ),
+              // Mão do jogador 1 (Jessica - Topo)
+              PlayerHand(
+                hand: converterCartasParaString(
+                  game.definicaCartasBaralho.listaJogador.first.maoJogador,
+                  game.definicaCartasBaralho.listaJogador.first.id// Passa o ID do jogador como cardOwner
+                ), // Converte as cartas do jogador 1 em modelos exibíveis
+                showHand: true,
+                onTapCard: (index) {
+                  cartaTocada = true; // Define a flag de toque na carta
+                  _jogarCarta(index, game.definicaCartasBaralho.listaJogador.first);
+                },
+                isCurrentPlayer: game.definicaCartasBaralho.listaJogador.first == game.jogadorAtual, // Verifica se é a vez do jogador 1
+                playerName: game.definicaCartasBaralho.listaJogador.first.nome, // Nome do jogador 1
+              ),
 
-                  // Exibe as cartas na mesa
+                // Exibe as cartas na mesa
                   Wrap(
                     alignment: WrapAlignment.center,
                     children: converterCartasNaMesaParaString(game.definicaCartasBaralho.cartasNaMesa).map((cardModel) {
                       return TrucoCard(
                         cardModel: cardModel,
-                        showFace: true, // Mostra a face da carta
+                        isPlayerTurn: true, // Mostra a face da carta se for a vez do dono da carta
+                        
                       );
                     }).toList(),
                   ),
@@ -264,7 +278,8 @@ Container(
                     alignment: Alignment.bottomCenter,
                     child: PlayerHand(
                       hand: converterCartasParaString(
-                          game.definicaCartasBaralho.listaJogador[1].maoJogador), // Converte as cartas do jogador 2 em modelos exibíveis
+                          game.definicaCartasBaralho.listaJogador[1].maoJogador,
+                           game.definicaCartasBaralho.listaJogador[1].id), // Converte as cartas do jogador 2 em modelos exibíveis
                       showHand: true,
                       onTapCard: (index) {
                         cartaTocada = true; // Define a flag de toque na carta
@@ -286,6 +301,7 @@ Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    if(game.jogadorQueAceitou == null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -297,6 +313,7 @@ Container(
                       },
                       child: const Text('Trucar'), // Texto do botão de trucar
                     ),
+                    if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -310,6 +327,7 @@ Container(
                       },
                       child: const Text('Aceitar Truco'), // Texto do botão de aceitar truco
                     ),
+                    if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -324,6 +342,7 @@ Container(
                       },
                       child: const Text('Aumentar Truco'), // Texto do botão de aumentar truco
                     ),
+                     if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -343,6 +362,7 @@ Container(
           ],
         ),
       ),
+    ),
     );
   }
  
