@@ -36,8 +36,9 @@ class Game {
   }
 
   /// Define o jogador atual baseado no vencedor da última rodada ou o primeiro jogador da lista.
-  void definirJogadorAtual() {
+  PlayerModel definirJogadorAtual() {
     jogadorAtual = jogadorUltimoVencedor ?? definicaCartasBaralho.listaJogador.first;
+    return jogadorAtual;
   }
 
   /// Escolhe uma carta da mão do jogador para jogá-la na mesa.
@@ -55,7 +56,7 @@ class Game {
 
   /// Inicia uma nova rodada. Define o próximo jogador e ajusta a força das cartas.
   void iniciarRodada() {
-    jogadorAtual = proximoJogador()!;
+    jogadorAtual = definirJogadorAtual();
     listForcaCartas = cartasServise.ajustarForcaCartas(definicaCartasBaralho.cartaVirada);
     definirGanhadorRodada(listForcaCartas, definicaCartasBaralho.cartasNaMesa, trucoAceito);
   }

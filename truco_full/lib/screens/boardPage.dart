@@ -28,9 +28,8 @@ class _BoardPageState extends State<BoardPage> {
     if (game.mensagemFinalDeJogo.isNotEmpty) {
       _showWinnerDialog(game.mensagemFinalDeJogo);
     }
-  });
-    game.iniciarJogo(); // Inicializa o jogo ao criar a tela
-     
+  });    
+       game.iniciarJogo(); // Inicializa o jogo ao criar a tela
   }
 
   // Função para jogar uma carta ao tocar em uma carta na mão do jogador
@@ -142,12 +141,14 @@ Widget build(BuildContext context) {
                   color: Colors.white, // Cor da borda
                   width: 1.0,          // Largura da borda em pixels
                 ),
+
                 borderRadius: BorderRadius.circular(8.0), // Opcional: borda arredondada
+                color: Colors.blueGrey, // cor de preenchimento do círculo
               ),
               child: RichText(
                 text: TextSpan(
 
-                  style: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 233, 235, 234)),
+                  style: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 3, 3, 3)),
                   children: [
                     const TextSpan(text: 'Carta Virada: '),
                     TextSpan(
