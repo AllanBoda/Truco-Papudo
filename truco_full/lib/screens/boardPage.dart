@@ -11,11 +11,11 @@ class BoardPage extends StatefulWidget {
   const BoardPage({super.key});
 
   @override
-  _BoardPageState createState() => _BoardPageState();
+  BoardPageState createState() => BoardPageState();
 }
 
 /// Estado da página do tabuleiro do jogo Truco.
-class _BoardPageState extends State<BoardPage> {
+class BoardPageState extends State<BoardPage> {
   final Game game = Game(); // Instância da classe Game para gerenciar a lógica do jogo
   int jogadoresQueJogaram = 0; // Variável de controle para acompanhar quantos jogadores jogaram suas cartas
   bool cartaTocada = false; // Flag para monitorar se a carta foi tocada
@@ -24,12 +24,8 @@ class _BoardPageState extends State<BoardPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (game.mensagemFinalDeJogo.isNotEmpty) {
-      _showWinnerDialog(game.mensagemFinalDeJogo);
-    }
-  });    
-       game.iniciarJogo(); // Inicializa o jogo ao criar a tela
+    game.onGameEnd = showWinnerDialog; // Define a callback
+    game.iniciarJogo(); // Inicializa o jogo ao criar a tela  
   }
 
   // Função para jogar uma carta ao tocar em uma carta na mão do jogador
@@ -50,6 +46,30 @@ class _BoardPageState extends State<BoardPage> {
       }
     });
   }
+  // Converte a lista de cartas do jogador para uma lista de modelos de cartas exibíveis
+List<CardModel> converterCartasParaString(List<CardModel> cartas, int cardOwner) {
+  return cartas.map((carta) {
+    return CardModel(
+      faceValue: '${carta.value} de ${carta.naipe}',
+      value: carta.value,
+      naipe: carta.naipe,
+      cardOwner: cardOwner, // Define o dono da carta
+      faceUrl: ""
+    );
+  }).toList();
+}
+
+// Converte a lista de cartas na mesa para uma lista de modelos de cartas exibíveis
+List<CardModel> converterCartasNaMesaParaString(List<CartaNaMesa> cartasNaMesa) {
+  return cartasNaMesa.map((cartaNaMesa) {
+    if (cartaNaMesa.carta == null) {
+      return CardModel.vazio();
+    }
+    // Certifica-se de que a propriedade cardOwner de CardModel está correta
+    cartaNaMesa.carta!.cardOwner = cartaNaMesa.jogador.id;
+    return cartaNaMesa.carta!;
+  }).toList();
+}
 
   /// Constrói o widget AppBar customizado para exibir os pontos dos jogadores.
   PreferredSizeWidget _buildAppBar() {
@@ -92,31 +112,7 @@ class _BoardPageState extends State<BoardPage> {
     );
   }
 
- // Converte a lista de cartas do jogador para uma lista de modelos de cartas exibíveis
-List<CardModel> converterCartasParaString(List<CardModel> cartas, int cardOwner) {
-  return cartas.map((carta) {
-    return CardModel(
-      faceValue: '${carta.value} de ${carta.naipe}',
-      value: carta.value,
-      naipe: carta.naipe,
-      cardOwner: cardOwner, // Define o dono da carta
-      faceUrl: ""
-    );
-  }).toList();
-}
-
-// Converte a lista de cartas na mesa para uma lista de modelos de cartas exibíveis
-List<CardModel> converterCartasNaMesaParaString(List<CartaNaMesa> cartasNaMesa) {
-  return cartasNaMesa.map((cartaNaMesa) {
-    if (cartaNaMesa.carta == null) {
-      return CardModel.vazio();
-    }
-    // Certifica-se de que a propriedade cardOwner de CardModel está correta
-    cartaNaMesa.carta!.cardOwner = cartaNaMesa.jogador.id;
-    return cartaNaMesa.carta!;
-  }).toList();
-}
-
+ 
 
   @override
 Widget build(BuildContext context) {
@@ -171,7 +167,7 @@ Widget build(BuildContext context) {
             ),
         
 
-            // Botões de truco para o jogador 1 (se ainda estiver na rodada)
+            // Botões de truco para o jogador 1 
             if (game.rodada <= 3 &&
                 game.jogadorAtual == game.definicaCartasBaralho.listaJogador[0])
               Padding(
@@ -207,12 +203,11 @@ Widget build(BuildContext context) {
                       },
                       child: const Text('Aceitar Truco'), // Texto do botão de aceitar truco
                     ),
-                   if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
+                   if(game.jogadorQueTrucou != null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          if ( game.jogadorQueTrucou != null &&
-                           game.jogadorQueAceitou != game.jogadorAtual) {
+                          if ( game.jogadorQueTrucou != null) {
                             game.aumentarTruco(game.jogadorAtual);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Jogador ${game.definicaCartasBaralho.listaJogador[0].nome} aumentou o truco para ${game.valorTruco} pontos!')),
@@ -222,7 +217,7 @@ Widget build(BuildContext context) {
                       },
                       child: const Text('Aumentar Truco'), // Texto do botão de aumentar truco
                     ),
-                   if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
+                   if(game.jogadorQueTrucou != null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -328,12 +323,11 @@ Widget build(BuildContext context) {
                       },
                       child: const Text('Aceitar Truco'), // Texto do botão de aceitar truco
                     ),
-                    if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
+                    if(game.jogadorQueTrucou != null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                           if ( game.jogadorQueTrucou != null &&
-                           game.jogadorQueAceitou != game.jogadorAtual) {
+                           if ( game.jogadorQueTrucou != null) {
                             game.aumentarTruco(game.jogadorAtual);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Jogador ${game.definicaCartasBaralho.listaJogador[1].nome} aumentou o truco para ${game.valorTruco} pontos!')),
@@ -343,7 +337,7 @@ Widget build(BuildContext context) {
                       },
                       child: const Text('Aumentar Truco'), // Texto do botão de aumentar truco
                     ),
-                     if(game.jogadorQueTrucou != null && game.jogadorQueAceitou == null)
+                     if(game.jogadorQueTrucou != null)
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -367,7 +361,7 @@ Widget build(BuildContext context) {
     );
   }
  
-void _showWinnerDialog(String message) {
+void showWinnerDialog(String message) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -378,7 +372,6 @@ void _showWinnerDialog(String message) {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              _resetGame();
             },
             child: const Text('Sim'),
           ),
@@ -394,9 +387,4 @@ void _showWinnerDialog(String message) {
   );
 }
 
-void _resetGame() {
-  setState(() {
-    game.reset();
-  });
-}
 }

@@ -28,11 +28,18 @@ class Game {
   String mensagemFinalDeJogo = "";
   int empachou = 0;
   int ultimovencedor = 0;
+  
+  get context => null;
+
 
   /// Inicia o jogo de truco. Define o baralho, a manilha e o jogador atual.
   void iniciarJogo() {
     definicaCartasBaralho.inicializar();
     definirJogadorAtual();
+    if(definicaCartasBaralho.listaJogador[0].pontos >= 12 || 
+    definicaCartasBaralho.listaJogador[1].pontos >= 12){
+      mensagemFinal();
+    }
   }
 
   /// Define o jogador atual baseado no vencedor da última rodada ou o primeiro jogador da lista.
@@ -74,7 +81,7 @@ class Game {
     // Determinar o vencedor da rodada
     int jogadorVencedor = -1;
     int posicaoCarta = 0;
-
+  
     // Determinar quem é o primeiro e o segundo jogador
     if (cartasNaMesa[0].jogador.equipe == 1) {
       primeiroJogador = 1;
@@ -150,13 +157,9 @@ class Game {
       }
     }
 
-    if (definicaCartasBaralho.listaJogador[0].pontos == 12 || definicaCartasBaralho.listaJogador[1].pontos == 12) {
-      mensagemFinalDeJogo = ("Vitória de $jogadorUltimoVencedor!! Você é o verdadeiro mestre do truco! Vamos ver se você consegue manter o título?");
-      definicaCartasBaralho.cartasNaMesa.clear();
-      return;
-    }
     if (vencedorRodada) {
       definicaCartasBaralho.cartasNaMesa.clear();
+      definicaCartasBaralho.cartasNoBaralho.clear();
       listForcaCartas.clear();
       iniciarJogo();
       rodada = 1;
@@ -164,6 +167,7 @@ class Game {
     } else {
       rodada++;
       definicaCartasBaralho.cartasNaMesa.clear();
+      definicaCartasBaralho.cartasNoBaralho.clear();
       listForcaCartas.clear();
     }
   }
@@ -292,6 +296,14 @@ class Game {
     }
   }
 
+  Function(String)? onGameEnd; // Callback function
+
+  void mensagemFinal(){   
+    mensagemFinalDeJogo = ("Vitória de ${jogadorUltimoVencedor?.nome}!! Você é o verdadeiro mestre do truco! Vamos ver se você consegue manter o título?");
+    onGameEnd?.call(mensagemFinalDeJogo); // Chama a função de callback
+    reset();
+ }
+
   /// Reinicia o jogo e todas as variáveis de estado.
   void reset() {
     definicaCartasBaralho.listaJogador[0].pontos = 0;
@@ -311,6 +323,8 @@ class Game {
     ultimovencedor= 0;
     listForcaCartas.clear();
     definicaCartasBaralho.cartasNaMesa.clear();
-    iniciarJogo();
   }
+
+  
+
 }
