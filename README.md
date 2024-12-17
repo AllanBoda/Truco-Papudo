@@ -1,4 +1,6 @@
 # Truco Papudo
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAllanBoda%2FTruco-Papudo.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FAllanBoda%2FTruco-Papudo?ref=badge_shield)
+
 
 ## Documento Técnico do Projeto Truco Online
 
@@ -264,3 +266,7 @@ Ao implementar essas estratégias, a aplicação fica mais eficiente em termos d
 Essas práticas garantem que o jogo de truco online seja robusto, escalável e capaz de lidar com um crescimento orgânico na base de usuários, mantendo uma experiência de jogo fluida e estável.
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FAllanBoda%2FTruco-Papudo.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FAllanBoda%2FTruco-Papudo?ref=badge_large)
